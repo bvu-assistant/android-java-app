@@ -52,6 +52,7 @@ dependencies {
     //  SquareUp Retrofit
     implementation "com.squareup.okhttp3:okhttp:4.8.0"
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
 
     //  FireBase
@@ -84,7 +85,7 @@ dependencies {
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.github.wangjiegulu:rfab:2.0.0'
 
-    
+
     //  Group
     implementation group: 'com.google.zxing', name: 'core', version: '3.4.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.7'
