@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".view.activities.NewsDetailActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/newsDetailActionBar"
+        android:background="@color/card_bottom_color"
+        app:navigationIcon="@drawable/ic_icons8_back"
+        android:paddingVertical="10dp"
+        app:title="Tin chính"
+        app:subtitle="date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/newsDetailReloadBtn"
+            android:src="@drawable/ic_icons8_reset"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageButton
+            android:src="@drawable/ic_icons8_upload"
+            android:id="@+id/newsDetailShareBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"
+            android:hint="Date" />
+    </com.google.android.material.appbar.MaterialToolbar>
+    <View
+        android:id="@+id/newsDetailActionBarBorder"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tabLayout_border_height"
+        android:background="@color/colorNavBarBorder"
+        android:layout_below="@id/newsDetailActionBar" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/newsDetailRefresher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/newsDetailActionBarBorder">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/newsDetailActionBarBorder">
+            <TextView
+                android:id="@+id/newsDetailTitle"
+                android:transitionName="articleTitleTransition"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp"
+                android:background="@color/facebookColor"
+                android:gravity="center_vertical|center_horizontal"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAllCaps="true"/>
+            <View
+                android:id="@+id/newsDetailTitleBorder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tabLayout_border_height"
+                android:background="@color/colorNavBarBorder"
+                android:layout_below="@id/newsDetailTitle" />
+
+            <ImageView
+                android:src="@drawable/ic_2687658"
+                android:alpha="0.3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/newsDetailListViewBound"
+                android:layout_below="@id/newsDetailTitleBorder">
+                <TextView
+                    android:id="@+id/newsDetailMainContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textIsSelectable="true"
+                    android:textColor="@color/black"/>
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/newsDetailListViewBound"
+                android:layout_alignParentBottom="true"
+                android:paddingTop="25dp"
+                android:background="@drawable/news_detail_list_link_bound_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ListView
+                    android:id="@+id/newsDetailListLinks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/newsDetailListLinksTitleBound"
+                android:layout_above="@id/newsDetailListViewBound"
+                android:layout_centerHorizontal="true"
+                android:translationY="15dp"
+                android:background="@drawable/news_detail_link_list__title_bg"
+                android:paddingHorizontal="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/newsDetailListLinksTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:text="File đính kèm"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    />
+            </FrameLayout>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

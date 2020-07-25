@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.fragments.NewsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/newsTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="8dp"
+
+            app:tabMode="scrollable"
+            app:tabPaddingStart="30dp"
+            app:tabPaddingEnd="30dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/card_bottom_color"
+            app:tabRippleColor="@null"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicator="@drawable/notification_tab_indicator"
+            app:tabIndicatorColor="@color/white"
+            app:tabTextAppearance="@style/NewsTabBarTextTheme">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tin chính" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tin Sinh Viên" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã lưu" />
+        </com.google.android.material.tabs.TabLayout>
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/newsViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F3F3F3"
+            />
+    </LinearLayout>
+</layout>
+

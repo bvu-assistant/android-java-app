@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "64351502548",
+    "firebase_url": "https://bvuassistant-1585757109800.firebaseio.com",
+    "project_id": "bvuassistant-1585757109800",
+    "storage_bucket": "bvuassistant-1585757109800.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64351502548:android:8f4dbaf9fcf19c515fbb41",
+        "android_client_info": {
+          "package_name": "com.bvu.assistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64351502548-f716r0kqisu86a22u86mekk4taemr2ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5e58bVRuCFY0iUixgsbwL2XQeijgKDJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64351502548-f716r0kqisu86a22u86mekk4taemr2ig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

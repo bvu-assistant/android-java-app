@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginVertical="25dp"
+    android:layout_marginHorizontal="20dp"
+    android:padding="15dp" >
+
+    <ImageView
+        android:id="@+id/newsDetailIcon"
+        android:src="@drawable/ic_icons8_link"
+        android:padding="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+    <TextView
+        android:id="@+id/newsDetailFileName"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:hint="file name"/>
+
+</LinearLayout>

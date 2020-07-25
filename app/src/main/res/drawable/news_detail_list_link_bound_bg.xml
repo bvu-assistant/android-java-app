@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="0.75dp" android:color="@color/card_border_color"/>
+            <corners android:topLeftRadius="20dp" android:topRightRadius="20dp" />
+        </shape>
+    </item>
+</layer-list>
+

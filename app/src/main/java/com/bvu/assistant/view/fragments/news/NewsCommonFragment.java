@@ -1,0 +1,218 @@
+package com.bvu.assistant.view.fragments.news;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.bvu.assistant.R;
+import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
+import com.bvu.assistant.model.Article.Article;
+import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
+import com.bvu.assistant.viewmodel.interfaces.NewsFragmentBadger;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+
+public class NewsCommonFragment extends Fragment {
+    private static final String TAG = "HeadlinesFragment";
+
+    private static final String[] FIRESTORE_DOC_PATH = new String[] {
+            "",
+            "Trang Chủ ",
+            "Tin tức Sinh viên - Học viên",
+            "",
+            "Học bổng - Khen thưởng",
+            "Hoạt động SV",
+            "Sau Đại học",
+
+            "Quy Định Đào tạo",
+            "Biểu mẫu SV",
+            "Quy định Công tác Sinh viên",
+            "Các Hướng Dẫn cho sinh viên"
+    };
+
+    Context context;
+    FirebaseFirestore db;   //  getInstance onAttach()
+    FragmentNewsCommonBinding B;
+    NewsRecyclerAdapter adapter;
+    ArrayList<Article> dataList;
+
+
+    MainActivityBadger mMainActBadgerCallback;
+    NewsFragmentBadger mNewsFrmBadgerCallback;
+
+
+
+    private static final String ARGUMENT_TAB_POSITION = "POSITION";
+    private int tabPosition;
+
+
+    public NewsCommonFragment() {
+        // Required empty public constructor
+    }
+
+
+    //  return A new instance of fragment NewsCommonFragment.
+    public static NewsCommonFragment newInstance(int tabPosition) {
+        NewsCommonFragment fragment = new NewsCommonFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(ARGUMENT_TAB_POSITION, tabPosition);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        try {
+            this.context = context;
+            mMainActBadgerCallback = (MainActivityBadger) context;
+            mNewsFrmBadgerCallback = tabPosition < 5 ?
+                    (NewsFragmentBadger)getParentFragment():
+                    (NewsFragmentBadger)(getParentFragment().getParentFragment());
+        }
+        catch (ClassCastException e) {
+//            Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMainActBadgerCallback = null;
+        mNewsFrmBadgerCallback = null;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {   // from: newInstance() --> fragment.setArgs(Bundle);
+            tabPosition = getArguments().getInt(ARGUMENT_TAB_POSITION);
+        }
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        B = DataBindingUtil.inflate(inflater, R.layout.fragment_news_common, container, false);
+
+        B.refresher.setColorSchemeColors(
+            Color.rgb(0, 138, 230),
+            Color.rgb(25, 189, 0),
+            Color.rgb(255, 204, 0),
+            Color.rgb(245, 0, 53)
+        );
+
+        db = FirebaseFirestore.getInstance();
+
+        return B.getRoot();
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        dataList = new ArrayList<>();
+        getCloudData();
+
+        adapter = new NewsRecyclerAdapter(dataList, this.context, getActivity(), getFragmentManager());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+        B.recycler.setAdapter(adapter);
+        B.recycler.setLayoutManager(layoutManager);
+
+        B.refresher.setOnRefreshListener(() -> {
+            Toast.makeText(getContext(), "Đang cập nhật Tin tức...", Toast.LENGTH_SHORT).show();
+            getCloudData();
+        });
+    }
+
+
+    private void notifyDataChanged() {
+        B.recycler.scheduleLayoutAnimation();
+        adapter.notifyDataSetChanged();
+        B.refresher.setRefreshing(false);
+    }
+
+
+    private void getCloudData() {
+        B.refresher.setRefreshing(true);
+        String docPath = "news/details/" + FIRESTORE_DOC_PATH[this.tabPosition];
+        Log.i(TAG, "getting CloudData..." + docPath);
+
+
+        db.collection(docPath)
+                .limit(20)
+                .orderBy("Id", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                        dataList.clear();
+                        int isNewsArticleCounter = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> record = document.getData();
+
+                            Log.i(TAG, "got CloudData: " + document.getId());
+
+                            Article item = new Article(
+                                    Article.ArticleType.StudentNews,
+                                    record.get("Title").toString(),
+                                    record.get("Date").toString(),
+                                    record.get("Link").toString(),
+                                    (Boolean)record.get("IsNew"),
+                                    false
+                            );
+
+                            dataList.add(item);
+
+                            if (item.isNew()) {
+                                isNewsArticleCounter++;
+                            }
+                        }
+
+
+//                        Log.i(TAG, "got CloudData: " + dataList.size());
+
+
+                        //  Change tab's badges
+//                        mMainActBadgerCallback.updateStudentNewsCount(isNewsArticleCounter);
+//                        mNewsFrmBadgerCallback.setBadge(tabPosition, isNewsArticleCounter, new int[] {227, 0, 23});
+
+                        notifyDataChanged();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to get data from Firebase CloudFireStore", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+}

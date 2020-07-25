@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.OfficeViewerActivity"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/officeViewerProgressBar"
+        android:background="@color/facebookColor"
+        android:layout_width="match_parent"
+        android:layout_height="56dp" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/officeViewerActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transformPivotX="0dp"
+        app:navigationIcon="@drawable/ic_icons8_back"
+        app:title="Document Viewer"
+        android:background="@color/card_bottom_color">
+        <ImageButton
+            android:id="@+id/officeViewerReloadBtn"
+            android:src="@drawable/ic_icons8_reset"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageButton
+            android:id="@+id/officeShareBtn"
+            android:src="@drawable/ic_icons8_upload"
+            android:background="?attr/selectableItemBackground"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right" />
+    </com.google.android.material.appbar.MaterialToolbar>
+    <View
+        android:id="@+id/officeViewerActionBarBorder"
+        android:layout_below="@id/officeViewerActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="0.15dp"
+        android:background="#E4BCBCBC" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/officeViewerRefresher"
+        android:layout_below="@id/officeViewerActionBarBorder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</RelativeLayout>

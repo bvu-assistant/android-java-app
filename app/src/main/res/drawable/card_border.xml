@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape android:shape="rectangle"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <stroke android:color="@color/card_border_color" android:width="@dimen/news_card_border_width" />
+    <corners android:radius="@dimen/news_card_radius" />
+</shape>

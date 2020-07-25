@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:background="@drawable/calendar_item_view_bg"
+        android:layout_margin="10dp"
+        android:padding="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:minHeight="100dp">
+
+        <TextView
+            android:id="@+id/scheduleTime"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:text="THU\nJUN 30\n14:00" />
+
+
+        <LinearLayout
+            android:layout_toRightOf="@id/scheduleTime"
+            android:layout_toLeftOf="@id/scheduleLocator"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/schedulePeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ca 1 -> 3"
+                />
+            <TextView
+                android:id="@+id/scheduleRoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phòng 2PM01"
+                />
+            <TextView
+                android:id="@+id/scheduleSubjectName"
+                android:text="Lập trình Ứng dụng di động &amp; Game 1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:singleLine="true" />
+            <TextView
+                android:id="@+id/scheduleTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:text="Nguyễn Thị Minh Nương"
+                />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/scheduleLocator"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@color/card_bottom_color"
+            android:layout_alignParentRight="true"
+            android:layout_width="75dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Chỉ\nđường"/>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+</layout>

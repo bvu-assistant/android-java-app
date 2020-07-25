@@ -1,0 +1,113 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorPrimaryRipple</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+
+    <style name="OfficeViewerTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/card_bottom_color</item>
+        <item name="colorPrimaryDark">@color/card_bottom_color</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+
+    <style name="AppTitleTheme">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+
+    <style name="NotificationFragmentTabBarTheme">
+        <item name="colorPrimary">@color/facebookColor</item>
+        <item name="tabSelectedTextColor">@color/facebookColor</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="colorControlActivated">@android:color/transparent</item>
+        <item name="elevation">28dp</item>
+    </style>
+
+
+    <style name="MainTabBarTheme">
+        <item name="colorPrimary">@color/facebookColor</item>
+        <item name="tabSelectedTextColor">@color/facebookColor</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+    </style>
+
+
+
+
+    <style name="BottomNavBarTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="NewsTabBarTextTheme" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RulesTabBarTextTheme" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="font">@font/googlesans_regular</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainTabBarTextTheme" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MaiActionBarTextTheme">
+        <item name="android:textSize">26sp</item>
+    </style>
+
+
+    <style name="MyBadge" parent="Widget.MaterialComponents.Badge">
+        <item name="backgroundColor">@color/facebookColor</item>
+        <item name="badgeGravity">BOTTOM_START</item>
+    </style>
+
+
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="CustomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/zoom_out</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="Example4ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorControlNormal">@color/example_4_grey</item>
+    </style>
+
+</resources>
