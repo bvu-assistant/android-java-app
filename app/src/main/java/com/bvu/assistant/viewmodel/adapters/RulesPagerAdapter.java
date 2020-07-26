@@ -12,10 +12,11 @@ import com.bvu.assistant.view.fragments.news.NewsCommonFragment;
 public class RulesPagerAdapter extends FragmentPagerAdapter {
 
     public static final String[] PAGE_TITLES = new String[] {
-            "Quy Định Đào tạo",
-            "Biểu mẫu SV",
-            "Quy định Công tác SV",
-            "Các Hướng Dẫn" };
+        "Quy Định Đào tạo",
+        "Biểu mẫu SV",
+        "Quy định Công tác SV",
+        "Các Hướng Dẫn"
+    };
 
 
     public RulesPagerAdapter(@NonNull FragmentManager fm, int behavior) {

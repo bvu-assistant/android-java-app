@@ -1,4 +1,4 @@
-package com.bvu.assistant.viewmodel.services;
+package com.bvu.assistant.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

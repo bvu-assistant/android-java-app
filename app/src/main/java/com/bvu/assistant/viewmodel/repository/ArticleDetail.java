@@ -1,8 +1,8 @@
-package com.bvu.assistant.repository;
+package com.bvu.assistant.viewmodel.repository;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +22,9 @@ public class ArticleDetail {
     }
 
     public String getFullMessage() {
-        List<ArticleDocument> links = getLinks();
+        List<ArticleLink> links = getLinks();
 
-        for (ArticleDocument doc : links) {
+        for (ArticleLink doc : links) {
             if (fullMessage.contains(doc.getTitle()))
                 if (!doc.getTitle().contains("http")) {
                 fullMessage = fullMessage.replace(doc.getTitle(), "");
@@ -38,11 +38,11 @@ public class ArticleDetail {
         this.fullMessage = fullMessage;
     }
 
-    public List<ArticleDocument> getLinks() {
-        List<ArticleDocument> resList = new ArrayList<>();
+    public List<ArticleLink> getLinks() {
+        List<ArticleLink> resList = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : this.links.entrySet()) {
-            resList.add(new ArticleDocument(entry.getKey(), entry.getValue()));
+            resList.add(new ArticleLink(entry.getKey(), entry.getValue()));
         }
 
         return resList;

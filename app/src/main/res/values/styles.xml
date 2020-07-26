@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -13,12 +13,12 @@
     </style>
 
     <style name="OfficeViewerTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/card_bottom_color</item>
-        <item name="colorPrimaryDark">@color/card_bottom_color</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
 
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowFullscreen">false</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
 
@@ -70,6 +70,18 @@
         <item name="textAllCaps">false</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="OfficeViewerTheme.ActionBarTitleTextTheme">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="font">@font/googlesans_regular</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="OfficeViewerTheme.ActionBarSubtitleTheme">
+        <item name="font">@font/googlesans_regular</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="MaiActionBarTextTheme">

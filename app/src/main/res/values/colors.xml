@@ -19,6 +19,8 @@
     <color name="card_bottom_color">#CDEFEFEF</color>
     <color name="card_border_color">#C1C1C1</color>
 
+    <color name="news_fragments_bg">#EFF7FF</color>
+
 
     <!--    Custom Calendar View   -->
     <color name="example_1_bg">#3A284C</color>

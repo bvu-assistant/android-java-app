@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,21 +20,32 @@ import com.bvu.assistant.R;
 import com.bvu.assistant.model.Article.Article;
 import com.bvu.assistant.view.activities.NewsDetailActivity;
 import com.bvu.assistant.view.customview.ArticleSharer;
+import com.bvu.assistant.viewmodel.repository.SqLiteArticleHelper;
+import com.bvu.assistant.viewmodel.repository.SqLiteArticleHelperCallback;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> {
+public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> implements SqLiteArticleHelperCallback, Filterable {
     private List<Article> dataList;
+    private List<Article> lastDataList;
     private FragmentManager fragmentManager;
     private FragmentActivity activity;
     private Context context;
+    private SqLiteArticleHelper dbHelper;
+
 
     public NewsRecyclerAdapter(List<Article> dataList, Context context, FragmentActivity activity, FragmentManager fragmentManager) {
         this.dataList = dataList;
         this.context = context;
+        this.lastDataList = new ArrayList<>();
         this.activity = activity;
         this.fragmentManager = fragmentManager;
+
+        dbHelper = new SqLiteArticleHelper(context, this);
     }
 
 
@@ -51,16 +64,60 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         holder.txtCardTitle.setText(a.getTitle());
         holder.txtCardDate.setText(a.getDate());
         holder.txtCardIsNew.setText(a.isNew()? "Mới": " ");
+        loadFavoriteState(holder.imbCardIsFavorite, a);
 
         handleCardTitleClick(holder.cardTitleBound, a);
         handleShareButtonClick(holder.imbCardShare, a);
         handleFavoriteButtonClick(holder.imbCardIsFavorite, a);
+
     }
+
 
     @Override
     public int getItemCount() {
         return this.dataList.size();
     }
+
+    public void updateBaseDataList() {
+        this.lastDataList.clear();
+        this.lastDataList.addAll(dataList);
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String str = constraint.toString();
+                List<Article> temp = new ArrayList<>();
+
+                if (str.isEmpty()) {
+                    temp.addAll(lastDataList);
+                }
+                else {
+                    for (Article a: lastDataList) {
+                        if (a.getTitle().toLowerCase().contains(str.toLowerCase())) {   //  Filter by each Article's Title
+                            temp.add(a);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = temp;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                dataList.clear();
+                dataList.addAll((ArrayList<Article>)results.values);
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
 
 
     private void handleCardTitleClick(FrameLayout view, Article a) {
@@ -71,30 +128,71 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         });
     }
 
-    private void handleFavoriteButtonClick(ImageButton btn, Article a) {
-        btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_24: R.drawable.ic_baseline_favorite_border_24);
-        btn.setOnClickListener(view -> {
-            btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_border_24: R.drawable.ic_baseline_favorite_24);
-            a.setFavorite(!a.isFavorite());
-        });
-    }
-
     private void handleShareButtonClick(ImageButton btn, Article a) {
         btn.setOnClickListener(view -> {
             ArticleSharer.showBottomSheet(context, btn, a);
         });
     }
+
+    private void handleFavoriteButtonClick(ImageButton btn, Article a) {
+        btn.setOnClickListener(view -> {
+            toggleFavorite(btn, a);
+        });
+    }
+
+
+    private void loadFavoriteState(ImageButton btn, Article a) {
+        if (dbHelper.getArticle(a.getId()) != null) {
+            btn.setImageResource(R.drawable.ic_baseline_favorite_24);
+            a.setFavorite(true);
+        }
+        else {
+            btn.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+            a.setFavorite(false);
+        }
+    }
+
+    private void toggleFavorite(ImageButton btn, Article a) {
+        if (!a.isFavorite()) {
+            if (dbHelper.addArticle(a)) {
+                btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_border_24: R.drawable.ic_baseline_favorite_24);
+                a.setFavorite(!a.isFavorite());
+            }
+        }
+        else {
+            if (dbHelper.deleteArticle(a.getId())) {
+                btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_border_24: R.drawable.ic_baseline_favorite_24);
+                a.setFavorite(!a.isFavorite());
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onDatabaseTransactionSuccess(@NotNull String message) {
+//        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDatabaseTransactionFailure(@NotNull String message) {
+//        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
 }
 
 
 
 class NewsViewHolder extends RecyclerView.ViewHolder {
+    private SqLiteArticleHelper dbHelper;
+
     public TextView txtCardTitle;
     public TextView txtCardDate;
     public TextView txtCardIsNew;
     public ImageButton imbCardIsFavorite;
     public ImageButton imbCardShare;
     public FrameLayout cardTitleBound;
+
 
     public NewsViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -105,5 +203,7 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
         this.imbCardShare = itemView.findViewById(R.id.cardShareBtn);
         this.cardTitleBound = itemView.findViewById(R.id.cardTitleBound);
     }
+
+
 
 }

@@ -1,15 +1,16 @@
-package com.bvu.assistant.repository;
+package com.bvu.assistant.viewmodel.repository;
+
 
 
 import org.apache.commons.io.FilenameUtils;
 
-public class ArticleDocument {
+public class ArticleLink {
     private String title;
     private String url;
     private String fileExtension;
 
 
-    public ArticleDocument(String title, String url) {
+    public ArticleLink(String title, String url) {
         this.title = title;
         this.url = this.title.contains("http")? this.title:
                 url.contains("Resource") ? ("https://sinhvien.bvu.edu.vn" + url):

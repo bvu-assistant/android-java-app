@@ -1,7 +1,7 @@
 package com.bvu.assistant.viewmodel.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,26 +10,23 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bvu.assistant.R;
-import com.bvu.assistant.repository.ArticleDocument;
+import com.bvu.assistant.viewmodel.repository.ArticleLink;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class NewsDetailAdapter extends ArrayAdapter<ArticleDocument> {
-    List<ArticleDocument> dataList;
+public class NewsDetailAdapter extends ArrayAdapter<List<ArticleLink>> {
+    List<ArticleLink> dataSource;
     Activity context;
 
 
-    public NewsDetailAdapter(Activity context, List<ArticleDocument> dataList) {
+    public NewsDetailAdapter(Activity context, List<ArticleLink> dataSource) {
         super(context, R.layout.news_details_list_item);
-        this.dataList = dataList;
+        this.dataSource = dataSource;
         this.context = context;
     }
 
@@ -37,8 +34,9 @@ public class NewsDetailAdapter extends ArrayAdapter<ArticleDocument> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View item = inflater.inflate(R.layout.news_details_list_item, null, true);
-        ArticleDocument dataItem = this.dataList.get(position);
+        @SuppressLint("ViewHolder") View item = inflater.inflate(R.layout.news_details_list_item, null, true);
+
+        ArticleLink dataItem = this.dataSource.get(position);
         String ext = dataItem.getFileExtension();
 
         ImageView icon = item.findViewById(R.id.newsDetailIcon);
@@ -83,6 +81,6 @@ public class NewsDetailAdapter extends ArrayAdapter<ArticleDocument> {
 
     @Override
     public int getCount() {
-        return this.dataList.size();
+        return this.dataSource.size();
     }
 }

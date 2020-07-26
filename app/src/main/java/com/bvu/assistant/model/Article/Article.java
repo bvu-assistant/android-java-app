@@ -1,5 +1,7 @@
 package com.bvu.assistant.model.Article;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
@@ -10,28 +12,44 @@ import java.io.Serializable;
 public class Article implements Serializable {
     public enum ArticleType {Headlines, StudentNews};
 
-    private ArticleType type;
+    private String type;
     private String title;
     private String date;
     private String url;
+    private Integer id;
     private boolean isNew;
     private boolean isFavorite;
 
-    public Article(ArticleType type, String title, String date, String url, boolean isNew, boolean isFavorite) {
+    public Article(String type, String title, String date, String url, boolean isNew, boolean isFavorite) {
         this.type = type;
         this.title = title;
         this.date = date;
         this.url = url;
         this.isNew = isNew;
         this.isFavorite = isFavorite;
+
+        try {
+            this.id = Integer.parseInt(url.split("/?NewsID=")[1]);
+        }
+        catch (Exception ex) {
+            this.id = -1;
+        }
     }
 
 
-    public ArticleType getType() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(ArticleType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

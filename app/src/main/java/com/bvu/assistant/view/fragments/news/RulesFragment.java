@@ -1,5 +1,6 @@
 package com.bvu.assistant.view.fragments.news;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,11 @@ import android.widget.LinearLayout;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentRulesBinding;
 import com.bvu.assistant.viewmodel.adapters.RulesPagerAdapter;
+import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RulesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RulesFragment extends Fragment {
+    MainActivityChildFragmentGainer mainActivityChildFragmentGainer;
     FragmentRulesBinding B;
 
 
@@ -29,9 +29,23 @@ public class RulesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RulesFragment newInstance(String param1, String param2) {
+    public static RulesFragment newInstance() {
         return new RulesFragment();
     }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mainActivityChildFragmentGainer = (MainActivityChildFragmentGainer) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mainActivityChildFragmentGainer = null;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,4 +91,9 @@ public class RulesFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAttachFragment(@NonNull Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        mainActivityChildFragmentGainer.onNewFragmentAttached(childFragment);
+    }
 }

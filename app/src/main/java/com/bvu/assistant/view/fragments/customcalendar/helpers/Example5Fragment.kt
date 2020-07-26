@@ -133,10 +133,10 @@ class Example5Fragment : Fragment(R.layout.example_5_fragment) {
                 val layout = container.binding.exFiveDayLayout
                 textView.text = day.date.dayOfMonth.toString()
 
-                val flightTopView = container.binding.exFiveDayFlightTop
-                val flightBottomView = container.binding.exFiveDayFlightBottom
-                flightTopView.background = null
-                flightBottomView.background = null
+//                val flightTopView = container.binding.exFiveDayFlightTop
+//                val flightBottomView = container.binding.exFiveDayFlightBottom
+//                flightTopView.background = null
+//                flightBottomView.background = null
 
                 if (day.owner == DayOwner.THIS_MONTH) {
                     textView.setTextColorRes(R.color.black)
@@ -145,10 +145,10 @@ class Example5Fragment : Fragment(R.layout.example_5_fragment) {
                     val flights = flights[day.date]
                     if (flights != null) {
                         if (flights.count() == 1) {
-                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
+//                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
                         } else {
-                            flightTopView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
-                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[1].color))
+//                            flightTopView.setBackgroundColor(view.context.getColorCompat(flights[0].color))
+//                            flightBottomView.setBackgroundColor(view.context.getColorCompat(flights[1].color))
                         }
                     }
                 } else {
@@ -232,9 +232,9 @@ class Example5Fragment : Fragment(R.layout.example_5_fragment) {
         requireActivity().window.statusBarColor = requireContext().getColorCompat(R.color.colorPrimaryDark)
     }
 
-//    private fun updateAdapterForDate(date: LocalDate?) {
-//        flightsAdapter.flights.clear()
-//        flightsAdapter.flights.addAll(flights[date].orEmpty())
-//        flightsAdapter.notifyDataSetChanged()
-//    }
+    private fun updateAdapterForDate(date: LocalDate?) {
+        flightsAdapter.flights.clear()
+        flightsAdapter.flights.addAll(flights[date].orEmpty())
+        flightsAdapter.notifyDataSetChanged()
+    }
 }

@@ -1,5 +1,6 @@
 package com.bvu.assistant.view.fragments.news;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -19,7 +21,9 @@ import android.widget.Toast;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.model.Article.Article;
+import com.bvu.assistant.viewmodel.interfaces.CommonNewsSearchCallback;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
+import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.NewsFragmentBadger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,11 +33,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
-public class NewsCommonFragment extends Fragment {
-    private static final String TAG = "HeadlinesFragment";
+
+public class NewsCommonFragment extends Fragment implements CommonNewsSearchCallback {
+    private static final String TAG = "NewsCommonFragment";
 
     private static final String[] FIRESTORE_DOC_PATH = new String[] {
             "",
@@ -58,6 +64,7 @@ public class NewsCommonFragment extends Fragment {
 
 
     MainActivityBadger mMainActBadgerCallback;
+    MainActivityChildFragmentGainer mMainActivityChildFragmentGainer;
     NewsFragmentBadger mNewsFrmBadgerCallback;
 
 
@@ -84,20 +91,29 @@ public class NewsCommonFragment extends Fragment {
 
 
     @Override
-    public void onAttach(@NonNull Context context) {
+    public void onAttach(@NonNull Context context) {    //  Context always is the Activity that hold this Fragment
         super.onAttach(context);
+//        Log.i(TAG, "onAttach: [Activity] " + context.getClass().getName());
 
         try {
             this.context = context;
             mMainActBadgerCallback = (MainActivityBadger) context;
-            mNewsFrmBadgerCallback = tabPosition < 5 ?
-                    (NewsFragmentBadger)getParentFragment():
-                    (NewsFragmentBadger)(getParentFragment().getParentFragment());
+            mMainActivityChildFragmentGainer = (MainActivityChildFragmentGainer) context;
+            //  Log.i(TAG, "onAttach: [Activity] " + context.getClass());
+
+            mNewsFrmBadgerCallback = (NewsFragmentBadger) getParentFragment();
+            //  Log.i(TAG, "onAttach: [Fragment]" + mNewsFrmBadgerCallback.getClass());
+
+
+            //  Notify to the MainActivity
+//            Log.i(TAG, "onAttach: " + tabPosition + " - " + this.getActivity());
+            mMainActivityChildFragmentGainer.onNewFragmentAttached(this);
         }
         catch (ClassCastException e) {
-//            Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     public void onDetach() {
@@ -140,24 +156,25 @@ public class NewsCommonFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         dataList = new ArrayList<>();
-        getCloudData();
-
         adapter = new NewsRecyclerAdapter(dataList, this.context, getActivity(), getFragmentManager());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
         B.recycler.setAdapter(adapter);
+        B.recycler.setItemAnimator(new DefaultItemAnimator());
         B.recycler.setLayoutManager(layoutManager);
 
         B.refresher.setOnRefreshListener(() -> {
             Toast.makeText(getContext(), "Đang cập nhật Tin tức...", Toast.LENGTH_SHORT).show();
             getCloudData();
         });
+        getCloudData();
     }
 
 
     private void notifyDataChanged() {
         B.recycler.scheduleLayoutAnimation();
         adapter.notifyDataSetChanged();
+        adapter.updateBaseDataList();
         B.refresher.setRefreshing(false);
     }
 
@@ -165,7 +182,7 @@ public class NewsCommonFragment extends Fragment {
     private void getCloudData() {
         B.refresher.setRefreshing(true);
         String docPath = "news/details/" + FIRESTORE_DOC_PATH[this.tabPosition];
-        Log.i(TAG, "getting CloudData..." + docPath);
+//        Log.i(TAG, "getting CloudData..." + docPath);
 
 
         db.collection(docPath)
@@ -181,10 +198,10 @@ public class NewsCommonFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> record = document.getData();
 
-                            Log.i(TAG, "got CloudData: " + document.getId());
+//                            Log.i(TAG, "got CloudData: " + document.getId());
 
                             Article item = new Article(
-                                    Article.ArticleType.StudentNews,
+                                    FIRESTORE_DOC_PATH[this.tabPosition],
                                     record.get("Title").toString(),
                                     record.get("Date").toString(),
                                     record.get("Link").toString(),
@@ -215,4 +232,13 @@ public class NewsCommonFragment extends Fragment {
     }
 
 
+
+    @Override
+    public void onTypeComplete(String searchKeyWords) {
+//        if (searchKeyWords.isEmpty())
+//            return;
+
+//        List<Article> lastData = new ArrayList<>(dataList);
+        adapter.getFilter().filter(searchKeyWords);
+    }
 }

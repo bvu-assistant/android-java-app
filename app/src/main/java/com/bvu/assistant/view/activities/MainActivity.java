@@ -4,11 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.TooltipCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bvu.assistant.animation.MyTransformer;
@@ -17,8 +23,11 @@ import com.bvu.assistant.viewmodel.adapters.MainPagerAdapter;
 import com.bvu.assistant.R;
 import com.bvu.assistant.viewmodel.classes.MainActivityViewModel;
 import com.bvu.assistant.viewmodel.helpers.TabLayoutHelper;
+import com.bvu.assistant.viewmodel.interfaces.CommonNewsSearchCallback;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
+import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityMonthViewChanger;
+import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -32,13 +41,14 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements MainActivityBadger, MainActivityMonthViewChanger {
+public class MainActivity extends AppCompatActivity implements MainActivityBadger, MainActivityMonthViewChanger, MainActivityChildFragmentGainer {
     private final String TAG = "MainActivity";
     private ActivityMainBinding B;
 
     private MainPagerAdapter pagerAdapter;
     private ArrayList<String> mainScreenTabBarTitles;
     private ArrayList<Integer> mainScreenTabBarIcons;
+    private ArrayList<Fragment> childFragments;
     private List<Integer> mainScreenBadgeHolder;
 
     private int headlinesNewsBadgeCounter = 0;
@@ -74,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
 
 
     private void initAndMapping() {
+        childFragments = new ArrayList<>();
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 0, this);
 
         //  TabLayout's titles
@@ -95,6 +106,35 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
 
         //  Create an immutable list for the badgeHolder
         mainScreenBadgeHolder = Arrays.asList(0, 0, 0);
+
+
+//        B.edtSearchNews.setOnEditorActionListener((v, actionId, event) -> {
+//
+//            for (Fragment frm: childFragments) {
+//                ((CommonNewsSearchCallback)frm).onTypeComplete(v.getText().toString());
+//            }
+//
+//            return false;
+//        });
+
+        B.edtSearchNews.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                for (Fragment frm: childFragments) {
+                    ((CommonNewsSearchCallback)frm).onTypeComplete(s.toString());
+                }
+            }
+        });
     }
 
     private void handleFirebaseInstanceId() {
@@ -163,6 +203,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
                 changeActionBarTitle(tab.getPosition());
                 MainActivity.this.currentTabIndex = tab.getPosition();
                 updateMonthValue();
+
+                if (tab.getPosition() != 0) {
+                    B.edtSearchNews.setVisibility(View.GONE);
+                }
+                else {
+                    B.edtSearchNews.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -183,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
         TabLayoutHelper.setBadgeNumber(B.mainBottomNavBar, 0, headlinesNewsBadgeCounter + studentNewsBadgeCounter);
     }
 
+
     @Override
     public void updateHeadlinesNewsCount(int length) {
         headlinesNewsBadgeCounter = length;
@@ -196,9 +244,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
     }
 
     @Override
-    public void changeValue(String value) {
+    public void onMonthValueChange(String value) {
         currentMonthValue = value;
         updateMonthValue();
     }
 
+    @Override
+    public void onNewFragmentAttached(Fragment fragment) {
+        Log.i("NewsCommonFragment", "onNewFragmentAttached: " + fragment.getClass());
+        childFragments.add(fragment);
+    }
 }

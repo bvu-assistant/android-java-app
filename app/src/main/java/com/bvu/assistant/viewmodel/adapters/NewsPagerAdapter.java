@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-
-import com.bvu.assistant.view.fragments.SavedNewsFragment;
 import com.bvu.assistant.view.fragments.news.NewsCommonFragment;
 import com.bvu.assistant.view.fragments.news.RulesFragment;
+import com.bvu.assistant.view.fragments.news.SavedNewsFragment;
 
 
 public class NewsPagerAdapter extends FragmentPagerAdapter {
     public static final String[] PAGE_TITLES = new String[] {
-            "Đã lưu", "Tin chính", "Tinh Sinh viên", "Quy định - Biểu mẫu",
+            "Đã lưu", "Tin chính", "Tin Sinh viên", "Quy định - Biểu mẫu",
             "Khen thưởng", "Hoạt động", "Sau Đại học" };
 
 
@@ -34,7 +33,6 @@ public class NewsPagerAdapter extends FragmentPagerAdapter {
             case 3: {
                 return new RulesFragment();
             }
-
 
             default: {
                 return NewsCommonFragment.newInstance(position);

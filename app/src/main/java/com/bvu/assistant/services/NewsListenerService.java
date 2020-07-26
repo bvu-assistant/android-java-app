@@ -1,4 +1,4 @@
-package com.bvu.assistant.viewmodel.services;
+package com.bvu.assistant.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -92,7 +92,7 @@ public class NewsListenerService extends Service {
                 if (changedType == DocumentChange.Type.ADDED) {
                     Map<String, Object> record = firstChange.getDocument().getData();
                     Article item = new Article(
-                            Article.ArticleType.Headlines,
+                            "Headlines",
                             record.get("Title").toString(),
                             record.get("Date").toString(),
                             record.get("Link").toString(),
@@ -113,7 +113,7 @@ public class NewsListenerService extends Service {
                 if (changedType == DocumentChange.Type.REMOVED) {
                     Map<String, Object> record = firstChange.getDocument().getData();
                     Article item = new Article(
-                            Article.ArticleType.Headlines,
+                            "Headlines",
                             record.get("Title").toString(),
                             record.get("Date").toString(),
                             record.get("Link").toString(),

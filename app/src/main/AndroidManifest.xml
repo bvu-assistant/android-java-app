@@ -3,18 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bvu.assistant">
 
+    <!--    Network-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--    Storage-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize"
+        tools:targetApi="m">
         <activity
             android:name=".view.activities.NewsDetailActivity"
             android:launchMode="singleTop"
@@ -36,14 +45,14 @@
         </activity>
 
         <service
-            android:name=".viewmodel.services.MyFirebaseMessagingService"
+            android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".viewmodel.services.NewsListenerService"
+            android:name=".services.NewsListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="ON_NEW_HEADLINES" />

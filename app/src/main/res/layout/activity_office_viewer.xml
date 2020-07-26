@@ -23,7 +23,9 @@
         android:transformPivotX="0dp"
         app:navigationIcon="@drawable/ic_icons8_back"
         app:title="Document Viewer"
-        android:background="@color/card_bottom_color">
+        app:titleTextAppearance="@style/OfficeViewerTheme.ActionBarTitleTextTheme"
+        app:titleTextColor="@color/white"
+        android:background="@color/colorPrimary">
         <ImageButton
             android:id="@+id/officeViewerReloadBtn"
             android:src="@drawable/ic_icons8_reset"

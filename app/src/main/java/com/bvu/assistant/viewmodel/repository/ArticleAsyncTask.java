@@ -1,4 +1,4 @@
-package com.bvu.assistant.repository;
+package com.bvu.assistant.viewmodel.repository;
 
 
 import android.os.AsyncTask;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bvu.assistant.view.activities.NewsDetailActivity;
+import com.bvu.assistant.viewmodel.repository.ArticleDetail;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -23,12 +24,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ArticleResponse extends AsyncTask<String, String, String> {
-    private final String TAG = "ArticleResponse";
+public class ArticleAsyncTask extends AsyncTask<String, String, String> {
+    private final String TAG = "ArticleAsyncTask";
     NewsDetailActivity activity;
     ArticleDetail result;
 
-    public ArticleResponse(NewsDetailActivity activity) {
+    public ArticleAsyncTask(NewsDetailActivity activity) {
         this.activity = activity;
     }
 
@@ -96,7 +97,7 @@ public class ArticleResponse extends AsyncTask<String, String, String> {
             }
 
             activity.refresher.setRefreshing(false);
-            activity.setData(result);
+//            activity.setData(result);
         }
         catch (Exception e)
         {

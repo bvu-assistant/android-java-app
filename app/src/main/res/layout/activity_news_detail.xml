@@ -9,11 +9,15 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/newsDetailActionBar"
-        android:background="@color/card_bottom_color"
+        android:background="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_icons8_back"
         android:paddingVertical="10dp"
-        app:title="Tin chính"
+        app:title="Thông báo"
+        app:titleTextColor="@color/white"
+        app:subtitleTextColor="@color/white"
+        app:subtitleTextAppearance="@style/OfficeViewerTheme.ActionBarSubtitleTheme"
         app:subtitle="date"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -60,10 +64,9 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="20dp"
-                android:background="@color/facebookColor"
                 android:gravity="center_vertical|center_horizontal"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textAllCaps="true"/>
             <View
                 android:id="@+id/newsDetailTitleBorder"

@@ -5,7 +5,7 @@
     <dimen name="tabLayout_border_height">0.15dp</dimen>
     <dimen name="tabLayout_text_size">10sp</dimen>
 
-    <dimen name="news_card_radius">5dp</dimen>
+    <dimen name="news_card_radius">0dp</dimen>
     <dimen name="news_card_border_width">0.5dp</dimen>
     <dimen name="news_card_height">150dp</dimen>
 
