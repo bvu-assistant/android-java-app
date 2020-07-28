@@ -98,7 +98,7 @@ public class SqLiteArticleHelper(private var context: Context, private var recei
 
 
     fun getArticle(articleId: Int): Article? {
-        Log.i(TAG, "getting Article Id: $articleId")
+        //  Log.i(TAG, "getting Article Id: $articleId")
 
         try {
             val db: SQLiteDatabase = readableDatabase
@@ -113,7 +113,7 @@ public class SqLiteArticleHelper(private var context: Context, private var recei
             var article: SavedArticle? = null
             cursor?.moveToFirst()
             if (cursor != null && cursor.count > 0) {
-                Log.d(TAG, "getArticle cursor count: " +  cursor.columnCount)
+                //  Log.d(TAG, "getArticle cursor count: " +  cursor.columnCount)
                 article = SavedArticle(
                     cursor.getString(0),
                     cursor.getString(1),

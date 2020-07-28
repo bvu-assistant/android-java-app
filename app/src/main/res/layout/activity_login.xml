@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".view.activities.LoginActivity"
+        tools:ignore="hardCodedText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bounder">
+
+        <ImageView
+            android:src="@drawable/cs2_min"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:contentDescription="Background" />
+
+        <RelativeLayout
+            android:background="@drawable/login_gradient_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sinh viên BVU"
+                android:textAllCaps="true"
+                android:letterSpacing="0.0"
+                android:textSize="30sp"
+                android:fontFamily="sans-serif-black"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:translationY="-50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="95dp"
+                />
+
+            <LinearLayout
+                android:translationY="50dp"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtUsername"
+                    android:inputType="number"
+                    android:importantForAutofill="no"
+                    android:digits="0123456789"
+                    android:maxLength="8"
+                    android:singleLine="true"
+                    android:nextFocusDown="@id/edtPassword"
+                    android:imeOptions="actionNext"
+                    android:drawableLeft="@drawable/ic_icons8_user_male"
+                    android:drawableTint="@color/white"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/login_act_input_bg"
+                    android:paddingVertical="@dimen/login_act_main_ver_padding"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginHorizontal="@dimen/login_act_main_hor_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mã sinh viên"
+                    android:fontFamily="@font/googlesans_regular"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_act_main_input_text_size"
+                    android:textColorHint="@color/white"/>
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPassword"
+                    android:inputType="textPassword"
+                    android:importantForAutofill="no"
+                    android:imeOptions="actionGo"
+                    android:drawableLeft="@drawable/ic_icons8_lock"
+                    android:drawableTint="@color/white"
+                    android:drawablePadding="10dp"
+                    android:background="@drawable/login_act_input_bg"
+                    android:paddingVertical="@dimen/login_act_main_ver_padding"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_marginHorizontal="@dimen/login_act_main_hor_margin"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mật khẩu"
+                    android:fontFamily="@font/googlesans_regular"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_act_main_input_text_size"
+                    android:textColorHint="@color/white"/>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkRemember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="@dimen/login_act_main_hor_margin"
+                    android:text="Ghi nhớ"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_act_main_input_text_size"
+                    android:fontFamily="@font/googlesans_regular"
+                    android:buttonTint="@color/white"
+                    />
+
+
+                <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                    android:id="@+id/btnLogin"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="75dp"
+                    android:layout_marginHorizontal="@dimen/login_act_main_hor_margin"
+                    android:paddingVertical="15dp"
+                    android:background="@drawable/login_act_btn_login_bg_focused"
+                    app:elevation="8dp"
+                    android:text="Đăng nhập"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:textAlignment="center"
+                    android:letterSpacing="0"
+                    android:fontFamily="@font/googlesans_medium"
+                    android:textSize="20sp"
+
+                    app:spinning_bar_color="@color/white"
+                    app:spinning_bar_padding="12dp"
+                    app:spinning_bar_width="1.5dp"
+                    app:initialCornerAngle="50dp"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:text=" "
+                android:textColor="@color/white"
+                android:linksClickable="true"
+                android:fontFamily="@font/googlesans_regular"
+                />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+</layout>

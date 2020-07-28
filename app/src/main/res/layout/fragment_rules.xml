@@ -20,7 +20,7 @@
         <FrameLayout
             android:id="@+id/rulesTabBarBounder"
             android:paddingVertical="15dp"
-            android:elevation="8dp"
+            android:elevation="3dp"
             android:background="@color/white"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"

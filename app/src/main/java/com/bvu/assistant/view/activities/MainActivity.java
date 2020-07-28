@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityMonthViewChanger;
 import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,9 +67,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
         B.setViewmodel(new MainActivityViewModel(""));
         B.executePendingBindings();
 
+
         initAndMapping();
         handleTabBar();
+        changeActionBarHeight();
         handleFirebaseInstanceId();
+    }
+
+    private void changeActionBarHeight() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
     @Override
@@ -161,6 +169,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
     }
 
 
+    private int getStatusBarHeight() {
+        int height;
+        Resources myResources = getResources();
+        int idStatusBarHeight = myResources.getIdentifier( "status_bar_height", "dimen", "android");
+
+        if (idStatusBarHeight > 0) {
+            height = getResources().getDimensionPixelSize(idStatusBarHeight);
+            Toast.makeText(this, "Status Bar Height = " + height, Toast.LENGTH_LONG).show();
+        } else {
+            height = 0;
+            Toast.makeText(this, "Resources NOT found", Toast.LENGTH_LONG).show();
+        }
+
+        return height;
+    }
 
     private void changeActionBarTitle(int tabIndex) {
         B.actionBarTitle.setText(mainScreenTabBarTitles.get(tabIndex));
@@ -182,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
         setTabLayoutIcons();
 
         TabLayoutHelper.setViewPagerTransforming(B.mainViewPager, MyTransformer.Transformer.Fading);
-        TabLayoutHelper.setDefaultSelectedTabItem(B.mainBottomNavBar, 1);
+        TabLayoutHelper.setDefaultSelectedTabItem(B.mainBottomNavBar, 2);
         TabLayoutHelper.reFlipTabBarItems(B.mainBottomNavBar);
     }
 

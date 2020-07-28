@@ -22,7 +22,6 @@ import com.bvu.assistant.viewmodel.repository.ArticleLink;
 import com.bvu.assistant.viewmodel.retrofit.article_detail.ArticleDetail;
 import com.bvu.assistant.viewmodel.retrofit.article_detail.ArticleDetailAPI;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +108,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else {
-                Intent intent = new Intent(NewsDetailActivity.this, OfficeViewerActivity.class);
+                Intent intent = new Intent(NewsDetailActivity.this, DocumentViewerActivity.class);
                 intent.putExtra("documentUrl", item.getUrl());
                 startActivity(intent);
             }

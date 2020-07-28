@@ -92,7 +92,7 @@ public class CalendarFragment extends Fragment {
 
 
         //  Initial setups
-        B.calendarView.setupAsync(currentMonth.minusMonths(5), currentMonth.plusMonths(5), daysOfWeek[0], () -> {
+        B.calendarView.setupAsync(currentMonth.minusMonths(3), currentMonth.plusMonths(3), daysOfWeek[0], () -> {
             B.calendarView.scrollToMonth(currentMonth);
             return null;
         });
@@ -175,21 +175,23 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getTesScheduleResponse();
+
+        String ssid = getActivity().getIntent().getStringExtra("ssid");
+        getTesScheduleResponse(ssid);
     }
 
 
-    private void getTesScheduleResponse() {
+    private void getTesScheduleResponse(String ssid) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bvu-loginner.herokuapp.com/")
+                .baseUrl(getResources().getString(R.string.fetch_calendar_api_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
+        Log.i(TAG, "getTesScheduleResponse: " + ssid);
         ScheduleAPI scheduleAPI = retrofit.create(ScheduleAPI.class);
 
 
-        scheduleAPI.get("pnvsevqeg3vy0pzc3pffi1yq")
+        scheduleAPI.get(ssid)
                 .enqueue(new Callback<TestSchedule>() {
                     @Override
                     public void onResponse(Call<TestSchedule> call, Response<TestSchedule> response) {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -31,14 +30,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Timer;
 
-
-public class OfficeViewerActivity extends AppCompatActivity {
-    private static final String TAG = "OfficeViewerActivity";
+public class DocumentViewerActivity extends AppCompatActivity {
+    private static final String TAG = "DocumentViewerActivity";
     WebView web_view;
     SwipeRefreshLayout refresher;
     MaterialToolbar actionBar;
@@ -51,7 +45,7 @@ public class OfficeViewerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_office_viewer);
+        setContentView(R.layout.activity_document_viewer);
 
         initAndMapping();
 
@@ -111,7 +105,7 @@ public class OfficeViewerActivity extends AppCompatActivity {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                Toast.makeText(OfficeViewerActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(DocumentViewerActivity.this, error.toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -119,7 +113,7 @@ public class OfficeViewerActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
 
                 if (view.getTitle() == null || view.getTitle().isEmpty()) {
-                    Toast.makeText(OfficeViewerActivity.this, "Trying to reload the page...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DocumentViewerActivity.this, "Trying to reload the page...", Toast.LENGTH_SHORT).show();
                     view.reload();
                     return;
                 }

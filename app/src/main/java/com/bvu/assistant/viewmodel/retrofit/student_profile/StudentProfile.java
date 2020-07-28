@@ -1,11 +1,15 @@
-package com.bvu.assistant.model.Student;
+package com.bvu.assistant.viewmodel.retrofit.student_profile;
 
+
+import com.bvu.assistant.model.Student.HoSo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HoSo {
+
+public class StudentProfile {
     @SerializedName("name")
     @Expose
     private String name;
@@ -20,17 +24,15 @@ public class HoSo {
 
     @SerializedName("familyProfile")
     @Expose
-    private FamilyProfile familyProfile;
+    private List<FamilyProfile.Relative> familyProfile;
 
 
-
-    public HoSo(String name, LearningStatus learningStatus, PersonalProfile personalProfile, FamilyProfile familyProfile) {
+    public StudentProfile(String name, LearningStatus learningStatus, PersonalProfile personalProfile, List<FamilyProfile.Relative> familyProfile) {
         this.name = name;
         this.learningStatus = learningStatus;
         this.personalProfile = personalProfile;
         this.familyProfile = familyProfile;
     }
-
 
     public String getName() {
         return name;
@@ -56,11 +58,11 @@ public class HoSo {
         this.personalProfile = personalProfile;
     }
 
-    public FamilyProfile getFamilyProfile() {
+    public List<FamilyProfile.Relative> getFamilyProfile() {
         return familyProfile;
     }
 
-    public void setFamilyProfile(FamilyProfile familyProfile) {
+    public void setFamilyProfile(List<FamilyProfile.Relative> familyProfile) {
         this.familyProfile = familyProfile;
     }
 
@@ -194,15 +196,15 @@ public class HoSo {
     }
 
     public class PersonalProfile {
-        private Birth birth;
-        private PID pid;
-        private Prioritize prioritize;
-        private Nationality nationality;
-        private Contact contact;
-        private BVU365 bvu365;
-        private Gang gang;
+        private PersonalProfile.Birth birth;
+        private PersonalProfile.PID pid;
+        private PersonalProfile.Prioritize prioritize;
+        private PersonalProfile.Nationality nationality;
+        private PersonalProfile.Contact contact;
+        private PersonalProfile.BVU365 bvu365;
+        private PersonalProfile.Gang gang;
 
-        public PersonalProfile(Birth birth, PID pid, Prioritize prioritize, Nationality nationality, Contact contact, BVU365 bvu365, Gang gang) {
+        public PersonalProfile(PersonalProfile.Birth birth, PersonalProfile.PID pid, PersonalProfile.Prioritize prioritize, PersonalProfile.Nationality nationality, PersonalProfile.Contact contact, PersonalProfile.BVU365 bvu365, PersonalProfile.Gang gang) {
             this.birth = birth;
             this.pid = pid;
             this.prioritize = prioritize;
@@ -212,59 +214,59 @@ public class HoSo {
             this.gang = gang;
         }
 
-        public Birth getBirth() {
+        public PersonalProfile.Birth getBirth() {
             return birth;
         }
 
-        public void setBirth(Birth birth) {
+        public void setBirth(PersonalProfile.Birth birth) {
             this.birth = birth;
         }
 
-        public PID getPid() {
+        public PersonalProfile.PID getPid() {
             return pid;
         }
 
-        public void setPid(PID pid) {
+        public void setPid(PersonalProfile.PID pid) {
             this.pid = pid;
         }
 
-        public Prioritize getPrioritize() {
+        public PersonalProfile.Prioritize getPrioritize() {
             return prioritize;
         }
 
-        public void setPrioritize(Prioritize prioritize) {
+        public void setPrioritize(PersonalProfile.Prioritize prioritize) {
             this.prioritize = prioritize;
         }
 
-        public Nationality getNationality() {
+        public PersonalProfile.Nationality getNationality() {
             return nationality;
         }
 
-        public void setNationality(Nationality nationality) {
+        public void setNationality(PersonalProfile.Nationality nationality) {
             this.nationality = nationality;
         }
 
-        public Contact getContact() {
+        public PersonalProfile.Contact getContact() {
             return contact;
         }
 
-        public void setContact(Contact contact) {
+        public void setContact(PersonalProfile.Contact contact) {
             this.contact = contact;
         }
 
-        public BVU365 getBvu365() {
+        public PersonalProfile.BVU365 getBvu365() {
             return bvu365;
         }
 
-        public void setBvu365(BVU365 bvu365) {
+        public void setBvu365(PersonalProfile.BVU365 bvu365) {
             this.bvu365 = bvu365;
         }
 
-        public Gang getGang() {
+        public PersonalProfile.Gang getGang() {
             return gang;
         }
 
-        public void setGang(Gang gang) {
+        public void setGang(PersonalProfile.Gang gang) {
             this.gang = gang;
         }
 
@@ -394,7 +396,7 @@ public class HoSo {
         }
 
         public class Contact {
-            private Address address;
+            private PersonalProfile.Contact.Address address;
             private String phone;
             private String email;
             private String _2ndPhone;
@@ -426,11 +428,11 @@ public class HoSo {
                 }
             }
 
-            public Address getAddress() {
+            public PersonalProfile.Contact.Address getAddress() {
                 return address;
             }
 
-            public void setAddress(Address address) {
+            public void setAddress(PersonalProfile.Contact.Address address) {
                 this.address = address;
             }
 
@@ -521,19 +523,20 @@ public class HoSo {
     }
 
     public class FamilyProfile {
-        private ArrayList<Relative> relativeList;
+        private List<Relative> relativeList;
 
-        public FamilyProfile(ArrayList<Relative> relativeList) {
+        public FamilyProfile(List<FamilyProfile.Relative> relativeList) {
             this.relativeList = relativeList;
         }
 
-        public ArrayList<Relative> getRelativeList() {
+        public List<FamilyProfile.Relative> getRelativeList() {
             return relativeList;
         }
 
-        public void setRelativeList(ArrayList<Relative> relativeList) {
+        public void setRelativeList(List<FamilyProfile.Relative> relativeList) {
             this.relativeList = relativeList;
         }
+
 
         public class Relative {
             private String name;

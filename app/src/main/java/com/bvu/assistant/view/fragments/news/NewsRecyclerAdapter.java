@@ -203,7 +203,4 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
         this.imbCardShare = itemView.findViewById(R.id.cardShareBtn);
         this.cardTitleBound = itemView.findViewById(R.id.cardTitleBound);
     }
-
-
-
 }

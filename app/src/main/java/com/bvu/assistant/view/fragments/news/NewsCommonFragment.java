@@ -110,7 +110,7 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
             mMainActivityChildFragmentGainer.onNewFragmentAttached(this);
         }
         catch (ClassCastException e) {
-              Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
+//              Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
         }
     }
 

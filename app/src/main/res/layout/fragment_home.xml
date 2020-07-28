@@ -1,20 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.HomeFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresher"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/scroller"
+            android:id="@+id/refresher"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/colorPrimary"
+                    />
+                <RelativeLayout
+                    android:id="@+id/homeMenu"
+                    android:elevation="1dp"
+                    android:background="@drawable/learning_curves_chart_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/homeMainInfo"
+                        android:paddingBottom="15dp"
+                        android:paddingHorizontal="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:background="@color/red_800"
+                            android:id="@+id/imvAvatar"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="20dp"
+                            android:layout_width="@dimen/home_avatar_size"
+                            android:layout_height="@dimen/home_avatar_size"
+                            app:civ_border_width="1dp"
+                            app:civ_border_color="@color/white"/>
+
+                        <TextView
+                            android:id="@+id/txtStudentName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Student Name"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/googlesans_regular"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_gravity="center_horizontal"/>
+                        <TextView
+                            android:id="@+id/txtDepartment"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/googlesans_regular"
+                            android:text="Department"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
+
+                    </LinearLayout>
+                    <View
+                        android:id="@+id/homeMainInfoBorder"
+                        android:layout_below="@id/homeMainInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.15dp"
+                        android:background="@color/card_border_color"/>
+                    <GridLayout
+                        android:background="@color/white"
+                        android:layout_below="@id/homeMainInfoBorder"
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="2">
+                        <View android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                        <View android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                        <View android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                        <View android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                        <View android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                        <View android:layout_rowWeight="1"
+                            android:layout_columnWeight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:background="@color/card_border_color"
+                            android:layout_margin="3dp"
+                            />
+                    </GridLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/learningCurveBound"
+                    android:layout_below="@id/homeMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="20dp"
+                    android:padding="10dp"
+                    android:background="@drawable/learning_curves_chart_bg"
+                    android:elevation="1dp">
+                    <TextView
+                        android:id="@+id/learningCurveTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="Đường cong học tập"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/googlesans_regular"
+                        android:textStyle="bold"
+                        />
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/learningCurveChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/learningCurveTitle"
+                        android:layout_marginTop="10dp"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:elevation="1dp"
+                    android:background="@drawable/learning_curves_chart_bg"
+                    android:padding="10dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/learningCurveBound">
+                    <TextView
+                        android:id="@+id/attendanceTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="Điểm danh"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/googlesans_regular"/>
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/attendanceTitle">
+                        <TableLayout
+                            android:id="@+id/tableAttendance"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="horizontal"
+                            android:isScrollContainer="true">
+                            <TableRow android:background="@color/card_bottom_color">
+                                <TextView
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="10dp"
+                                    android:layout_weight="1" android:text="Môn học"/>
+                                <TextView
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="10dp"
+                                    android:layout_weight="1" android:text="Nghỉ có phép"/>
+                                <TextView
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="10dp"
+                                    android:layout_weight="1" android:text="Nghỉ không phép"/>
+                            </TableRow>
+                        </TableLayout>
+                    </HorizontalScrollView>
+
+                </RelativeLayout>
+            </RelativeLayout>
         </ScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 
 
 </layout>

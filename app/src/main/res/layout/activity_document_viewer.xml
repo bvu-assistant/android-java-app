@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".view.activities.OfficeViewerActivity"
+    tools:context=".view.activities.DocumentViewerActivity"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:transformPivotX="0dp"
+        android:elevation="8dp"
         app:navigationIcon="@drawable/ic_icons8_back"
         app:title="Document Viewer"
         app:titleTextAppearance="@style/OfficeViewerTheme.ActionBarTitleTextTheme"
