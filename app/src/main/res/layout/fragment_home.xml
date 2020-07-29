@@ -18,132 +18,177 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <View
+                <ImageView
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:background="@color/colorPrimary"
-                    />
-                <RelativeLayout
+                    android:background="@color/colorPrimary"/>
+
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/homeMenu"
-                    android:elevation="1dp"
-                    android:background="@drawable/learning_curves_chart_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    app:cardElevation="8dp"
                     android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="20dp">
-
-                    <LinearLayout
-                        android:id="@+id/homeMainInfo"
-                        android:paddingBottom="15dp"
-                        android:paddingHorizontal="10dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:elevation="2dp"
+                        android:background="@drawable/home_profile_bg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:background="@color/red_800"
-                            android:id="@+id/imvAvatar"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="20dp"
-                            android:layout_width="@dimen/home_avatar_size"
-                            android:layout_height="@dimen/home_avatar_size"
-                            app:civ_border_width="1dp"
-                            app:civ_border_color="@color/white"/>
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/shimmerHomeMainInfo"
+                            android:paddingBottom="15dp"
+                            android:paddingHorizontal="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:src="@color/card_bottom_color"
+                                android:id="@+id/imvAvatar"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="20dp"
+                                android:layout_width="@dimen/home_avatar_size"
+                                android:layout_height="@dimen/home_avatar_size"
+                                app:civ_border_width="1dp"
+                                app:civ_border_color="@color/white"/>
 
-                        <TextView
-                            android:id="@+id/txtStudentName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Student Name"
-                            android:textSize="18sp"
-                            android:fontFamily="@font/googlesans_regular"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_gravity="center_horizontal"/>
-                        <TextView
-                            android:id="@+id/txtDepartment"
-                            android:layout_marginTop="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal"
-                            android:fontFamily="@font/googlesans_regular"
-                            android:text="Department"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:textStyle="normal" />
+                            <TextView
+                                android:id="@+id/txtStudentName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Student Name"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/googlesans_regular"
+                                android:textStyle="bold"
+                                android:textColor="@color/card_bottom_color"
+                                android:background="@color/card_bottom_color"
+                                android:layout_gravity="center_horizontal"/>
+                            <TextView
+                                android:id="@+id/txtDepartment"
+                                android:layout_marginTop="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:fontFamily="@font/googlesans_regular"
+                                android:text="Department"
+                                android:textAlignment="center"
+                                android:textColor="@color/card_bottom_color"
+                                android:background="@color/card_bottom_color"
+                                android:textSize="14sp"
+                                android:textStyle="normal" />
+                        </LinearLayout>
+                        <View
+                            android:id="@+id/homeMainInfoBorder"
+                            android:layout_below="@id/shimmerHomeMainInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@color/card_border_color"/>
+                        <GridLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_below="@id/homeMainInfoBorder"
+                            android:background="@drawable/learning_curves_chart_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="3"
+                            android:rowCount="2">
+                            <LinearLayout
+                                android:id="@+id/btnViewProfile"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:paddingVertical="10dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/imvProfile"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/ic_icons8_profiles"
+                                    android:foreground="@color/card_border_color"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/txtProfile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Hồ sơ"
+                                    android:textColor="@color/card_bottom_color"
+                                    android:background="@color/card_bottom_color"
+                                    android:textAlignment="center"
+                                    android:fontFamily="@font/googlesans_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/btnViewLearningPath"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:paddingVertical="10dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content">
 
-                    </LinearLayout>
-                    <View
-                        android:id="@+id/homeMainInfoBorder"
-                        android:layout_below="@id/homeMainInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.15dp"
-                        android:background="@color/card_border_color"/>
-                    <GridLayout
-                        android:background="@color/white"
-                        android:layout_below="@id/homeMainInfoBorder"
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:columnCount="3"
-                        android:rowCount="2">
-                        <View android:layout_rowWeight="1"
-                        android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                        <View android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                        <View android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                        <View android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                        <View android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                        <View android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:background="@color/card_border_color"
-                            android:layout_margin="3dp"
-                            />
-                    </GridLayout>
-                </RelativeLayout>
-
+                                <ImageView
+                                    android:id="@+id/imvLearningPath"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:foreground="@color/card_border_color"
+                                    android:src="@drawable/ic_icons8_waypoint_map" />
+                                <TextView
+                                    android:id="@+id/txtLearningPath"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Lộ trình"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/card_bottom_color"
+                                    android:background="@color/card_bottom_color"
+                                    android:fontFamily="@font/googlesans_regular"
+                                    />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/btnViewExerciseInfo"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:paddingVertical="10dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:layout_width="75dp"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/imvExercise"
+                                    android:src="@drawable/ic_icons8_exercise"
+                                    android:foreground="@color/card_border_color"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:id="@+id/txtExercise"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Rèn luyện"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/card_bottom_color"
+                                    android:background="@color/card_bottom_color"
+                                    android:fontFamily="@font/googlesans_regular"
+                                    />
+                            </LinearLayout>
+                        </GridLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <RelativeLayout
                     android:id="@+id/learningCurveBound"
                     android:layout_below="@id/homeMenu"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="200dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginVertical="20dp"
                     android:padding="10dp"
@@ -197,17 +242,17 @@
                             android:layout_height="wrap_content"
                             android:scrollbars="horizontal"
                             android:isScrollContainer="true">
-                            <TableRow android:background="@color/card_bottom_color">
+                            <TableRow android:background="@drawable/attendance_table_bg">
                                 <TextView
-                                    android:paddingHorizontal="10dp"
+                                    android:paddingHorizontal="20dp"
                                     android:paddingVertical="10dp"
                                     android:layout_weight="1" android:text="Môn học"/>
                                 <TextView
-                                    android:paddingHorizontal="10dp"
+                                    android:paddingHorizontal="20dp"
                                     android:paddingVertical="10dp"
                                     android:layout_weight="1" android:text="Nghỉ có phép"/>
                                 <TextView
-                                    android:paddingHorizontal="10dp"
+                                    android:paddingHorizontal="20dp"
                                     android:paddingVertical="10dp"
                                     android:layout_weight="1" android:text="Nghỉ không phép"/>
                             </TableRow>

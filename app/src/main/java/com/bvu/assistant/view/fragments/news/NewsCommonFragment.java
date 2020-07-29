@@ -1,7 +1,9 @@
 package com.bvu.assistant.view.fragments.news;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -21,19 +23,16 @@ import android.widget.Toast;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.model.Article.Article;
+import com.bvu.assistant.services.NewsListenerService;
 import com.bvu.assistant.viewmodel.interfaces.CommonNewsSearchCallback;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.NewsFragmentBadger;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -95,6 +94,7 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
         super.onAttach(context);
 //        Log.i(TAG, "onAttach: [Activity] " + context.getClass().getName());
 
+
         try {
             this.context = context;
             mMainActBadgerCallback = (MainActivityBadger) context;
@@ -154,6 +154,12 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        //  Register receiver && start the Service --> listen for FireStore data changes
+        this.context.registerReceiver(new NewsReceiver(), new IntentFilter(NewsReceiver.NEW_ARTICLE_ACTION));
+        this.context.startService(new Intent(this.context, NewsListenerService.class));
+
 
         dataList = new ArrayList<>();
         adapter = new NewsRecyclerAdapter(dataList, this.context, getActivity(), getFragmentManager());
@@ -217,20 +223,12 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
                         }
 
 
-//                        Log.i(TAG, "got CloudData: " + dataList.size());
-
-
-                        //  Change tab's badges
-//                        mMainActBadgerCallback.updateStudentNewsCount(isNewsArticleCounter);
-//                        mNewsFrmBadgerCallback.setBadge(tabPosition, isNewsArticleCounter, new int[] {227, 0, 23});
-
                         notifyDataChanged();
                     } else {
                         Toast.makeText(getContext(), "Failed to get data from Firebase CloudFireStore", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
 
 
     @Override
@@ -240,5 +238,24 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
 
 //        List<Article> lastData = new ArrayList<>(dataList);
         adapter.getFilter().filter(searchKeyWords);
+    }
+
+
+
+
+    public class NewsReceiver extends BroadcastReceiver {
+        public static final String NEW_ARTICLE_ACTION = "NEW_ARTICLE_ACTION";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(NEW_ARTICLE_ACTION)) {
+                Article a = (Article) intent.getSerializableExtra("article");
+                Toast.makeText(context, a.getTitle(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onReceive: " + a.getTitle());
+
+//                dataList.add(0, a);
+//                adapter.notifyItemInserted(0);
+            }
+        }
     }
 }

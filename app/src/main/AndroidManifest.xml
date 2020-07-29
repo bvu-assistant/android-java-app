@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bvu.assistant">
+
     <!-- Network -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -23,9 +24,13 @@
         <activity
             android:name=".view.activities.LoginActivity"
             android:label="@string/title_activity_login"
+            android:launchMode="singleInstance"
             android:theme="@style/LoginActTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".view.activities.NewsDetailActivity"
             android:launchMode="standard"
@@ -36,14 +41,10 @@
             android:theme="@style/OfficeViewerTheme" />
         <activity
             android:name=".view.activities.MainActivity"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service

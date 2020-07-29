@@ -177,7 +177,7 @@ public class CalendarFragment extends Fragment {
         super.onResume();
 
         String ssid = getActivity().getIntent().getStringExtra("ssid");
-        getTesScheduleResponse(ssid);
+//        getTesScheduleResponse(ssid);
     }
 
 

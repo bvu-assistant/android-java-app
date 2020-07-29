@@ -1,6 +1,7 @@
 package com.bvu.assistant.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -19,19 +21,24 @@ import androidx.core.app.NotificationCompat;
 import com.bvu.assistant.R;
 import com.bvu.assistant.model.Article.Article;
 import com.bvu.assistant.view.activities.MainActivity;
+import com.bvu.assistant.view.activities.NewsDetailActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.Map;
 
+import static com.bvu.assistant.view.fragments.news.NewsCommonFragment.NewsReceiver.NEW_ARTICLE_ACTION;
 
 
 public class NewsListenerService extends Service {
     private static final String TAG = "NewsListenerService";
     private final String CHANNEL_ID = "NewsListenerService";
     FirebaseFirestore db;
+    ListenerRegistration listener;
+
 
     public NewsListenerService() {
 
@@ -46,6 +53,7 @@ public class NewsListenerService extends Service {
     public void onCreate() {
         super.onCreate();
         db = FirebaseFirestore.getInstance();
+        Toast.makeText(this, "News listener service starting", Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -55,11 +63,11 @@ public class NewsListenerService extends Service {
         return START_STICKY;
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         Toast.makeText(this, "News Listener Service being killed", Toast.LENGTH_LONG).show();
+        listener.remove();
     }
 
 
@@ -68,8 +76,10 @@ public class NewsListenerService extends Service {
     private void listenForCloudDataChange() {
         Toast.makeText(this, "Listening for Data changes", Toast.LENGTH_SHORT).show();
         final CollectionReference collRef = db.collection("news/details/Trang Chủ ");
+        final String ARTICLE_TYPE = "Trang Chủ ";
 
-        collRef.addSnapshotListener((value, error) -> {
+
+        listener = collRef.addSnapshotListener((value, error) -> {
             if (error != null) {
                 Log.w(TAG, "Listen for Cloud Data (Headlines) failed.", error);
                 return;
@@ -80,19 +90,19 @@ public class NewsListenerService extends Service {
                     ? "Local" : "Server";
 
             if (value != null) {
-                if (value.getDocumentChanges().size() > 1) {
+                if (value.getDocumentChanges().size() != 1) {
                     return;
                 }
 
                 Log.d(TAG, "Processing changes...");
                 DocumentChange firstChange = value.getDocumentChanges().get(0);
                 DocumentChange.Type changedType = firstChange.getType();
-                Log.d(TAG, changedType + " data: " + firstChange.getDocument().getData());
+                Log.d(TAG, changedType + " data: [" + source + "] " + firstChange.getDocument().getData());
 
                 if (changedType == DocumentChange.Type.ADDED) {
                     Map<String, Object> record = firstChange.getDocument().getData();
                     Article item = new Article(
-                            "Headlines",
+                            ARTICLE_TYPE,
                             record.get("Title").toString(),
                             record.get("Date").toString(),
                             record.get("Link").toString(),
@@ -101,24 +111,22 @@ public class NewsListenerService extends Service {
                     );
 
 
-                    Toast.makeText(NewsListenerService.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                    sendNotification("New data added to Headlines...");
-
-                    // Intent intent = new Intent(ON_NEW_HEADLINES);
-                    // intent.putExtra("articleTitle", item.getTitle());
-                    // sendBroadcast(intent);
+                    sendNotification(item);
+                    Intent intent = new Intent(NEW_ARTICLE_ACTION);
+                    intent.putExtra("article", item);
+                    sendBroadcast(intent);
                 }
 
 
                 if (changedType == DocumentChange.Type.REMOVED) {
                     Map<String, Object> record = firstChange.getDocument().getData();
                     Article item = new Article(
-                            "Headlines",
-                            record.get("Title").toString(),
-                            record.get("Date").toString(),
-                            record.get("Link").toString(),
-                            (Boolean)record.get("IsNew"),
-                            false
+                        ARTICLE_TYPE,
+                        record.get("Title").toString(),
+                        record.get("Date").toString(),
+                        record.get("Link").toString(),
+                        (Boolean)record.get("IsNew"),
+                        false
                     );
                 }
             } else {
@@ -128,23 +136,40 @@ public class NewsListenerService extends Service {
     }
 
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    private void sendNotification(Article a) {
+        Context mContext = this;
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("BVU Assistant")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext.getApplicationContext(), CHANNEL_ID);
+        Intent intent = new Intent(mContext, NewsDetailActivity.class);
+        intent.putExtra("article", a);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+        Log.i(TAG, "sendNotification: " + a.getId());
+
+
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
+        mBuilder.setContentTitle("Thông báo mới");
+        mBuilder.setContentText(a.getTitle());
+        mBuilder.setPriority(Notification.PRIORITY_MAX);
+
+
+
+        NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "Channel human readable title",
+                NotificationManager.IMPORTANCE_HIGH
+            );
+            mNotificationManager.createNotificationChannel(channel);
+            mBuilder.setChannelId(CHANNEL_ID);
+        }
+
+
+        mNotificationManager.notify(0, mBuilder.build());
     }
 
 }

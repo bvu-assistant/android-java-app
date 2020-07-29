@@ -1,7 +1,11 @@
 package com.bvu.assistant.view.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -9,12 +13,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -32,6 +40,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -85,9 +94,42 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getProfile("kq4cbsdbhwbplkfxpllgp5br");
-        getAttendanceInfo("kq4cbsdbhwbplkfxpllgp5br");
-        getLearningInfo("kq4cbsdbhwbplkfxpllgp5br");
+        Snackbar.make(B.getRoot(), "Getting home data...", 3000).show();
+        assignEvents();
+
+        Activity activity = getActivity();
+        Intent intent = activity == null? null: activity.getIntent();
+        String ssid = intent == null? "": intent.getStringExtra("ssid");
+
+        getProfile(ssid);
+        getAttendanceInfo(ssid);
+        getLearningInfo(ssid);
+    }
+
+    void assignEvents() {
+        B.btnViewProfile.setOnClickListener(v -> {});
+        B.btnViewLearningPath.setOnClickListener(v -> {});
+        B.btnViewExerciseInfo.setOnClickListener(v -> {});
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    void reStyle() {
+        B.txtStudentName.setTextColor(Color.WHITE);
+        B.txtStudentName.setBackground(null);
+        B.txtDepartment.setTextColor(Color.WHITE);
+        B.txtDepartment.setBackground(null);
+
+
+        B.txtProfile.setTextColor(Color.BLACK);
+        B.txtProfile.setBackground(null);
+        B.txtLearningPath.setTextColor(Color.BLACK);
+        B.txtLearningPath.setBackground(null);
+        B.txtExercise.setTextColor(Color.BLACK);
+        B.txtExercise.setBackground(null);
+
+        B.imvProfile.setForeground(null);
+        B.imvLearningPath.setForeground(null);
+        B.imvExercise.setForeground(null);
     }
 
 
@@ -110,7 +152,7 @@ public class HomeFragment extends Fragment {
                     }
                     else {
                         Toast.makeText(getContext(), "Failed to get learning info", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onResponse: " + response.body().toString());
+                        Log.i(TAG, "onResponse: " + response.body());
                     }
                 }
 
@@ -164,14 +206,16 @@ public class HomeFragment extends Fragment {
 
         api.getProfile(ssid)
             .enqueue(new Callback<StudentProfile>() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<StudentProfile> call, Response<StudentProfile> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         StudentProfile result = response.body();
 
-                        Picasso.get().load("https://sinhvien.bvu.edu.vn/GetImage.aspx?MSSV=18033747").into(B.imvAvatar);
-                        B.txtStudentName.setText(result.getName());
+                        Picasso.get().load("https://i.pravatar.cc/100").into(B.imvAvatar);
+                        B.txtStudentName.setText(result.getName() + " - " + result.getLearningStatus().getClassName());
                         B.txtDepartment.setText(result.getLearningStatus().getDepartment());
+                        reStyle();
                     }
                     else {
                         Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
@@ -185,6 +229,7 @@ public class HomeFragment extends Fragment {
                 }
             });
     }
+
 
 
     void initChart(ArrayList<Entry> entries) {
@@ -233,6 +278,7 @@ public class HomeFragment extends Fragment {
         //  Y axis
         B.learningCurveChart.getAxisLeft().setAxisMinimum(1.0f);
         B.learningCurveChart.getAxisLeft().setAxisMaximum(10.0f);
+        B.learningCurveChart.getAxisLeft().setEnabled(false);
 
 
         B.learningCurveChart.getLegend().setEnabled(false);
@@ -240,6 +286,7 @@ public class HomeFragment extends Fragment {
         B.learningCurveChart.setDragEnabled(false);
         B.learningCurveChart.invalidate();
     }
+
 
     void processAttendanceInfo(List<StudentAttendance> dataList) {
         for (StudentAttendance sa : dataList) {
@@ -250,8 +297,12 @@ public class HomeFragment extends Fragment {
             txtSubjectName.setText(sa.getSubjectName());
             txtSubjectName.setMaxLines(2);
             txtSubjectName.setEllipsize(TextUtils.TruncateAt.END);
-            txtSubjectName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(25)});
             row.addView(txtSubjectName);
+            LayoutParams layoutParams = (LinearLayout.LayoutParams)txtSubjectName.getLayoutParams();
+            layoutParams.width = 100;
+            txtSubjectName.setPadding(20, 0, 10, 0);
+            txtSubjectName.setLayoutParams(layoutParams);
+
 
             TextView txtExcusedAbsences = new TextView(row.getContext());
             txtExcusedAbsences.setText(sa.getExcusedAbsences() + "");
@@ -266,6 +317,7 @@ public class HomeFragment extends Fragment {
 
             row.setHorizontalScrollBarEnabled(true);
             row.setPadding(0, 10, 0, 10);
+            //  row.setBackgroundResource(R.drawable.attendance_table_bg);
             B.tableAttendance.addView(row);
         }
     }

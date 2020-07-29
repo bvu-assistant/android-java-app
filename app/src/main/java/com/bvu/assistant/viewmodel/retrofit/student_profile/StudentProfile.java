@@ -79,6 +79,9 @@ public class StudentProfile {
         private String major;
         private String mainMajor;
         private String department;
+
+        @SerializedName("class")
+        @Expose
         private String className;
         private String position;
         private String youthActivity;
