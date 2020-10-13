@@ -10,11 +10,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.bvu.assistant.R;
+import com.bvu.assistant.view.fragments.ConnectingFragment;
 import com.bvu.assistant.view.fragments.customcalendar.CalendarFragment;
-import com.bvu.assistant.view.fragments.customcalendar.Example5Fragment;
 import com.bvu.assistant.view.fragments.HomeFragment;
 import com.bvu.assistant.view.fragments.NewsFragment;
-import com.bvu.assistant.view.fragments.NotificationFragment;
 import com.bvu.assistant.view.fragments.SettingsFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +62,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             }
 
             case 3: {
-                fragment = new NotificationFragment();
+                fragment = new ConnectingFragment();
                 break;
             }
 
