@@ -2,6 +2,7 @@ package com.bvu.assistant.view.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import com.bvu.assistant.R;
@@ -50,6 +52,16 @@ public class LoginActivity extends AppCompatActivity {
     @SuppressLint("CommitPrefEdits")
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = getSharedPreferences("MAIN_ACTIVITY", Context.MODE_PRIVATE);
+        boolean isDark = preferences.getBoolean("darkmode", false);
+        if (isDark) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
         super.onCreate(savedInstanceState);
         B = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
@@ -259,6 +271,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("ssid", pref.getString("SSID", ""));
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         }
                         else {
                             Snackbar.make(B.getRoot(), "Login failed, please check your credentials", 5500).show();

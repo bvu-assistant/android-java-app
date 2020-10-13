@@ -8,14 +8,11 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bvu.assistant.animation.MyTransformer;
@@ -28,15 +25,12 @@ import com.bvu.assistant.viewmodel.interfaces.CommonNewsSearchCallback;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityMonthViewChanger;
-import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.InstanceIdResult;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
 
         //  TabLayout's icons
         mainScreenTabBarIcons = new ArrayList<Integer>();
-        mainScreenTabBarIcons.add(R.drawable.icon_note);
+        mainScreenTabBarIcons.add(R.drawable.icon_message);
         mainScreenTabBarIcons.add(R.drawable.icon_calendar);
         mainScreenTabBarIcons.add(R.drawable.icon_home);
         mainScreenTabBarIcons.add(R.drawable.icon_bell);
@@ -227,11 +221,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
                 MainActivity.this.currentTabIndex = tab.getPosition();
                 updateMonthValue();
 
-                if (tab.getPosition() != 0) {
-                    B.edtSearchNews.setVisibility(View.GONE);
-                }
-                else {
-                    B.edtSearchNews.setVisibility(View.VISIBLE);
+                switch (tab.getPosition()) {
+                    case 3: {
+                        B.edtSearchNews.setVisibility(View.VISIBLE);
+                        break;
+                    }
+
+                    default: {
+                        B.edtSearchNews.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -274,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
 
     @Override
     public void onNewFragmentAttached(Fragment fragment) {
-        Log.i("NewsCommonFragment", "onNewFragmentAttached: " + fragment.getClass());
-        childFragments.add(fragment);
+//        Log.i("NewsCommonFragment", "onNewFragmentAttached: " + fragment.getClass());
+//        childFragments.add(fragment);
     }
 }

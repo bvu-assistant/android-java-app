@@ -12,14 +12,25 @@
     <color name="bvuColor">#004a90</color>
     <color name="news_placeholder">#BCBCBC</color>
 
+    <color name="primaryBackground">#EFF7FF</color>
+    <color name="primaryHeader">@color/colorPrimary</color>
+    <color name="primaryAboveHeader">#31FFFFFF</color>
+    <color name="primaryTextColor">#717171</color>
+    <color name="primaryWhiteTextColor">#fff</color>
+
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="grey">#CACACA</color>
 
+    <color name="news_card_bg">#fff</color>
+
+
     <color name="card_bottom_color">#CDEFEFEF</color>
     <color name="card_border_color">#C1C1C1</color>
 
-    <color name="news_fragments_bg">#EFF7FF</color>
+
+    <color name="main_act_tabbar_bg">#fff</color>
+    <color name="main_act_tabbar_border_bg">#6DB6B6B6</color>
 
 
     <!--    Custom Calendar View   -->

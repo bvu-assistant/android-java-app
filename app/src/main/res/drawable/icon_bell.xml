@@ -3,12 +3,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_icons8_notification_3"
+        android:drawable="@drawable/ic_notifications_outline"
         android:state_activated="false"
         />
 
     <item
-        android:drawable="@drawable/ic_icons8_notification_2"
+        android:drawable="@drawable/ic_notifications"
         android:state_activated="true"
         />
 

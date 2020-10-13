@@ -8,7 +8,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresher"
-        android:background="@color/news_fragments_bg"
+        android:background="@color/primaryBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView

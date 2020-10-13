@@ -4,13 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_icons8_home_3_1"
+        android:drawable="@drawable/ic_grid_outline"
         android:state_activated="false"
         />
 
-
     <item
-        android:drawable="@drawable/ic_icons8_home_4"
+        android:drawable="@drawable/ic_grid"
         android:state_activated="true"
         />
 

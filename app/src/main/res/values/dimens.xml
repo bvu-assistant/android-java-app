@@ -1,8 +1,16 @@
 <resources>
+
+    <!--  Login Activity  -->
     <dimen name="login_act_main_hor_margin">40dp</dimen>
     <dimen name="login_act_main_ver_padding">13dp</dimen>
     <dimen name="login_act_main_input_text_size">16sp</dimen>
     <dimen name="login_act_main_translateY">-30dp</dimen>
+
+
+    <!--  Main Activity  -->
+    <dimen name="main_act_searchEdt_radius">20dp</dimen>
+
+
 
     <dimen name="home_avatar_size">75dp</dimen>
 
@@ -13,7 +21,7 @@
     <dimen name="tabLayout_border_height">0.15dp</dimen>
     <dimen name="tabLayout_text_size">10sp</dimen>
 
-    <dimen name="news_card_radius">0dp</dimen>
+    <dimen name="news_card_radius">6dp</dimen>
     <dimen name="news_card_border_width">0.5dp</dimen>
     <dimen name="news_card_height">150dp</dimen>
 

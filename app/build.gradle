@@ -19,6 +19,9 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [pdftronLicenseKey:PDFTRON_LICENSE_KEY]
+
+        renderscriptTargetApi 30 //must match target sdk and build tools
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -85,7 +88,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
+    implementation 'com.eightbitlab:blurview:1.6.3'
 
     //  Floating Action Button
     implementation 'com.getbase:floatingactionbutton:1.10.1'

@@ -8,26 +8,11 @@
     <string name="actionbar_default_title">Action Bar</string>
     <string name="actionbar_default_monthTitle">Tháng 6</string>
 
-    <string name="main_tabbar_first_title">Tin tức</string>
+    <string name="main_tabbar_first_title">Kết nối</string>
     <string name="main_tabbar_second_title">Lịch biểu</string>
     <string name="main_tabbar_third_title">Trang chủ</string>
-    <string name="main_tabbar_fourth_title">Thông báo</string>
+    <string name="main_tabbar_fourth_title">Tin tức</string>
     <string name="main_tabbar_fifth_title">Cài đặt</string>
-
-    <string name="example_1_title">Example 1</string>
-    <string name="example_1_subtitle">Multiple selection, horizontal scrolling, shows usage of \"maxRowCount\" property to switch between week and month modes. Also shows usage of OutDateStyle \"endOfRow\".</string>
-    <string name="example_2_title">Example 2</string>
-    <string name="example_2_subtitle">Month header view, single selection, vertical scrolling, hides in and out dates.</string>
-    <string name="example_3_title">Example 3</string>
-    <string name="example_3_subtitle">Event style implementation, day labels as header view, single selection, month scroll listener. Similar to what is in the Google Calendar app.</string>
-    <string name="example_4_title">Example 4</string>
-    <string name="example_4_subtitle">Continuous selection within one month and across multiple months, dates older than the current day are disabled. Similar to what is in the Airbnb app.</string>
-    <string name="example_5_title">Example 5</string>
-    <string name="example_5_subtitle">Single selection, programmatic calendar scrolling, generates six rows for all months showing \"endOfGrid\" implementation of \"outDateStyle\" option. A flight schedule calender.</string>
-    <string name="example_6_title">Example 6</string>
-    <string name="example_6_subtitle">Custom date width and height, custom month view, item decoration on the CalendarView, continuous horizontal scrolling style.</string>
-    <string name="example_7_title">Example 7</string>
-    <string name="example_7_subtitle">Week mode calendar with single selection. Shows usage of \"hasBoundaries\" and  \"maxRowCount\" properties.</string>
 
 
     <string name="large_text">
@@ -126,6 +111,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
+
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>

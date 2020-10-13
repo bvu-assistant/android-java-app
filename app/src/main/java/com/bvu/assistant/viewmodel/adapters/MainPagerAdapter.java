@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -47,7 +48,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0: {
-                fragment = new NewsFragment();
+                fragment = new ConnectingFragment();
                 break;
             }
 
@@ -62,7 +63,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
             }
 
             case 3: {
-                fragment = new ConnectingFragment();
+                fragment = new NewsFragment();
                 break;
             }
 

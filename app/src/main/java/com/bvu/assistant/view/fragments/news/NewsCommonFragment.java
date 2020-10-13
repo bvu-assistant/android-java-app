@@ -98,7 +98,7 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
         try {
             this.context = context;
             mMainActBadgerCallback = (MainActivityBadger) context;
-            mMainActivityChildFragmentGainer = (MainActivityChildFragmentGainer) context;
+//            mMainActivityChildFragmentGainer = (MainActivityChildFragmentGainer) context;
             //  Log.i(TAG, "onAttach: [Activity] " + context.getClass());
 
             mNewsFrmBadgerCallback = (NewsFragmentBadger) getParentFragment();
@@ -107,7 +107,7 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
 
             //  Notify to the MainActivity
 //            Log.i(TAG, "onAttach: " + tabPosition + " - " + this.getActivity());
-            mMainActivityChildFragmentGainer.onNewFragmentAttached(this);
+//            mMainActivityChildFragmentGainer.onNewFragmentAttached(this);
         }
         catch (ClassCastException e) {
 //              Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();

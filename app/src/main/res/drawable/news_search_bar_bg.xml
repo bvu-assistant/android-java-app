@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/colorPrimaryRipple" />
-    <corners android:radius="3dp" />
+    <solid android:color="@color/primaryAboveHeader" />
+    <corners android:radius="@dimen/main_act_searchEdt_radius" />
 
 </shape>

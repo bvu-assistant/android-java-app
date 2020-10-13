@@ -6,7 +6,7 @@
     tools:ignore="HardcodedText" >
 
     <RelativeLayout
-        android:background="@color/news_fragments_bg"
+        android:background="@color/primaryBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,7 +30,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:overScrollMode="never"
-                android:background="@color/white"
                 app:tabBackground="@drawable/rules_tab_item_bg"
                 app:tabUnboundedRipple="false"
                 app:tabGravity="center"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#0078d7</color>
+    <color name="colorPrimary">#3F4448</color>
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorAccent">#03DAC5</color>
 
@@ -12,14 +12,26 @@
     <color name="bvuColor">#004a90</color>
     <color name="news_placeholder">#BCBCBC</color>
 
+    <color name="primaryBackground">#24292E</color>
+    <color name="primaryHeader">@color/colorPrimary</color>
+    <color name="primaryAboveHeader">#31FFFFFF</color>
+    <color name="primaryTextColor">#DDDDDD</color>
+    <color name="primaryWhiteTextColor">#fff</color>
+
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="grey">#CACACA</color>
 
+
+    <color name="news_card_bg">@color/primaryHeader</color>
+
+
     <color name="card_bottom_color">#CDEFEFEF</color>
     <color name="card_border_color">#C1C1C1</color>
 
-    <color name="news_fragments_bg">#EFF7FF</color>
+
+    <color name="main_act_tabbar_bg">@color/primaryHeader</color>
+    <color name="main_act_tabbar_border_bg">@color/primaryBackground</color>
 
 
     <!--    Custom Calendar View   -->

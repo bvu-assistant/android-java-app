@@ -1,19 +1,24 @@
 package com.bvu.assistant.view.fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.bvu.assistant.R;
 import com.bvu.assistant.viewmodel.helpers.TabLayoutHelper;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.tabs.TabLayout;
 
 /**
@@ -73,16 +78,24 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MaterialButton button = getView().findViewById(R.id.btnToggleBadge);
-        button.setOnClickListener(this::onClick);
-    }
+        SharedPreferences preferences = getActivity().getSharedPreferences("MAIN_ACTIVITY", Context.MODE_PRIVATE);
 
+        SwitchMaterial swtch = view.findViewById(R.id.swtSwiping);
+        boolean isDark = preferences.getBoolean("darkmode", false);
+        swtch.setChecked(isDark);
 
-    private void onClick(View mView) {
-        new AlertDialog
-            .Builder(getContext())
-            .setTitle("Alert")
-            .setMessage("Message")
-            .show();
+        swtch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                preferences.edit().putBoolean("darkmode", isChecked).apply();
+
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            }
+        });
     }
 }

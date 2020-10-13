@@ -25,22 +25,22 @@
             android:layout_height="@dimen/main_actionbar_height"
             android:layout_alignParentTop="true"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:background="@color/colorPrimary">
+            android:background="@color/primaryHeader">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/actionBarTitle"
+                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:text="@string/actionbar_default_title"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:background="@android:color/transparent"
                     android:textAppearance="@style/MaiActionBarTextTheme"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/primaryWhiteTextColor" />
 
                 <EditText
                     android:id="@+id/edtSearchNews"
@@ -48,11 +48,11 @@
                     android:singleLine="true"
                     android:inputType="text"
 
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="10dp"
+                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginVertical="15dp"
                     android:layout_marginEnd="15dp"
 
@@ -62,7 +62,7 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/card_bottom_color"
                     android:background="@drawable/news_search_bar_bg"
-                    android:drawableLeft="@drawable/ic_icons8_search"
+                    android:drawableRight="@drawable/ic_icons8_search"
                     android:drawableTint="@color/card_bottom_color"
                     android:drawablePadding="10dp"
                     android:importantForAutofill="no" />
@@ -104,12 +104,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tabLayout_border_height"
             android:layout_above="@id/mainBottomNavBar"
-            android:background="@color/colorNavBarBorder" />
+            android:background="@color/main_act_tabbar_border_bg" />
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/mainBottomNavBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/main_act_tabbar_bg"
             android:theme="@style/MainTabBarTheme"
 
             app:tabTextAppearance="@style/MainTabBarTextTheme"
@@ -124,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/main_tabbar_first_title"
-                android:icon="@drawable/icon_note" />
+                android:icon="@drawable/icon_message" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -150,6 +151,7 @@
                 android:text="@string/main_tabbar_fifth_title"
                 android:icon="@drawable/icon_hamburger_menu" />
         </com.google.android.material.tabs.TabLayout>
+
 
     </RelativeLayout>
 

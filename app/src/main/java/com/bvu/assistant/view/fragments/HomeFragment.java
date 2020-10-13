@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Snackbar.make(B.getRoot(), "Getting home data...", 3000).show();
+//        Snackbar.make(B.getRoot(), "Getting home data...", 3000).show();
         assignEvents();
 
         Activity activity = getActivity();
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment {
                         Picasso.get().load("https://i.pravatar.cc/100").into(B.imvAvatar);
                         B.txtStudentName.setText(result.getName() + " - " + result.getLearningStatus().getClassName());
                         B.txtDepartment.setText(result.getLearningStatus().getDepartment());
-                        reStyle();
+//                        reStyle();
                     }
                     else {
                         Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
