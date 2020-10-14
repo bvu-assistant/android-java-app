@@ -12,37 +12,38 @@
         <item name="android:windowTranslucentStatus">false</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
-    <style name="AppTheme.NoActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
-
-
-    <!--  MainTabBar  -->
-    <style name="MainTabBarTheme">
+    <!--  Main Activity -->
+    <style name="MainAct" />
+    <style name="MainAct.TabBar">
         <item name="colorPrimary">@color/facebookColor</item>
         <item name="tabSelectedTextColor">@color/facebookColor</item>
         <item name="tabMode">fixed</item>
         <item name="tabGravity">fill</item>
     </style>
-
-    <style name="MainTabBarTextTheme" parent="@android:style/TextAppearance.Widget.TabWidget">
+    <style name="MainAct.TabBar.TextAppearance" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-    <style name="MaiActionBarTextTheme">
+    <style name="MainAct.ActionBar" />
+    <style name="MainAct.ActionBar.TextAppearance">
         <item name="android:textSize">26sp</item>
+    </style>
+    <style name="MainAct.BottomNavBar">
+    </style>
+    <style name="MainAct.BottomNavBar.TextInactive">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/mainAct.bottomNav.textInactiveSize</item>
+    </style>
+    <style name="MainAct.BottomNavBar.TextActive">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/mainAct.bottomNav.textActiveSize</item>
     </style>
 
 
-
-    <style name="LoginActTheme" parent="Theme.MaterialComponents">
+    <!--  Login Activity  -->
+    <style name="LoginAct" parent="Theme.MaterialComponents">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -50,22 +51,22 @@
     </style>
 
 
-
-    <!--  OfficeViewer  -->
-    <style name="OfficeViewerTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <!--  OfficeViewer Activity -->
+    <style name="OfficeViewerAct" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowTranslucentStatus">false</item>
     </style>
-    <style name="OfficeViewerTheme.ActionBarTitleTextTheme">
+    <style name="OfficeViewerAct.ActionBar"/>
+    <style name="OfficeViewerAct.ActionBar.TitleTextTheme">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="font">@font/googlesans_regular</item>
         <item name="android:textAlignment">center</item>
     </style>
-    <style name="OfficeViewerTheme.ActionBarSubtitleTheme">
+    <style name="OfficeViewerAct.ActionBar.SubtitleTheme">
         <item name="font">@font/googlesans_regular</item>
         <item name="android:textSize">12sp</item>
     </style>

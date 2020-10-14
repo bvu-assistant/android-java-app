@@ -4,17 +4,15 @@
     android:duration="500">
 
     <translate
-        android:fromYDelta="-50%"
+        android:fromYDelta="75%"
         android:toYDelta="0"
-        android:interpolator="@android:anim/decelerate_interpolator"
+        android:interpolator="@android:anim/bounce_interpolator"
         />
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
-        android:interpolator="@android:anim/decelerate_interpolator"
+        android:interpolator="@android:anim/bounce_interpolator"
         />
-
-
 
 </set>

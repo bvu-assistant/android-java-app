@@ -15,8 +15,11 @@
     <color name="primaryBackground">#EFF7FF</color>
     <color name="primaryHeader">@color/colorPrimary</color>
     <color name="primaryAboveHeader">#31FFFFFF</color>
-    <color name="primaryTextColor">#717171</color>
+    <color name="primaryTextColor">#505050</color>
     <color name="primaryWhiteTextColor">#fff</color>
+    <color name="primaryWhiteHeader">#fff</color>
+    <color name="primaryGrayBackground">#eee</color>
+    <color name="primaryWhiteBackground">#fff</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>
@@ -28,9 +31,14 @@
     <color name="card_bottom_color">#CDEFEFEF</color>
     <color name="card_border_color">#C1C1C1</color>
 
+    <color name="home_frm_cover_overlay">#95000000</color>
+    <color name="home_frm_attandance_good">#009E06</color>
+    <color name="home_frm_attandance_warning">#FF5722</color>
+    <color name="home_frm_attandance_bad">#95D80000</color>
+    <color name="home_frm_attendance_normal_bg">#b6bbd8</color>
 
     <color name="main_act_tabbar_bg">#fff</color>
-    <color name="main_act_tabbar_border_bg">#6DB6B6B6</color>
+    <color name="main_act_tabbar_border_bg">#6DDFDFDF</color>
 
 
     <!--    Custom Calendar View   -->
@@ -69,5 +77,6 @@
     <color name="example_6_black">#BF000000</color>
     <color name="example_7_white">#D9FFFFFF</color>
     <color name="example_7_yellow">#FFEB3B</color>
+    <color name="BadgeBackgroundColor">#F44336</color>
 
 </resources>

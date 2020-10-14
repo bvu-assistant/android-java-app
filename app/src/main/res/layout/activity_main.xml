@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".view.activities.MainActivity"
     tools:ignore="HardcodedText">
-
-    <data>
-        <variable
-            name="viewmodel"
-            type="com.bvu.assistant.viewmodel.classes.MainActivityViewModel"/>
-    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +14,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/mainActionBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/main_actionbar_height"
+            android:layout_height="@dimen/mainAct.actionBar.height"
             android:layout_alignParentTop="true"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             android:background="@color/primaryHeader">
@@ -39,7 +31,7 @@
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:textAppearance="@style/MaiActionBarTextTheme"
+                    android:textAppearance="@style/MainAct.ActionBar.TextAppearance"
                     android:textColor="@color/primaryWhiteTextColor" />
 
                 <EditText
@@ -62,7 +54,7 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/card_bottom_color"
                     android:background="@drawable/news_search_bar_bg"
-                    android:drawableRight="@drawable/ic_icons8_search"
+                    android:drawableEnd="@drawable/ic_icons8_search"
                     android:drawableTint="@color/card_bottom_color"
                     android:drawablePadding="10dp"
                     android:importantForAutofill="no" />
@@ -89,69 +81,33 @@
             android:background="@color/colorNavBarBorder" />
 
 
-        <com.bvu.assistant.viewmodel.helpers.MyViewPager
-            custom:allowSwiping="false"
-            android:id="@+id/mainViewPager"
+        <FrameLayout
+            android:id="@+id/mainFragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/mainActionBarBorder"
-            android:layout_above="@id/mainBottomNavBarBorder"
-            android:background="#fff" />
-
+            android:layout_above="@id/mainBottomNavBarBorder"/>
 
         <View
             android:id="@+id/mainBottomNavBarBorder"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tabLayout_border_height"
-            android:layout_above="@id/mainBottomNavBar"
+            android:layout_above="@id/mainBottomNavView"
             android:background="@color/main_act_tabbar_border_bg" />
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/mainBottomNavBar"
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/mainBottomNavView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="1dp"
             android:background="@color/main_act_tabbar_bg"
-            android:theme="@style/MainTabBarTheme"
-
-            app:tabTextAppearance="@style/MainTabBarTextTheme"
-            app:tabIndicator="@drawable/main_tab_indicator"
-            app:tabIndicatorFullWidth="true"
-            app:tabPaddingStart="20dp"
-            app:tabPaddingEnd="20dp"
-            app:tabRippleColor="@color/colorPrimaryRipple"
-            app:tabGravity="fill" >
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_tabbar_first_title"
-                android:icon="@drawable/icon_message" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_tabbar_second_title"
-                android:icon="@drawable/icon_calendar" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_tabbar_third_title"
-                android:icon="@drawable/icon_home" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_tabbar_fourth_title"
-                android:icon="@drawable/icon_bell" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_tabbar_fifth_title"
-                android:icon="@drawable/icon_hamburger_menu" />
-        </com.google.android.material.tabs.TabLayout>
-
+            app:elevation="8dp"
+            app:itemBackground="?selectableItemBackground"
+            app:itemTextAppearanceActive="@style/MainAct.BottomNavBar.TextActive"
+            app:itemTextAppearanceInactive="@style/MainAct.BottomNavBar.TextInactive"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/main_act_bottomnav_menu" />
 
     </RelativeLayout>
 

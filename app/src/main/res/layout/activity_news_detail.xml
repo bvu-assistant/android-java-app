@@ -15,7 +15,7 @@
         app:title="Thông báo"
         app:titleTextColor="@color/white"
         app:subtitleTextColor="@color/white"
-        app:subtitleTextAppearance="@style/OfficeViewerTheme.ActionBarSubtitleTheme"
+        app:subtitleTextAppearance="@style/OfficeViewerAct.ActionBar.SubtitleTheme"
         app:subtitle="date"
 
         android:layout_width="match_parent"

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="10dp">
+
+        <FrameLayout
+            android:id="@+id/progressBounder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/progress"
+                android:layout_width="@dimen/homeFrm.attendance_circular_size"
+                android:layout_height="@dimen/homeFrm.attendance_circular_size"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progressbar_color="#3f51b5"
+                app:cpb_progressbar_width="5dp"
+                app:cpb_round_border="true">
+            </com.mikhaellopez.circularprogressbar.CircularProgressBar>
+            <TextView
+                android:id="@+id/fraction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="0/0"
+                android:textColor="@color/primaryTextColor"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txtSubjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/progressBounder"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/progressBounder"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="10dp"
+
+            android:hint="Subect name"
+            android:textIsSelectable="true"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/primaryTextColor"
+
+            />
+
+    </RelativeLayout>
+</layout>

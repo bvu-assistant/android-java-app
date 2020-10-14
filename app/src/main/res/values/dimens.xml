@@ -1,22 +1,28 @@
 <resources>
 
     <!--  Login Activity  -->
-    <dimen name="login_act_main_hor_margin">40dp</dimen>
-    <dimen name="login_act_main_ver_padding">13dp</dimen>
-    <dimen name="login_act_main_input_text_size">16sp</dimen>
-    <dimen name="login_act_main_translateY">-30dp</dimen>
+    <dimen name="loginAct.main_hor_margin">40dp</dimen>
+    <dimen name="loginAct.main_ver_padding">13dp</dimen>
+    <dimen name="loginAct.main_input_text_size">16sp</dimen>
+    <dimen name="loginAct.main_translateY">-30dp</dimen>
 
 
     <!--  Main Activity  -->
-    <dimen name="main_act_searchEdt_radius">20dp</dimen>
+    <dimen name="mainAct.searchEdt.radius">20dp</dimen>
+    <dimen name="mainAct.bottomNav.textInactiveSize">11sp</dimen>
+    <dimen name="mainAct.bottomNav.textActiveSize">11sp</dimen>
+    <dimen name="mainAct.actionBar.height">60dp</dimen>
+    <dimen name="mainAct.actionBar.textSize">26sp</dimen>
 
 
+    <!--  Home Fragment  -->
+    <dimen name="homeFrm.avatar_size">170dp</dimen>
+    <dimen name="homeFrm.cover_height">195dp</dimen>
+    <dimen name="homeFrm.attendance_circular_size">50dp</dimen>
+    <dimen name="homeFrm.txtDepartment_size">14sp</dimen>
+    <dimen name="homeFrm.txtStudentName_size">20sp</dimen>
+    <dimen name="homeFrm.learningCurveChart_height">135dp</dimen>
 
-    <dimen name="home_avatar_size">75dp</dimen>
-
-
-    <dimen name="main_actionbar_height">60dp</dimen>
-    <dimen name="main_actionbar_textSize">26sp</dimen>
 
     <dimen name="tabLayout_border_height">0.15dp</dimen>
     <dimen name="tabLayout_text_size">10sp</dimen>
@@ -26,6 +32,8 @@
     <dimen name="news_card_height">150dp</dimen>
 
     <item name="calendar_description_box_size" type="dimen">15dp</item>
+
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

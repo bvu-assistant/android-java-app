@@ -24,7 +24,7 @@
         android:elevation="8dp"
         app:navigationIcon="@drawable/ic_icons8_back"
         app:title="Document Viewer"
-        app:titleTextAppearance="@style/OfficeViewerTheme.ActionBarTitleTextTheme"
+        app:titleTextAppearance="@style/OfficeViewerAct.ActionBar.TitleTextTheme"
         app:titleTextColor="@color/white"
         android:background="@color/colorPrimary">
         <ImageButton

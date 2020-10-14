@@ -1,54 +1,54 @@
 package com.bvu.assistant.view.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.TooltipCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.bvu.assistant.animation.MyTransformer;
-import com.bvu.assistant.databinding.ActivityMainBinding;
-import com.bvu.assistant.viewmodel.adapters.MainPagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.bvu.assistant.R;
-import com.bvu.assistant.viewmodel.classes.MainActivityViewModel;
-import com.bvu.assistant.viewmodel.helpers.TabLayoutHelper;
+import com.bvu.assistant.databinding.ActivityMainBinding;
+import com.bvu.assistant.view.fragments.ConnectingFragment;
+import com.bvu.assistant.view.fragments.HomeFragment;
+import com.bvu.assistant.view.fragments.NewsFragment;
+import com.bvu.assistant.view.fragments.SettingsFragment;
+import com.bvu.assistant.view.fragments.customcalendar.CalendarFragment;
 import com.bvu.assistant.viewmodel.interfaces.CommonNewsSearchCallback;
-import com.bvu.assistant.viewmodel.interfaces.MainActivityBadger;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityMonthViewChanger;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
+import qiu.niorgai.StatusBarCompat;
 
-public class MainActivity extends AppCompatActivity implements MainActivityBadger, MainActivityMonthViewChanger, MainActivityChildFragmentGainer {
+
+public class MainActivity extends AppCompatActivity implements MainActivityMonthViewChanger, MainActivityChildFragmentGainer {
+    private static final String SAVED_STATE_CONTAINER_KEY = "ContainerKey";
+    private static final String SAVED_STATE_CURRENT_KEY = "CurrentKey";
+
     private final String TAG = "MainActivity";
     private ActivityMainBinding B;
 
-    private MainPagerAdapter pagerAdapter;
-    private ArrayList<String> mainScreenTabBarTitles;
-    private ArrayList<Integer> mainScreenTabBarIcons;
-    private ArrayList<Fragment> childFragments;
-    private List<Integer> mainScreenBadgeHolder;
+    private ArrayList<Fragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
+    private ArrayList<String> mainScreenActionBarBarTitles;     //  listing các tiêu đề của ActionBar
+    private ArrayList<Fragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
+    private  Fragment activeFragment;
 
-    private int headlinesNewsBadgeCounter = 0;
-    private int studentNewsBadgeCounter = 0;
     private int currentTabIndex = 0;
     private String currentMonthValue = "";
 
@@ -58,67 +58,36 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
         super.onCreate(savedInstanceState);
 
         B = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        B.setViewmodel(new MainActivityViewModel(""));
         B.executePendingBindings();
 
-
         initAndMapping();
-        handleTabBar();
-        changeActionBarHeight();
+        handleBottomNavBar();
         handleFirebaseInstanceId();
     }
 
-    private void changeActionBarHeight() {
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Toast.makeText(this, intent.getData().toString(), Toast.LENGTH_SHORT).show();
-    }
-
-
-
     private void initAndMapping() {
-        childFragments = new ArrayList<>();
-        pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), 0, this);
-
-        //  TabLayout's titles
-        mainScreenTabBarTitles = new ArrayList<String>();
-        mainScreenTabBarTitles.add(getResources().getString(R.string.main_tabbar_first_title));
-        mainScreenTabBarTitles.add(getResources().getString(R.string.main_tabbar_second_title));
-        mainScreenTabBarTitles.add(getResources().getString(R.string.main_tabbar_third_title));
-        mainScreenTabBarTitles.add(getResources().getString(R.string.main_tabbar_fourth_title));
-        mainScreenTabBarTitles.add(getResources().getString(R.string.main_tabbar_fifth_title));
+        childNewsCommonFragments = new ArrayList<>();
 
 
-        //  TabLayout's icons
-        mainScreenTabBarIcons = new ArrayList<Integer>();
-        mainScreenTabBarIcons.add(R.drawable.icon_message);
-        mainScreenTabBarIcons.add(R.drawable.icon_calendar);
-        mainScreenTabBarIcons.add(R.drawable.icon_home);
-        mainScreenTabBarIcons.add(R.drawable.icon_bell);
-        mainScreenTabBarIcons.add(R.drawable.icon_hamburger_menu);
-
-        //  Create an immutable list for the badgeHolder
-        mainScreenBadgeHolder = Arrays.asList(0, 0, 0);
+        // list tiêu đề của ActionBar
+        mainScreenActionBarBarTitles = new ArrayList<String>();
+        mainScreenActionBarBarTitles.add(getResources().getString(R.string.main_tabbar_first_title));
+        mainScreenActionBarBarTitles.add(getResources().getString(R.string.main_tabbar_second_title));
+        mainScreenActionBarBarTitles.add(getResources().getString(R.string.main_tabbar_third_title));
+        mainScreenActionBarBarTitles.add(getResources().getString(R.string.main_tabbar_fourth_title));
+        mainScreenActionBarBarTitles.add(getResources().getString(R.string.main_tabbar_fifth_title));
 
 
-//        B.edtSearchNews.setOnEditorActionListener((v, actionId, event) -> {
-//
-//            for (Fragment frm: childFragments) {
-//                ((CommonNewsSearchCallback)frm).onTypeComplete(v.getText().toString());
-//            }
-//
-//            return false;
-//        });
+        //  list các fragments của BottomNav
+        childBottomNavFragments = new ArrayList<>();
+        childBottomNavFragments.add(new ConnectingFragment());
+        childBottomNavFragments.add(new CalendarFragment());
+        childBottomNavFragments.add(new HomeFragment());
+        childBottomNavFragments.add(new NewsFragment());
+        childBottomNavFragments.add(new SettingsFragment());
 
+
+        //  xử lý sự kiện edtSearch text changed
         B.edtSearchNews.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,11 +101,137 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
 
             @Override
             public void afterTextChanged(Editable s) {
-                for (Fragment frm: childFragments) {
+                for (Fragment frm: childNewsCommonFragments) {
                     ((CommonNewsSearchCallback)frm).onTypeComplete(s.toString());
                 }
             }
         });
+    }
+
+
+
+    private void handleBottomNavBar() {
+        //  fragment hiển thị cho người dùng
+        activeFragment = childBottomNavFragments.get(2);
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
+        //  khởi tạo va thêm tất cả các fragment (của BottomNav) trong Activity này
+        fragmentTransaction
+            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(0), "ConnectingFragment")
+            .hide(childBottomNavFragments.get(0));
+        fragmentTransaction
+            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(1), "CalendarFragment")
+            .hide(childBottomNavFragments.get(1));
+        fragmentTransaction
+                .add(R.id.mainFragmentContainer, activeFragment, "HomeFragment");
+        fragmentTransaction
+            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(3), "NewsFragment")
+            .hide(childBottomNavFragments.get(3));
+        fragmentTransaction
+            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(4), "SettingsFragment")
+            .hide(childBottomNavFragments.get(4));
+        fragmentTransaction.commit();
+
+
+        B.mainBottomNavView.setOnNavigationItemSelectedListener(item -> {
+            replaceFragment(fragmentManager, item.getItemId());
+            return true;
+        });
+
+
+        B.mainBottomNavView.setSelectedItemId(R.id.mainBottomNavHomeBtn);
+        updateTabItemBadge(R.id.mainBottomNavConnectingBtn, 100);
+    }
+
+
+    private void replaceFragment(FragmentManager manager, int itemId) {
+        int itemIndex = 0;  //  dùng để thay đổi tiêu đề của ActionBar
+
+
+        switch (itemId) {
+            case R.id.mainBottomNavConnectingBtn: {
+                itemIndex = 0;
+                break;
+            }
+            case R.id.mainBottomNavCalendarBtn: {
+                itemIndex = 1;
+                break;
+            }
+            case R.id.mainBottomNavHomeBtn: {
+                itemIndex = 2;
+                break;
+            }
+            case R.id.mainBottomNavNotificationBtn: {
+                itemIndex = 3;
+                break;
+            }
+            case R.id.mainBottomNavSettingsBtn: {
+                itemIndex = 4;
+                break;
+            }
+        }
+
+
+        //  khi nhấn cùng 1 nút, không xử lý
+        if (itemIndex == currentTabIndex)
+            return;
+
+
+        //  tiến hành replace fragment
+        Fragment newFragment = childBottomNavFragments.get(itemIndex);
+        FragmentTransaction transaction = manager.beginTransaction();
+        //transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+        transaction.hide(activeFragment).show(newFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
+        activeFragment = newFragment;
+
+
+
+        {
+            //  cập nhật TabIndex
+            currentTabIndex = itemIndex;
+
+            //  thay đổi tiêu đề của ActionBar
+            changeActionBarTitle(itemIndex);
+
+            //  ẩn/hiện txtMonthValue dựa vào itemIndex
+            updateMonthValue();
+
+            //  ẩn/hiện searchBar dựa vào itemIndex
+            handleSearchBarVisibility(itemIndex);
+
+
+            hideActionBarAtHomeFragment(itemIndex);
+        }
+    }
+
+    private void hideActionBarAtHomeFragment(int itemIndex) {
+        if (itemIndex == 2) {
+            B.mainActionBar.setVisibility(View.GONE);
+            StatusBarCompat.translucentStatusBar(this, true);
+        }
+        else {
+            B.mainActionBar.setVisibility(View.VISIBLE);
+            StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.primaryHeader));
+        }
+    }
+
+    private void handleSearchBarVisibility(int tabIndex) {
+        switch (tabIndex) {
+            case 3: {
+                B.edtSearchNews.setVisibility(View.VISIBLE);
+                break;
+            }
+
+            default: {
+                B.edtSearchNews.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void handleFirebaseInstanceId() {
@@ -163,116 +258,49 @@ public class MainActivity extends AppCompatActivity implements MainActivityBadge
     }
 
 
-    private int getStatusBarHeight() {
-        int height;
-        Resources myResources = getResources();
-        int idStatusBarHeight = myResources.getIdentifier( "status_bar_height", "dimen", "android");
-
-        if (idStatusBarHeight > 0) {
-            height = getResources().getDimensionPixelSize(idStatusBarHeight);
-            Toast.makeText(this, "Status Bar Height = " + height, Toast.LENGTH_LONG).show();
-        } else {
-            height = 0;
-            Toast.makeText(this, "Resources NOT found", Toast.LENGTH_LONG).show();
-        }
-
-        return height;
-    }
 
     private void changeActionBarTitle(int tabIndex) {
-        B.actionBarTitle.setText(mainScreenTabBarTitles.get(tabIndex));
+        B.actionBarTitle.setText(mainScreenActionBarBarTitles.get(tabIndex));
     }
 
     private void updateMonthValue() {
         B.actionBarMonthView.setText(currentTabIndex == 1? currentMonthValue: "");
     }
 
+    /**
+     * @param itemId tab item muốn hiển thị | zero-based
+     * @param number số lượng muốn hiển thị trên Badge | nếu là 0 thì ẩn
+     */
+    private void updateTabItemBadge(int itemId, int number) {
+        //   khởi tạo BadgeDrawable
+        BadgeDrawable drawable = B.mainBottomNavView.getOrCreateBadge(itemId);
+        drawable.setBadgeGravity(BadgeDrawable.TOP_END);
+        drawable.setBackgroundColor(getResources().getColor(R.color.BadgeBackgroundColor));
+        drawable.setVerticalOffset(10);
+        drawable.setHorizontalOffset(5);
+        drawable.setMaxCharacterCount(3);
 
-    private void handleTabBar() {
-        B.mainViewPager.setAdapter(pagerAdapter);
-        B.mainViewPager.setOffscreenPageLimit(4);
-
-        B.mainBottomNavBar.addOnTabSelectedListener(onTabSelectedListener);
-        B.mainBottomNavBar.setupWithViewPager(B.mainViewPager);
-        B.mainBottomNavBar.setElevation(5f);
-        B.mainBottomNavBar.setRotationX(180);
-        setTabLayoutIcons();
-
-        TabLayoutHelper.setViewPagerTransforming(B.mainViewPager, MyTransformer.Transformer.Fading);
-        TabLayoutHelper.setDefaultSelectedTabItem(B.mainBottomNavBar, 2);
-        TabLayoutHelper.reFlipTabBarItems(B.mainBottomNavBar);
-    }
-
-    private void setTabLayoutIcons() {
-        for (int i = 0; i < B.mainBottomNavBar.getTabCount(); ++i) {
-            B.mainBottomNavBar.getTabAt(i).setIcon(mainScreenTabBarIcons.get(i));
-            TooltipCompat.setTooltipText(B.mainBottomNavBar.getTabAt(i).view, mainScreenTabBarTitles.get(i));
+        if (number == 0) {
+            drawable.setVisible(false);
+        }
+        else {
+            drawable.setNumber(number);
         }
     }
 
 
-    private TabLayout.OnTabSelectedListener onTabSelectedListener;
-    {
-        onTabSelectedListener = new TabLayout.OnTabSelectedListener() {
 
-            @Override
-            public void onTabSelected(@NonNull TabLayout.Tab tab) {
-                changeActionBarTitle(tab.getPosition());
-                MainActivity.this.currentTabIndex = tab.getPosition();
-                updateMonthValue();
-
-                switch (tab.getPosition()) {
-                    case 3: {
-                        B.edtSearchNews.setVisibility(View.VISIBLE);
-                        break;
-                    }
-
-                    default: {
-                        B.edtSearchNews.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(@NonNull TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        };
-    }
-
-
-
-    private void updateNewsBadgeCount() {
-        TabLayoutHelper.setBadgeNumber(B.mainBottomNavBar, 0, headlinesNewsBadgeCounter + studentNewsBadgeCounter);
-    }
-
-
+    //  callbacks from interfaces
     @Override
-    public void updateHeadlinesNewsCount(int length) {
-        headlinesNewsBadgeCounter = length;
-        updateNewsBadgeCount();
-    }
-
-    @Override
-    public void updateStudentNewsCount(int length) {
-        studentNewsBadgeCounter = length;
-        updateNewsBadgeCount();
-    }
-
-    @Override
-    public void onMonthValueChange(String value) {
+    public void onCalendarMonthValueChanged(String value) {
         currentMonthValue = value;
         updateMonthValue();
     }
 
     @Override
-    public void onNewFragmentAttached(Fragment fragment) {
-//        Log.i("NewsCommonFragment", "onNewFragmentAttached: " + fragment.getClass());
-//        childFragments.add(fragment);
+    public void onChildFragmentAttached(Fragment fragment) {
+        /*Log.i("NewsCommonFragment", "onNewFragmentAttached: " + fragment.getClass());
+        childFragments.add(fragment);*/
     }
+
 }

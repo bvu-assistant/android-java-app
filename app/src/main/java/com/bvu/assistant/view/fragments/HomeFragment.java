@@ -1,5 +1,6 @@
 package com.bvu.assistant.view.fragments;
 
+import android.animation.TimeInterpolator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -28,12 +29,14 @@ import androidx.fragment.app.Fragment;
 
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentHomeBinding;
+import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
 import com.bvu.assistant.viewmodel.retrofit.student_attendance.AttendanceAPI;
 import com.bvu.assistant.viewmodel.retrofit.student_attendance.StudentAttendance;
 import com.bvu.assistant.viewmodel.retrofit.student_learning_curve.LearningCurveAPI;
 import com.bvu.assistant.viewmodel.retrofit.student_learning_curve.StudentLearningCurve;
 import com.bvu.assistant.viewmodel.retrofit.student_profile.StudentProfile;
 import com.bvu.assistant.viewmodel.retrofit.student_profile.StudentProfileAPI;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -45,6 +48,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,9 +87,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         B = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-
         return B.getRoot();
     }
 
@@ -94,8 +96,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Snackbar.make(B.getRoot(), "Getting home data...", 3000).show();
-        assignEvents();
+        /*assignEvents();*/
 
         Activity activity = getActivity();
         Intent intent = activity == null? null: activity.getIntent();
@@ -107,35 +108,13 @@ public class HomeFragment extends Fragment {
     }
 
     void assignEvents() {
-        B.btnViewProfile.setOnClickListener(v -> {});
-        B.btnViewLearningPath.setOnClickListener(v -> {});
-        B.btnViewExerciseInfo.setOnClickListener(v -> {});
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    void reStyle() {
-        B.txtStudentName.setTextColor(Color.WHITE);
-        B.txtStudentName.setBackground(null);
-        B.txtDepartment.setTextColor(Color.WHITE);
-        B.txtDepartment.setBackground(null);
-
-
-        B.txtProfile.setTextColor(Color.BLACK);
-        B.txtProfile.setBackground(null);
-        B.txtLearningPath.setTextColor(Color.BLACK);
-        B.txtLearningPath.setBackground(null);
-        B.txtExercise.setTextColor(Color.BLACK);
-        B.txtExercise.setBackground(null);
-
-        B.imvProfile.setForeground(null);
-        B.imvLearningPath.setForeground(null);
-        B.imvExercise.setForeground(null);
     }
 
 
     private void getLearningInfo(String ssid) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bvu-loginner.herokuapp.com")
+                .baseUrl(getResources().getString(R.string.login_api_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -167,7 +146,7 @@ public class HomeFragment extends Fragment {
 
     private void getAttendanceInfo(String ssid) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://bvu-loginner.herokuapp.com")
+                .baseUrl(getResources().getString(R.string.login_api_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -212,10 +191,9 @@ public class HomeFragment extends Fragment {
                     if (response.isSuccessful() && response.body() != null) {
                         StudentProfile result = response.body();
 
-                        Picasso.get().load("https://i.pravatar.cc/100").into(B.imvAvatar);
+                        setAvatar(result.getName());
                         B.txtStudentName.setText(result.getName() + " - " + result.getLearningStatus().getClassName());
-                        B.txtDepartment.setText(result.getLearningStatus().getDepartment());
-//                        reStyle();
+                        B.txtStudentDepartment.setText(result.getLearningStatus().getDepartment());
                     }
                     else {
                         Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
@@ -230,9 +208,13 @@ public class HomeFragment extends Fragment {
             });
     }
 
+    private void setAvatar(String name) {
+        String host = "https://ui-avatars.com/api/?size=175&background=ff9d1e&color=fff&name=";
+        Picasso.get().load(host + name).into(B.imvAvatar);
+    }
 
 
-    void initChart(ArrayList<Entry> entries) {
+    private void initChart(ArrayList<Entry> entries) {
         charData = new ArrayList<>();
 
         LineDataSet lineDataSet = new LineDataSet(entries, "Điểm trung bình chung mỗi học kỳ");
@@ -240,14 +222,14 @@ public class HomeFragment extends Fragment {
         lineDataSet.setDrawFilled(true);
         lineDataSet.setDrawValues(true);
         lineDataSet.setFillDrawable(getResources().getDrawable(R.drawable.learning_curves_gradient_bg));
-        lineDataSet.setColor(getResources().getColor(R.color.orange_800));
-        lineDataSet.setCircleColor(getResources().getColor(R.color.orange_800));
+        lineDataSet.setColor(getResources().getColor(R.color.colorPrimary));
+        lineDataSet.setCircleColor(getResources().getColor(R.color.colorPrimary));
         lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         lineDataSet.setValueFormatter(new ValueFormatter() {
             @SuppressLint("DefaultLocale")
             @Override
             public String getFormattedValue(float value) {
-                return String.format("%.1f", value);
+                return String.format("%.2f", value);
             }
         });
 
@@ -267,7 +249,7 @@ public class HomeFragment extends Fragment {
         B.learningCurveChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         B.learningCurveChart.getAxisRight().setEnabled(false);
         B.learningCurveChart.getXAxis().setGranularityEnabled(true);
-        B.learningCurveChart.getXAxis().setAxisMinimum(1.0f);
+        B.learningCurveChart.getXAxis().setAxisMinimum(0.0f);
 
 
         //Hide grid
@@ -276,7 +258,7 @@ public class HomeFragment extends Fragment {
         B.learningCurveChart.getAxisRight().setDrawGridLines(false);
 
         //  Y axis
-        B.learningCurveChart.getAxisLeft().setAxisMinimum(1.0f);
+        B.learningCurveChart.getAxisLeft().setAxisMinimum(0.1f);
         B.learningCurveChart.getAxisLeft().setAxisMaximum(10.0f);
         B.learningCurveChart.getAxisLeft().setEnabled(false);
 
@@ -284,53 +266,75 @@ public class HomeFragment extends Fragment {
         B.learningCurveChart.getLegend().setEnabled(false);
         B.learningCurveChart.getDescription().setText("Học kỳ");
         B.learningCurveChart.setDragEnabled(false);
-        B.learningCurveChart.invalidate();
+
+        B.learningCurveChart.animateX(1000);
+        B.learningCurveChart.animateY(1750);
     }
 
 
-    void processAttendanceInfo(List<StudentAttendance> dataList) {
+
+    @SuppressLint("DefaultLocale")
+    private void processAttendanceInfo(List<StudentAttendance> dataList) {
+        LayoutInflater inflater = getLayoutInflater();
+        long delay = 200;
+        long duration = 750L;
+
         for (StudentAttendance sa : dataList) {
-            TableRow row = new TableRow(getContext());
+            HomeFrmAttendanceItemBinding itemBinding = DataBindingUtil.inflate(inflater, R.layout.home_frm_attendance_item, null, false);
 
 
-            TextView txtSubjectName = new TextView(row.getContext());
-            txtSubjectName.setText(sa.getSubjectName());
-            txtSubjectName.setMaxLines(2);
-            txtSubjectName.setEllipsize(TextUtils.TruncateAt.END);
-            row.addView(txtSubjectName);
-            LayoutParams layoutParams = (LinearLayout.LayoutParams)txtSubjectName.getLayoutParams();
-            layoutParams.width = 100;
-            txtSubjectName.setPadding(20, 0, 10, 0);
-            txtSubjectName.setLayoutParams(layoutParams);
+            //  sa.getExcusedAbsences() + sa.getUnExcusedAbsences(); new Random().nextInt(sa.getCredits() + 1)
+            int absences = sa.getExcusedAbsences() + sa.getUnExcusedAbsences();
+            int allowedAbsences = Math.round(sa.getCredits());
+            float percents = 1.0f * absences / sa.getCredits() * 100;
 
 
-            TextView txtExcusedAbsences = new TextView(row.getContext());
-            txtExcusedAbsences.setText(sa.getExcusedAbsences() + "");
-            txtExcusedAbsences.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            row.addView(txtExcusedAbsences);
+            itemBinding.txtSubjectName.setText(sa.getSubjectName());
+            itemBinding.fraction.setText(String.format("%d/%d", absences, allowedAbsences));
+            itemBinding.progress.setProgressWithAnimation(percents, duration, null, delay);
+            itemBinding.progress.setProgressBarColor(
+                    percents < 50 ?
+                    getResources().getColor(R.color.home_frm_attandance_good):
+                        percents < 75 ?
+                        getResources().getColor(R.color.home_frm_attandance_warning):
+                            getResources().getColor(R.color.home_frm_attandance_bad));
 
-            TextView txtUnExcusedAbsences = new TextView(row.getContext());
-            txtUnExcusedAbsences.setText(sa.getUnExcusedAbsences() + "");
-            txtUnExcusedAbsences.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            row.addView(txtUnExcusedAbsences);
+            itemBinding.progress.setBackgroundProgressBarColor(percents == 0 ?
+                getResources().getColor(R.color.home_frm_attandance_good):
+                getResources().getColor(R.color.home_frm_attendance_normal_bg));
 
-
-            row.setHorizontalScrollBarEnabled(true);
-            row.setPadding(0, 10, 0, 10);
-            //  row.setBackgroundResource(R.drawable.attendance_table_bg);
-            B.tableAttendance.addView(row);
+            B.attendanceInfoCard.addView(itemBinding.getRoot());
         }
     }
 
-    void processLearningInfo(StudentLearningCurve data) {
-        int termIndex = 1;
-        ArrayList<Entry> entries = new ArrayList<>();
+
+    /*private float getAttendancePercents(StudentAttendance sa) {
+
+    }
+
+    private int getAttendanceProgressBarColor(StudentAttendance sa) {
+
+    }
+
+    private String getAttendanceFraction(StudentAttendance sa) {
+
+    }*/
+
+
+
+    @SuppressLint("DefaultLocale")
+    private void processLearningInfo(StudentLearningCurve data) {
         String[] ignoredSubjects = getIgnoredSubjects(data.getSummary());
+        ArrayList<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(0, 0));
+        int termIndex = 1;
+
 
 
         Log.d(TAG, "processLearningInfo() returned: " + ignoredSubjects.length + " ignored subjects");
 
 
+        //  duyêt qua mỗi học kỳ
         for (StudentLearningCurve.Term t : data.getTerms()) {
             float average = 0f;
             int totalSubjects = t.getSubjects().size();
@@ -362,11 +366,25 @@ public class HomeFragment extends Fragment {
         }
 
 
+
+
+        String l = data.getSummary().getBorrowedCredits().split(" - ")[0];
+        String r = data.getSummary().getBorrowedCredits().split(" - ")[1];
+
+        String cgpaScores = String.format("CGPA: %s", data.getSummary().getAverageMark());
+        String borrowedCredits = String.format("Tín chỉ nợ: %s/%d - %s",
+            l, data.getSummary().getTotalCredits(), r
+        );
+
+        B.txtCGPA.setText(cgpaScores);
+        B.txtBorrowedCredits.setText(borrowedCredits);
+
         initChart(entries);
     }
 
-    String[] getIgnoredSubjects(StudentLearningCurve.Summary summaryInfo) {
+    private String[] getIgnoredSubjects(StudentLearningCurve.Summary summaryInfo) {
         return summaryInfo.getNotes().split("Điểm ")[1].split(" không tính vào Trung bình chung tích lũy.")[0].split(", ");
     }
+
 
 }

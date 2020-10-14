@@ -5,12 +5,12 @@
 
     <item
         android:drawable="@drawable/ic_grid_outline"
-        android:state_activated="false"
+        android:state_checked="false"
         />
 
     <item
         android:drawable="@drawable/ic_grid"
-        android:state_activated="true"
+        android:state_checked="true"
         />
 
 </selector>

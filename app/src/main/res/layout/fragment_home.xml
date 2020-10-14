@@ -6,263 +6,184 @@
     tools:context=".view.fragments.HomeFragment">
 
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/refresher"
+        android:background="@color/primaryGrayBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <ScrollView
-            android:id="@+id/refresher"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:paddingBottom="0dp"
+            android:orientation="vertical">
+
             <RelativeLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:scaleType="centerCrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@color/colorPrimary"/>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/homeMenu"
-                    app:cardElevation="8dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:elevation="2dp"
-                        android:background="@drawable/home_profile_bg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <LinearLayout
-                            android:id="@+id/shimmerHomeMainInfo"
-                            android:paddingBottom="15dp"
-                            android:paddingHorizontal="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:src="@color/card_bottom_color"
-                                android:id="@+id/imvAvatar"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_margin="20dp"
-                                android:layout_width="@dimen/home_avatar_size"
-                                android:layout_height="@dimen/home_avatar_size"
-                                app:civ_border_width="1dp"
-                                app:civ_border_color="@color/white"/>
-
-                            <TextView
-                                android:id="@+id/txtStudentName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="Student Name"
-                                android:textSize="18sp"
-                                android:fontFamily="@font/googlesans_regular"
-                                android:textStyle="bold"
-                                android:textColor="@color/card_bottom_color"
-                                android:background="@color/card_bottom_color"
-                                android:layout_gravity="center_horizontal"/>
-                            <TextView
-                                android:id="@+id/txtDepartment"
-                                android:layout_marginTop="10dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_horizontal"
-                                android:fontFamily="@font/googlesans_regular"
-                                android:text="Department"
-                                android:textAlignment="center"
-                                android:textColor="@color/card_bottom_color"
-                                android:background="@color/card_bottom_color"
-                                android:textSize="14sp"
-                                android:textStyle="normal" />
-                        </LinearLayout>
-                        <View
-                            android:id="@+id/homeMainInfoBorder"
-                            android:layout_below="@id/shimmerHomeMainInfo"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:background="@color/card_border_color"/>
-                        <GridLayout
-                            android:layout_marginTop="20dp"
-                            android:layout_below="@id/homeMainInfoBorder"
-                            android:background="@drawable/learning_curves_chart_bg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:columnCount="3"
-                            android:rowCount="2">
-                            <LinearLayout
-                                android:id="@+id/btnViewProfile"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:paddingVertical="10dp"
-                                android:layout_rowWeight="1"
-                                android:layout_columnWeight="1"
-                                android:orientation="vertical"
-                                android:layout_width="75dp"
-                                android:layout_height="wrap_content">
-                                <ImageView
-                                    android:id="@+id/imvProfile"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_icons8_profiles"
-                                    android:foreground="@color/card_border_color"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
-                                    android:id="@+id/txtProfile"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Hồ sơ"
-                                    android:textColor="@color/card_bottom_color"
-                                    android:background="@color/card_bottom_color"
-                                    android:textAlignment="center"
-                                    android:fontFamily="@font/googlesans_regular"
-                                    />
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/btnViewLearningPath"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:paddingVertical="10dp"
-                                android:layout_rowWeight="1"
-                                android:layout_columnWeight="1"
-                                android:orientation="vertical"
-                                android:layout_width="75dp"
-                                android:layout_height="wrap_content">
-
-                                <ImageView
-                                    android:id="@+id/imvLearningPath"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:foreground="@color/card_border_color"
-                                    android:src="@drawable/ic_icons8_waypoint_map" />
-                                <TextView
-                                    android:id="@+id/txtLearningPath"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Lộ trình"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/card_bottom_color"
-                                    android:background="@color/card_bottom_color"
-                                    android:fontFamily="@font/googlesans_regular"
-                                    />
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/btnViewExerciseInfo"
-                                android:foreground="?attr/selectableItemBackground"
-                                android:paddingVertical="10dp"
-                                android:layout_rowWeight="1"
-                                android:layout_columnWeight="1"
-                                android:orientation="vertical"
-                                android:layout_width="75dp"
-                                android:layout_height="wrap_content">
-                                <ImageView
-                                    android:id="@+id/imvExercise"
-                                    android:src="@drawable/ic_icons8_exercise"
-                                    android:foreground="@color/card_border_color"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
-                                    android:id="@+id/txtExercise"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginTop="2dp"
-                                    android:text="Rèn luyện"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/card_bottom_color"
-                                    android:background="@color/card_bottom_color"
-                                    android:fontFamily="@font/googlesans_regular"
-                                    />
-                            </LinearLayout>
-                        </GridLayout>
-                    </RelativeLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <RelativeLayout
-                    android:id="@+id/learningCurveBound"
-                    android:layout_below="@id/homeMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="20dp"
-                    android:padding="10dp"
-                    android:background="@drawable/learning_curves_chart_bg"
-                    android:elevation="1dp">
-                    <TextView
-                        android:id="@+id/learningCurveTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:text="Đường cong học tập"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/googlesans_regular"
-                        android:textStyle="bold"
-                        />
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/learningCurveChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@id/learningCurveTitle"
-                        android:layout_marginTop="10dp"
-                        />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:elevation="1dp"
-                    android:background="@drawable/learning_curves_chart_bg"
-                    android:padding="10dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="20dp"
+                <LinearLayout
+                    android:id="@+id/summary"
+                    android:elevation="0dp"
+                    android:layout_below="@id/cover"
+                    android:background="@drawable/home_summary_bg"
+                    android:layout_marginHorizontal="17dp"
+                    android:layout_marginTop="-0.05dp"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/learningCurveBound">
+                    android:paddingTop="85dp"
+                    android:paddingBottom="10dp"
+                    android:paddingHorizontal="15dp">
                     <TextView
-                        android:id="@+id/attendanceTitle"
+                        android:id="@+id/txtStudentName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:text="Điểm danh"
-                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
+                        android:textSize="@dimen/homeFrm.txtStudentName_size"
+                        android:textAlignment="center"
                         android:textStyle="bold"
-                        android:fontFamily="@font/googlesans_regular"/>
-                    <HorizontalScrollView
+                        android:textColor="@color/primaryTextColor"
+                        android:textColorHint="@color/primaryTextColor"
+                        android:hint="Student name"/>
+                    <TextView
+                        android:id="@+id/txtStudentDepartment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@id/attendanceTitle">
-                        <TableLayout
-                            android:id="@+id/tableAttendance"
-                            android:layout_marginTop="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="@dimen/homeFrm.txtDepartment_size"
+                        android:textIsSelectable="true"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryTextColor"
+                        android:textColorHint="@color/primaryTextColor"
+                        android:hint="Department"/>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/homeFrm.cover_height">
+                    <ImageView
+                        android:src="@drawable/cs2_min"
+                        android:scaleType="centerCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <View
+                        android:background="@drawable/home_frm_cover_overlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </FrameLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:visibility="visible"
+                    android:id="@+id/imvAvatar"
+                    android:src="#FFEB3B"
+                    android:elevation="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="@dimen/homeFrm.avatar_size"
+                    android:layout_height="@dimen/homeFrm.avatar_size"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-90dp"
+                    android:layout_below="@id/cover"
+                    app:civ_border_width="5dp"
+                    app:civ_border_color="#fff"
+                    />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="13dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true"
+                    app:cardElevation="1dp"
+                    app:cardCornerRadius="3dp">
+                    <LinearLayout
+                        android:background="#fff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:orientation="vertical">
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/txtCGPA"
+                                android:layout_columnWeight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="CGPA"
+                                android:padding="10dp"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textIsSelectable="true"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/primaryTextColor"/>
+                            <TextView
+                                android:id="@+id/txtBorrowedCredits"
+                                android:layout_columnWeight="2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="Tín chỉ nợ"
+                                android:padding="10dp"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:textIsSelectable="true"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/primaryTextColor"/>
+                        </GridLayout>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/learningCurveChart"
+                            android:layout_marginTop="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/homeFrm.learningCurveChart_height"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:scrollbars="horizontal"
-                            android:isScrollContainer="true">
-                            <TableRow android:background="@drawable/attendance_table_bg">
-                                <TextView
-                                    android:paddingHorizontal="20dp"
-                                    android:paddingVertical="10dp"
-                                    android:layout_weight="1" android:text="Môn học"/>
-                                <TextView
-                                    android:paddingHorizontal="20dp"
-                                    android:paddingVertical="10dp"
-                                    android:layout_weight="1" android:text="Nghỉ có phép"/>
-                                <TextView
-                                    android:paddingHorizontal="20dp"
-                                    android:paddingVertical="10dp"
-                                    android:layout_weight="1" android:text="Nghỉ không phép"/>
-                            </TableRow>
-                        </TableLayout>
-                    </HorizontalScrollView>
+                            android:text="Điểm danh vắng mặt"
+                            android:padding="10dp"
+                            android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:textColor="@color/primaryTextColor"
+                            />
+                        <LinearLayout
+                            android:id="@+id/attendanceInfoCard"
+                            android:background="#fff"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:orientation="vertical"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-                </RelativeLayout>
-            </RelativeLayout>
-        </ScrollView>
-    </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
 </layout>

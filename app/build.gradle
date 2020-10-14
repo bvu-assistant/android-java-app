@@ -74,6 +74,11 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //
+    implementation ('com.github.niorgai:StatusBarCompat:2.3.3', {
+        exclude group: 'androidx.appcompat:appcompat'
+        exclude group: 'com.google.android.material:material'
+    })
 
     //  Other
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
@@ -89,6 +94,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.eightbitlab:blurview:1.6.3'
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
+
 
     //  Floating Action Button
     implementation 'com.getbase:floatingactionbutton:1.10.1'

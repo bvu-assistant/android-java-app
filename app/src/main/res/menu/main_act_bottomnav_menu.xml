@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainBottomNavConnectingBtn"
+        android:icon="@drawable/icon_message"
+        android:title="@string/main_tabbar_first_title"/>
+
+    <item android:id="@+id/mainBottomNavCalendarBtn"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/main_tabbar_second_title"/>
+
+    <item android:id="@+id/mainBottomNavHomeBtn"
+        android:icon="@drawable/icon_home"
+        android:title="@string/main_tabbar_third_title"/>
+
+    <item android:id="@+id/mainBottomNavNotificationBtn"
+        android:icon="@drawable/icon_bell"
+        android:title="@string/main_tabbar_fourth_title"/>
+
+    <item android:id="@+id/mainBottomNavSettingsBtn"
+        android:icon="@drawable/icon_hamburger_menu"
+        android:title="@string/main_tabbar_fifth_title"/>
+</menu>

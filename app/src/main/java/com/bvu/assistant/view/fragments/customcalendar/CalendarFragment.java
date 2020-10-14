@@ -94,6 +94,7 @@ public class CalendarFragment extends Fragment {
         //  Initial setups
         B.calendarView.setupAsync(currentMonth.minusMonths(3), currentMonth.plusMonths(3), daysOfWeek[0], () -> {
             B.calendarView.scrollToMonth(currentMonth);
+            Toast.makeText(getContext(), "creating calendar...", Toast.LENGTH_SHORT).show();
             return null;
         });
 
@@ -159,7 +160,7 @@ public class CalendarFragment extends Fragment {
             String monthStr = monthTitleFormatter.format(calendarMonth.getYearMonth());
             int yearNum = calendarMonth.getYearMonth().getYear();
             @SuppressLint("DefaultLocale") String title = String.format("%s, năm %d", StringUtils.capitalize(monthStr), yearNum);
-            mMainActMonthViewChanger.onMonthValueChange(title);
+            mMainActMonthViewChanger.onCalendarMonthValueChanged(title);
 
             return null;
         });
@@ -176,8 +177,10 @@ public class CalendarFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        String ssid = getActivity().getIntent().getStringExtra("ssid");
+//        String ssid = getActivity().getIntent().getStringExtra("ssid");
 //        getTesScheduleResponse(ssid);
+
+//        Toast.makeText(getContext(), "Calendar fragment", Toast.LENGTH_SHORT).show();
     }
 
 
