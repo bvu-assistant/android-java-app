@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentHomeBinding;
 import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
+import com.bvu.assistant.view.activities.MainActivity;
 import com.bvu.assistant.viewmodel.retrofit.student_attendance.AttendanceAPI;
 import com.bvu.assistant.viewmodel.retrofit.student_attendance.StudentAttendance;
 import com.bvu.assistant.viewmodel.retrofit.student_learning_curve.LearningCurveAPI;
@@ -50,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import qiu.niorgai.StatusBarCompat;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,7 +100,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*assignEvents();*/
+        assignEvents();
 
         Activity activity = getActivity();
         Intent intent = activity == null? null: activity.getIntent();
@@ -107,8 +111,48 @@ public class HomeFragment extends Fragment {
         getLearningInfo(ssid);
     }
 
-    void assignEvents() {
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (!hidden) {
+            StatusBarCompat.translucentStatusBar(getActivity());
+        }
+    }
+
+    void assignEvents() {
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        for (int i = 0, rowCount = B.functionsBounder.getChildCount(); i < rowCount; ++i) {
+            TableRow row = (TableRow) B.functionsBounder.getChildAt(i);
+
+            for (int j = 0, columnCount = row.getChildCount(); j < columnCount; ++j) {
+                LinearLayout btn = (LinearLayout) row.getChildAt(j);
+                int finalI = i;
+                btn.setOnClickListener(v -> {
+                    HomeFunctionsFragment f = new HomeFunctionsFragment();
+
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .show(f)
+                        .hide(activity.activeFragment)
+                        .addToBackStack(null)
+                        .commit();
+                });
+            }
+        }
     }
 
 
@@ -209,7 +253,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setAvatar(String name) {
-        String host = "https://ui-avatars.com/api/?size=175&background=ff9d1e&color=fff&name=";
+        String host = "https://ui-avatars.com/api/?size=175&background=f0e9e9&color=8e6161&name=";
         Picasso.get().load(host + name).into(B.imvAvatar);
     }
 
@@ -284,7 +328,7 @@ public class HomeFragment extends Fragment {
 
 
             //  sa.getExcusedAbsences() + sa.getUnExcusedAbsences(); new Random().nextInt(sa.getCredits() + 1)
-            int absences = sa.getExcusedAbsences() + sa.getUnExcusedAbsences();
+            int absences = new Random().nextInt(sa.getCredits() + 1);
             int allowedAbsences = Math.round(sa.getCredits());
             float percents = 1.0f * absences / sa.getCredits() * 100;
 

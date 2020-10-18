@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityMonth
     private static final String SAVED_STATE_CURRENT_KEY = "CurrentKey";
 
     private final String TAG = "MainActivity";
-    private ActivityMainBinding B;
+    public ActivityMainBinding B;
 
     private ArrayList<Fragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
     private ArrayList<String> mainScreenActionBarBarTitles;     //  listing các tiêu đề của ActionBar
     private ArrayList<Fragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
-    private  Fragment activeFragment;
+    public Fragment activeFragment;
 
     private int currentTabIndex = 0;
     private String currentMonthValue = "";
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMonth
     private void hideActionBarAtHomeFragment(int itemIndex) {
         if (itemIndex == 2) {
             B.mainActionBar.setVisibility(View.GONE);
-            StatusBarCompat.translucentStatusBar(this, true);
+            StatusBarCompat.translucentStatusBar(this);
         }
         else {
             B.mainActionBar.setVisibility(View.VISIBLE);

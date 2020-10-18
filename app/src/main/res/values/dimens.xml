@@ -22,6 +22,8 @@
     <dimen name="homeFrm.txtDepartment_size">14sp</dimen>
     <dimen name="homeFrm.txtStudentName_size">20sp</dimen>
     <dimen name="homeFrm.learningCurveChart_height">135dp</dimen>
+    <dimen name="homeFrm.gridTextSize">13sp</dimen>
+    <dimen name="homeFrm.gridTextPadding">5dp</dimen>
 
 
     <dimen name="tabLayout_border_height">0.15dp</dimen>

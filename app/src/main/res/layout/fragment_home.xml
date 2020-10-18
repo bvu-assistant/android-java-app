@@ -80,7 +80,7 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:visibility="visible"
                     android:id="@+id/imvAvatar"
-                    android:src="#FFEB3B"
+                    android:src="#f0e9e9"
                     android:elevation="0dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="@dimen/homeFrm.avatar_size"
@@ -102,6 +102,227 @@
                 android:padding="13dp"
                 android:orientation="vertical">
 
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardElevation="1dp"
+                    app:cardCornerRadius="3dp">
+                    <TableLayout
+                        android:id="@+id/functionsBounder"
+                        android:background="@color/primaryWhiteBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TableRow>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_id"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Hồ sơ" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_target"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Lộ trình"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_hierarchy"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Office 365" />
+                            </LinearLayout>
+                        </TableRow>
+                        <TableRow>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_money"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Công nợ" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_banknote"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Phiếu thu"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_medalofhonor"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Khen thưởng" />
+                            </LinearLayout>
+                        </TableRow>
+                        <TableRow>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_data_analytics"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Điểm học tập" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_save_water"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Điểm rèn luyện"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:background="?selectableItemBackground"
+                                android:padding="10dp"
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <ImageView
+                                    android:src="@drawable/ic_clock"
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingTop="@dimen/homeFrm.gridTextPadding"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/primaryTextColor"
+                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:text="Điểm danh" />
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
+                </androidx.cardview.widget.CardView>
+
+
                 <androidx.cardview.widget.CardView
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
@@ -110,9 +331,9 @@
                     app:cardElevation="1dp"
                     app:cardCornerRadius="3dp">
                     <LinearLayout
-                        android:background="#fff"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/primaryWhiteBackground"
                         android:paddingBottom="10dp"
                         android:orientation="vertical">
                         <GridLayout
@@ -161,6 +382,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/primaryWhiteBackground"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
