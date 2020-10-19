@@ -18,9 +18,9 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="m">
-        <activity android:name=".view.activities.HomeFunctionsActivity" android:theme="@style/OfficeViewerAct"/>
+        <activity android:name=".ui.main.home.functions.HomeFunctionsActivity" android:theme="@style/OfficeViewerAct"/>
         <activity
-            android:name=".view.activities.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:launchMode="singleInstance"
             android:theme="@style/LoginAct">
@@ -30,15 +30,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.NewsDetailActivity"
+            android:name=".ui.main.news.details.NewsDetailActivity"
             android:launchMode="standard"
             android:theme="@style/OfficeViewerAct" />
         <activity
-            android:name=".view.activities.DocumentViewerActivity"
+            android:name=".ui.document_viewer.DocumentViewerActivity"
             android:launchMode="singleTop"
             android:theme="@style/OfficeViewerAct" />
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -51,14 +51,14 @@
         </activity>
 
         <service
-            android:name=".services.MyFirebaseMessagingService"
+            android:name=".system.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".services.NewsListenerService"
+            android:name=".system.services.NewsListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="ON_NEW_HEADLINES" />

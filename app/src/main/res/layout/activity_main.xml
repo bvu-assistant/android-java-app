@@ -3,8 +3,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.activities.MainActivity"
+    tools:context=".ui.main.MainActivity"
     tools:ignore="HardcodedText">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.bvu.assistant.ui.main.MainActivityViewModel" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,6 +20,7 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/mainActionBar"
+            android:visibility="@{viewModel.isActionBarShowing? View.VISIBLE: View.GONE}"
             android:layout_width="match_parent"
             android:layout_height="@dimen/mainAct.actionBar.height"
             android:layout_alignParentTop="true"
@@ -27,7 +35,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="@string/actionbar_default_title"
+                    android:text="@{viewModel.actionBarTitle, default=`Action Bar`}"
                     android:fontFamily="sans-serif-black"
                     android:gravity="center_vertical"
                     android:background="@android:color/transparent"
@@ -36,6 +44,7 @@
 
                 <EditText
                     android:id="@+id/edtSearchNews"
+                    android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:inputType="text"
@@ -64,7 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingEnd="15dp"
-                    android:text="Tháng 7"
+                    android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"
+                    android:text="@{viewModel.monthValue.content, default=`Tháng 7`"
                     android:gravity="center_vertical"
                     android:background="@android:color/transparent"
                     android:textColor="@color/example_7_yellow"

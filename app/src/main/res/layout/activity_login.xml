@@ -2,10 +2,16 @@
 
 <layout>
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.bvu.assistant.ui.login.LoginActivityViewModel" />
+    </data>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".view.activities.LoginActivity"
+        tools:context=".ui.login.LoginActivity"
         tools:ignore="hardCodedText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,56 +53,76 @@
                 android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtUsername"
-                    android:inputType="number"
-                    android:importantForAutofill="no"
-                    android:digits="0123456789"
-                    android:maxLength="8"
-                    android:singleLine="true"
-                    android:nextFocusDown="@id/edtPassword"
-                    android:imeOptions="actionNext"
-                    android:drawableLeft="@drawable/ic_icons8_user_male"
-                    android:drawableTint="@color/white"
-                    android:drawablePadding="10dp"
-                    android:background="@drawable/login_act_input_bg"
-                    android:paddingVertical="@dimen/loginAct.main_ver_padding"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:layout_marginHorizontal="@dimen/loginAct.main_hor_margin"
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mã sinh viên"
-                    android:fontFamily="@font/googlesans_regular"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/loginAct.main_input_text_size"
-                    android:textColorHint="@color/white"/>
+                    app:hintEnabled="false"
+                    app:startIconDrawable="@drawable/ic_icons8_user_male"
+                    app:startIconTint="#fff"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtUsername"
+                        android:inputType="number"
+                        android:importantForAutofill="no"
+                        android:digits="0123456789"
+                        android:maxLength="8"
+                        android:singleLine="true"
+                        android:nextFocusDown="@id/edtPassword"
+                        android:imeOptions="actionNext"
+                        android:background="@drawable/login_act_input_bg"
+                        android:paddingVertical="@dimen/loginAct.main_ver_padding"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_marginHorizontal="@dimen/loginAct.main_hor_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mã sinh viên"
+                        android:fontFamily="@font/googlesans_regular"
+                        android:text="@={viewModel.StudentId}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/loginAct.main_input_text_size"
+                        android:textColorHint="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtPassword"
-                    android:inputType="textPassword"
-                    android:importantForAutofill="no"
-                    android:imeOptions="actionGo"
-                    android:drawableLeft="@drawable/ic_icons8_lock"
-                    android:drawableTint="@color/white"
-                    android:drawablePadding="10dp"
-                    android:background="@drawable/login_act_input_bg"
-                    android:paddingVertical="@dimen/loginAct.main_ver_padding"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:layout_marginHorizontal="@dimen/loginAct.main_hor_margin"
-                    android:layout_marginTop="8dp"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mật khẩu"
-                    android:fontFamily="@font/googlesans_regular"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/loginAct.main_input_text_size"
-                    android:textColorHint="@color/white"/>
+                    app:hintEnabled="false"
+                    app:startIconDrawable="@drawable/ic_icons8_lock"
+                    app:startIconTint="#fff"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleDrawable="@drawable/ic_eye"
+                    app:passwordToggleTint="#fff">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPassword"
+                        android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:imeOptions="actionGo"
+                        android:background="@drawable/login_act_input_bg"
+                        android:paddingVertical="@dimen/loginAct.main_ver_padding"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_marginHorizontal="@dimen/loginAct.main_hor_margin"
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Mật khẩu"
+                        android:fontFamily="@font/googlesans_regular"
+                        android:text="@={viewModel.Password}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/loginAct.main_input_text_size"
+                        android:textColorHint="@color/white"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/checkRemember"
+                    android:checked="@={viewModel.Remembered}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -111,6 +137,7 @@
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/btnLogin"
+                    android:onClick="@{(v) -> viewModel.onBtnLoginClicked(v)}"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

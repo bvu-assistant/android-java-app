@@ -11,7 +11,7 @@
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
-        tools:context=".view.fragments.customcalendar.CalendarFragment">
+        tools:context=".ui.main.calendar.CalendarFragment">
 
 
         <include layout="@layout/fragment_calendar_day_legend"/>
