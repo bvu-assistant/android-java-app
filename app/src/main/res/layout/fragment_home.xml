@@ -136,7 +136,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Hồ sơ" />
+                                    android:text="@string/homeFrm.grid.firstTitle" />
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -158,7 +158,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Lộ trình"/>
+                                    android:text="@string/homeFrm.grid.secondTitle"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -180,7 +180,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Office 365" />
+                                    android:text="@string/homeFrm.grid.thirdTitle" />
                             </LinearLayout>
                         </TableRow>
                         <TableRow>
@@ -204,7 +204,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Công nợ" />
+                                    android:text="@string/homeFrm.grid.fourthTitle" />
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -226,7 +226,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Phiếu thu"/>
+                                    android:text="@string/homeFrm.grid.fifthTitle"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -248,7 +248,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Khen thưởng" />
+                                    android:text="@string/homeFrm.grid.sixthTitle" />
                             </LinearLayout>
                         </TableRow>
                         <TableRow>
@@ -272,7 +272,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Điểm học tập" />
+                                    android:text="@string/homeFrm.grid.seventhTitle" />
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -294,7 +294,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Điểm rèn luyện"/>
+                                    android:text="@string/homeFrm.grid.eighthTitle"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:background="?selectableItemBackground"
@@ -316,7 +316,7 @@
                                     android:textAlignment="center"
                                     android:textColor="@color/primaryTextColor"
                                     android:textSize="@dimen/homeFrm.gridTextSize"
-                                    android:text="Điểm danh" />
+                                    android:text="@string/homeFrm.grid.ninthTitle" />
                             </LinearLayout>
                         </TableRow>
                     </TableLayout>

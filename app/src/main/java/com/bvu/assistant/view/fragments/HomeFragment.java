@@ -1,52 +1,38 @@
 package com.bvu.assistant.view.fragments;
 
-import android.animation.TimeInterpolator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentHomeBinding;
 import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
-import com.bvu.assistant.view.activities.MainActivity;
+import com.bvu.assistant.model.Student;
+import com.bvu.assistant.view.activities.HomeFunctionsActivity;
 import com.bvu.assistant.viewmodel.retrofit.student_attendance.AttendanceAPI;
-import com.bvu.assistant.viewmodel.retrofit.student_attendance.StudentAttendance;
 import com.bvu.assistant.viewmodel.retrofit.student_learning_curve.LearningCurveAPI;
-import com.bvu.assistant.viewmodel.retrofit.student_learning_curve.StudentLearningCurve;
-import com.bvu.assistant.viewmodel.retrofit.student_profile.StudentProfile;
 import com.bvu.assistant.viewmodel.retrofit.student_profile.StudentProfileAPI;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -122,35 +108,25 @@ public class HomeFragment extends Fragment {
     }
 
     void assignEvents() {
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    return true;
-                }
-                return false;
-            }
-        });
-
         for (int i = 0, rowCount = B.functionsBounder.getChildCount(); i < rowCount; ++i) {
             TableRow row = (TableRow) B.functionsBounder.getChildAt(i);
 
             for (int j = 0, columnCount = row.getChildCount(); j < columnCount; ++j) {
                 LinearLayout btn = (LinearLayout) row.getChildAt(j);
-                int finalI = i;
-                btn.setOnClickListener(v -> {
-                    HomeFunctionsFragment f = new HomeFunctionsFragment();
 
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.getSupportFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .show(f)
-                        .hide(activity.activeFragment)
-                        .addToBackStack(null)
-                        .commit();
-                });
+                for (int k = 0, viewCount = btn.getChildCount(); k < viewCount; ++k) {
+                    View v = btn.getChildAt(k);
+
+                    if (v instanceof TextView) {
+                        TextView txtFunctions = (TextView) v;
+                        btn.setOnClickListener(view -> {
+                            Intent intent = new Intent(getActivity(), HomeFunctionsActivity.class);
+                            intent.putExtra("functions", txtFunctions.getText());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            getContext().startActivity(intent);
+                        });
+                    }
+                }
             }
         }
     }
@@ -166,11 +142,11 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "onResponse: " + ssid);
 
         api.get(ssid)
-            .enqueue(new Callback<StudentLearningCurve>() {
+            .enqueue(new Callback<Student.LearningScores>() {
                 @Override
-                public void onResponse(Call<StudentLearningCurve> call, Response<StudentLearningCurve> response) {
+                public void onResponse(Call<Student.LearningScores> call, Response<Student.LearningScores> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        StudentLearningCurve result = response.body();
+                        Student.LearningScores result = response.body();
                         processLearningInfo(result);
                     }
                     else {
@@ -180,7 +156,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<StudentLearningCurve> call, Throwable t) {
+                public void onFailure(Call<Student.LearningScores> call, Throwable t) {
                     Log.e(TAG, "onFailure: ", t);
                     Toast.makeText(getContext(), "Failed to get learning info", Toast.LENGTH_SHORT).show();
                 }
@@ -198,11 +174,11 @@ public class HomeFragment extends Fragment {
 
 
         api.getAttendance(ssid)
-            .enqueue(new Callback<List<StudentAttendance>>() {
+            .enqueue(new Callback<List<Student.AttendanceInfo>>() {
                 @Override
-                public void onResponse(Call<List<StudentAttendance>> call, Response<List<StudentAttendance>> response) {
+                public void onResponse(Call<List<Student.AttendanceInfo>> call, Response<List<Student.AttendanceInfo>> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        List<StudentAttendance> result = response.body();
+                        List<Student.AttendanceInfo> result = response.body();
                         processAttendanceInfo(result);
                     }
                     else {
@@ -211,7 +187,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<List<StudentAttendance>> call, Throwable t) {
+                public void onFailure(Call<List<Student.AttendanceInfo>> call, Throwable t) {
                     Log.e(TAG, "onFailure: ", t.getCause());
                     Toast.makeText(getContext(), "Failed to get attendance info", Toast.LENGTH_SHORT).show();
                 }
@@ -228,12 +204,12 @@ public class HomeFragment extends Fragment {
 
 
         api.getProfile(ssid)
-            .enqueue(new Callback<StudentProfile>() {
+            .enqueue(new Callback<Student.Profile>() {
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onResponse(Call<StudentProfile> call, Response<StudentProfile> response) {
+                public void onResponse(Call<Student.Profile> call, Response<Student.Profile> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        StudentProfile result = response.body();
+                        Student.Profile result = response.body();
 
                         setAvatar(result.getName());
                         B.txtStudentName.setText(result.getName() + " - " + result.getLearningStatus().getClassName());
@@ -245,7 +221,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<StudentProfile> call, Throwable t) {
+                public void onFailure(Call<Student.Profile> call, Throwable t) {
                     Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "onFailure: ", t.getCause());
                 }
@@ -318,12 +294,12 @@ public class HomeFragment extends Fragment {
 
 
     @SuppressLint("DefaultLocale")
-    private void processAttendanceInfo(List<StudentAttendance> dataList) {
+    private void processAttendanceInfo(List<Student.AttendanceInfo> dataList) {
         LayoutInflater inflater = getLayoutInflater();
         long delay = 200;
         long duration = 750L;
 
-        for (StudentAttendance sa : dataList) {
+        for (Student.AttendanceInfo sa : dataList) {
             HomeFrmAttendanceItemBinding itemBinding = DataBindingUtil.inflate(inflater, R.layout.home_frm_attendance_item, null, false);
 
 
@@ -351,23 +327,8 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-    /*private float getAttendancePercents(StudentAttendance sa) {
-
-    }
-
-    private int getAttendanceProgressBarColor(StudentAttendance sa) {
-
-    }
-
-    private String getAttendanceFraction(StudentAttendance sa) {
-
-    }*/
-
-
-
     @SuppressLint("DefaultLocale")
-    private void processLearningInfo(StudentLearningCurve data) {
+    private void processLearningInfo(Student.LearningScores data) {
         String[] ignoredSubjects = getIgnoredSubjects(data.getSummary());
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(0, 0));
@@ -379,11 +340,11 @@ public class HomeFragment extends Fragment {
 
 
         //  duyêt qua mỗi học kỳ
-        for (StudentLearningCurve.Term t : data.getTerms()) {
+        for (Student.LearningScores.Term t : data.getTerms()) {
             float average = 0f;
             int totalSubjects = t.getSubjects().size();
 
-            for (StudentLearningCurve.Subject s : t.getSubjects()) {
+            for (Student.LearningScores.Subject s : t.getSubjects()) {
                 try {
                     boolean isIgnored = false;
                     for (String is: ignoredSubjects) {
@@ -426,9 +387,8 @@ public class HomeFragment extends Fragment {
         initChart(entries);
     }
 
-    private String[] getIgnoredSubjects(StudentLearningCurve.Summary summaryInfo) {
+    private String[] getIgnoredSubjects(Student.LearningScores.Summary summaryInfo) {
         return summaryInfo.getNotes().split("Điểm ")[1].split(" không tính vào Trung bình chung tích lũy.")[0].split(", ");
     }
-
 
 }

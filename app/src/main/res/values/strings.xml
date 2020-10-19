@@ -15,6 +15,17 @@
     <string name="main_tabbar_fifth_title">Cài đặt</string>
 
 
+    <string name="homeFrm.grid.firstTitle">Hồ sơ</string>
+    <string name="homeFrm.grid.secondTitle">Lộ trình</string>
+    <string name="homeFrm.grid.thirdTitle">Office 365</string>
+    <string name="homeFrm.grid.fourthTitle">Công nợ</string>
+    <string name="homeFrm.grid.fifthTitle">Phiếu thu</string>
+    <string name="homeFrm.grid.sixthTitle">Khen thưởng</string>
+    <string name="homeFrm.grid.seventhTitle">Điểm học tập</string>
+    <string name="homeFrm.grid.eighthTitle">Điểm rèn luyện</string>
+    <string name="homeFrm.grid.ninthTitle">Điểm danh</string>
+
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

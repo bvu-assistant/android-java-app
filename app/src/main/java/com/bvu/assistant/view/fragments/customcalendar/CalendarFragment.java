@@ -20,10 +20,10 @@ import androidx.fragment.app.Fragment;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentCalendarBinding;
 import com.bvu.assistant.databinding.FragmentCalendarDayViewBinding;
+import com.bvu.assistant.model.Student;
 import com.bvu.assistant.view.fragments.customcalendar.helpers.ExtensionsKt;
 import com.bvu.assistant.viewmodel.interfaces.MainActivityMonthViewChanger;
 import com.bvu.assistant.viewmodel.retrofit.schedule.ScheduleAPI;
-import com.bvu.assistant.viewmodel.retrofit.schedule.TestSchedule;
 import com.kizitonwose.calendarview.model.CalendarDay;
 import com.kizitonwose.calendarview.model.DayOwner;
 import com.kizitonwose.calendarview.ui.DayBinder;
@@ -195,9 +195,9 @@ public class CalendarFragment extends Fragment {
 
 
         scheduleAPI.get(ssid)
-                .enqueue(new Callback<TestSchedule>() {
+                .enqueue(new Callback<Student.TestSchedule>() {
                     @Override
-                    public void onResponse(Call<TestSchedule> call, Response<TestSchedule> response) {
+                    public void onResponse(Call<Student.TestSchedule> call, Response<Student.TestSchedule> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             Log.d(TAG, "onResponse() returned: " + response.body().getSchedules().get(0).getSubjectName());
                             return;
@@ -207,7 +207,7 @@ public class CalendarFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<TestSchedule> call, Throwable t) {
+                    public void onFailure(Call<Student.TestSchedule> call, Throwable t) {
                         Toast.makeText(getContext(), "Có lỗi trong quá trình xử lý thông tin lịch", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "onFailure: " + t.getMessage() + t + call);
                     }

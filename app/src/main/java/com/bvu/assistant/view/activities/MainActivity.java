@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMonth
     private final String TAG = "MainActivity";
     public ActivityMainBinding B;
 
-    private ArrayList<Fragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
+    public ArrayList<Fragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
     private ArrayList<String> mainScreenActionBarBarTitles;     //  listing các tiêu đề của ActionBar
     private ArrayList<Fragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
     public Fragment activeFragment;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityMonth
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
-        //  khởi tạo va thêm tất cả các fragment (của BottomNav) trong Activity này
+        //  khởi tạo và thêm tất cả các fragment (của BottomNav) trong Activity này
         fragmentTransaction
             .add(R.id.mainFragmentContainer, childBottomNavFragments.get(0), "ConnectingFragment")
             .hide(childBottomNavFragments.get(0));
@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityMonth
         //  tiến hành replace fragment
         Fragment newFragment = childBottomNavFragments.get(itemIndex);
         FragmentTransaction transaction = manager.beginTransaction();
-        //transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
         transaction.hide(activeFragment).show(newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
