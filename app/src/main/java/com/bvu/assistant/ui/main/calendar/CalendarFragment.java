@@ -1,7 +1,6 @@
 package com.bvu.assistant.ui.main.calendar;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
@@ -23,9 +21,7 @@ import com.bvu.assistant.databinding.FragmentCalendarBinding;
 import com.bvu.assistant.databinding.FragmentCalendarDayViewBinding;
 import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.ui.base.BaseFragment;
-import com.bvu.assistant.ui.main.calendar.helpers.CalendarFragmentViewModel;
 import com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt;
-import com.bvu.assistant.data.model.interfaces.MainActivityMonthViewChanger;
 import com.bvu.assistant.data.repository.retrofit.schedule.TestScheduleAPI;
 import com.kizitonwose.calendarview.model.CalendarDay;
 import com.kizitonwose.calendarview.model.DayOwner;
@@ -88,11 +84,9 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
 
 
         //  Initial setups
-        B.calendarView.setupAsync(currentMonth.minusMonths(3), currentMonth.plusMonths(3), daysOfWeek[0], () -> {
-            B.calendarView.scrollToMonth(currentMonth);
-            Toast.makeText(getContext(), "creating calendar...", Toast.LENGTH_SHORT).show();
-            return null;
-        });
+        B.calendarView.setup(currentMonth.minusMonths(3), currentMonth.plusMonths(3), daysOfWeek[0]);
+        B.calendarView.scrollToMonth(currentMonth);
+        Toast.makeText(getContext(), "creating calendar...", Toast.LENGTH_SHORT).show();
 
 
         //  Set the height for each DayView
@@ -168,16 +162,6 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        String ssid = getActivity().getIntent().getStringExtra("ssid");
-//        getTesScheduleResponse(ssid);
-
-//        Toast.makeText(getContext(), "Calendar fragment", Toast.LENGTH_SHORT).show();
-    }
-
 
     private void getTesScheduleResponse(String ssid) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -207,10 +191,6 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
                         Log.d(TAG, "onFailure: " + t.getMessage() + t + call);
                     }
                 });
-    }
-
-    private void updateCalendarForData() {
-
     }
 
 

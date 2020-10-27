@@ -1,14 +1,12 @@
 package com.bvu.assistant.ui.main.home;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,12 +15,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentHomeBinding;
 import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
 import com.bvu.assistant.data.model.Student;
+import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.home.functions.HomeFunctionsActivity;
 import com.bvu.assistant.data.repository.retrofit.student_attendance.AttendanceAPI;
 import com.bvu.assistant.data.repository.retrofit.student_learning_curve.LearningCurveAPI;
@@ -48,54 +49,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragmentViewModel> {
     private static final String TAG = "HomeFragmentTAG";
-    FragmentHomeBinding B;
     ArrayList<Entry> charData;
 
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        B = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
-        return B.getRoot();
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        assignEvents();
-
-        Activity activity = getActivity();
-        Intent intent = activity == null? null: activity.getIntent();
-        String ssid = intent == null? "": intent.getStringExtra("ssid");
-
-        getProfile(ssid);
-        getAttendanceInfo(ssid);
-        getLearningInfo(ssid);
-    }
 
 
     @Override
@@ -107,132 +64,76 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    void assignEvents() {
-        for (int i = 0, rowCount = B.functionsBounder.getChildCount(); i < rowCount; ++i) {
-            TableRow row = (TableRow) B.functionsBounder.getChildAt(i);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-            for (int j = 0, columnCount = row.getChildCount(); j < columnCount; ++j) {
-                LinearLayout btn = (LinearLayout) row.getChildAt(j);
+        VM = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        B.setViewModel(VM);
 
-                for (int k = 0, viewCount = btn.getChildCount(); k < viewCount; ++k) {
-                    View v = btn.getChildAt(k);
+        observe();
+    }
 
-                    if (v instanceof TextView) {
-                        TextView txtFunctions = (TextView) v;
-                        btn.setOnClickListener(view -> {
-                            Intent intent = new Intent(getActivity(), HomeFunctionsActivity.class);
-                            intent.putExtra("functions", txtFunctions.getText());
-                            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            getContext().startActivity(intent);
-                        });
+
+    @SuppressLint("SetTextI18n")
+    private void observe() {
+        String ssid = activity.getIntent().getStringExtra("ssid");
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                VM.getProfileInfo(ssid).observe(getViewLifecycleOwner(), profile -> {
+                    if (profile != null) {
+                        setAvatar(profile.getName());
+                        B.txtStudentName.setText(profile.getName() + " - " + profile.getLearningStatus().getClassName());
+                        B.txtStudentDepartment.setText(profile.getLearningStatus().getDepartment());
+
+                        Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+                        intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_firstTitle));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
                     }
-                }
+                });
             }
-        }
+        });
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                VM.getAttendanceInfo(ssid).observe(getViewLifecycleOwner(), attendanceInfo -> {
+                    if (attendanceInfo != null) {
+                        processAttendanceInfo(attendanceInfo);
+
+                        Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+                        intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_ninthTitle));
+                        B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
+                    }
+                });
+            }
+        });
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                VM.getLearningScores(ssid).observe(getViewLifecycleOwner(), learningScores -> {
+                    if (learningScores != null) {
+                        processLearningInfo(learningScores);
+
+                        Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+                        intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_seventhTitle));
+                        B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
+                    }
+                });
+            }
+        });
     }
 
 
-    private void getLearningInfo(String ssid) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.login_api_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        LearningCurveAPI api = retrofit.create(LearningCurveAPI.class);
-        Log.i(TAG, "onResponse: " + ssid);
-
-        api.get(ssid)
-            .enqueue(new Callback<Student.LearningScores>() {
-                @Override
-                public void onResponse(Call<Student.LearningScores> call, Response<Student.LearningScores> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        Student.LearningScores result = response.body();
-                        processLearningInfo(result);
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Failed to get learning info", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "onResponse: " + response.body());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Student.LearningScores> call, Throwable t) {
-                    Log.e(TAG, "onFailure: ", t);
-                    Toast.makeText(getContext(), "Failed to get learning info", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-    }
-
-    private void getAttendanceInfo(String ssid) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.login_api_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        AttendanceAPI api = retrofit.create(AttendanceAPI.class);
-
-
-        api.getAttendance(ssid)
-            .enqueue(new Callback<List<Student.AttendanceInfo>>() {
-                @Override
-                public void onResponse(Call<List<Student.AttendanceInfo>> call, Response<List<Student.AttendanceInfo>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        List<Student.AttendanceInfo> result = response.body();
-                        processAttendanceInfo(result);
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Failed to get attendance info", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<Student.AttendanceInfo>> call, Throwable t) {
-                    Log.e(TAG, "onFailure: ", t.getCause());
-                    Toast.makeText(getContext(), "Failed to get attendance info", Toast.LENGTH_SHORT).show();
-                }
-            });
-    }
-
-    private void getProfile(String ssid) {
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://bvu-loginner.herokuapp.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-        StudentProfileAPI api = retrofit.create(StudentProfileAPI.class);
-
-
-        api.getProfile(ssid)
-            .enqueue(new Callback<Student.Profile>() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onResponse(Call<Student.Profile> call, Response<Student.Profile> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        Student.Profile result = response.body();
-
-                        setAvatar(result.getName());
-                        B.txtStudentName.setText(result.getName() + " - " + result.getLearningStatus().getClassName());
-                        B.txtStudentDepartment.setText(result.getLearningStatus().getDepartment());
-                    }
-                    else {
-                        Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Student.Profile> call, Throwable t) {
-                    Toast.makeText(getContext(), "Get profile failed", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "onFailure: ", t.getCause());
-                }
-            });
-    }
 
     private void setAvatar(String name) {
         String host = "https://ui-avatars.com/api/?size=175&background=f0e9e9&color=8e6161&name=";
         Picasso.get().load(host + name).into(B.imvAvatar);
     }
-
 
     private void initChart(ArrayList<Entry> entries) {
         charData = new ArrayList<>();
@@ -304,7 +205,7 @@ public class HomeFragment extends Fragment {
 
 
             //  sa.getExcusedAbsences() + sa.getUnExcusedAbsences(); new Random().nextInt(sa.getCredits() + 1)
-            int absences = new Random().nextInt(sa.getCredits() + 1);
+            int absences = sa.getExcusedAbsences() + sa.getUnExcusedAbsences();
             int allowedAbsences = Math.round(sa.getCredits());
             float percents = 1.0f * absences / sa.getCredits() * 100;
 
@@ -389,6 +290,18 @@ public class HomeFragment extends Fragment {
 
     private String[] getIgnoredSubjects(Student.LearningScores.Summary summaryInfo) {
         return summaryInfo.getNotes().split("Điểm ")[1].split(" không tính vào Trung bình chung tích lũy.")[0].split(", ");
+    }
+
+
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    public int getBindingVariables() {
+        return BR.viewModel;
     }
 
 }

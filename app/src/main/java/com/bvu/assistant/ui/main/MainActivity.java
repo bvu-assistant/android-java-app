@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -28,8 +24,6 @@ import com.bvu.assistant.ui.main.news.NewsFragment;
 import com.bvu.assistant.ui.main.settings.SettingsFragment;
 import com.bvu.assistant.ui.main.calendar.CalendarFragment;
 import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
-import com.bvu.assistant.data.model.interfaces.MainActivityChildFragmentGainer;
-import com.bvu.assistant.data.model.interfaces.MainActivityMonthViewChanger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -71,15 +65,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         VM.bottomNavBadges.observe(this, new Observer<List<Integer>>() {
             @Override
             public void onChanged(List<Integer> integers) {
-                Toast.makeText(MainActivity.this, "Bottom nav item clicked", Toast.LENGTH_SHORT).show();
                 for (int i = 0, length = integers.size(); i < length; ++i) {
-                    updateTabItemBadge(bottomNavItemsId.get(i), i);
-                    Log.i(TAG, "onChanged: " + integers.get(i));
+                    updateTabItemBadge(i, integers.get(i));
                 }
             }
         });
     }
-
 
     private void initAndMapping() {
         childNewsCommonFragments = new ArrayList<>();
@@ -201,8 +192,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         //  khi nhấn cùng 1 nút, không xử lý
         if (itemIndex == currentTabIndex) {
             ArrayList<Integer> newList = VM.bottomNavBadges.getValue();
-            newList.set(itemIndex, new Random().nextInt(100));
+            newList.set(itemIndex, new Random().nextInt(101));
             VM.bottomNavBadges.setValue(newList);
+
+            Log.i(TAG, "replaceFragment: " + newList.toString());
             return;
         }
 
@@ -229,31 +222,34 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
             //  ẩn/hiện searchBar dựa vào itemIndex
             handleSearchBarVisibility(itemIndex);
 
-
-            hideActionBarAtHomeFragment(itemIndex);
+            handleActionBarVisibility(itemIndex);
         }
     }
 
     private void handleMonthValueVisibility(int itemIndex) {
+        MainActivityViewModel.MonthTitle newTitle = VM.monthValue.getValue();
+
         switch (itemIndex) {
             case 1: {
-                VM.monthValue.getValue().setVisible(true);
+                newTitle.setVisible(true);
+                VM.monthValue.setValue(newTitle);
                 break;
             }
 
             default: {
-                VM.monthValue.getValue().setVisible(false);
+                newTitle.setVisible(false);
+                VM.monthValue.setValue(newTitle);
             }
         }
     }
 
-    private void hideActionBarAtHomeFragment(int itemIndex) {
+    private void handleActionBarVisibility(int itemIndex) {
         if (itemIndex == 2) {
-            B.mainActionBar.setVisibility(View.GONE);
+            VM.isActionBarShowing.setValue(false);
             StatusBarCompat.translucentStatusBar(this);
         }
         else {
-            B.mainActionBar.setVisibility(View.VISIBLE);
+            VM.isActionBarShowing.setValue(true);
             StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.primaryHeader));
         }
     }
@@ -261,12 +257,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
     private void handleSearchBarVisibility(int tabIndex) {
         switch (tabIndex) {
             case 3: {
-                B.edtSearchNews.setVisibility(View.VISIBLE);
+                VM.isSearchBarShowing.setValue(true);
                 break;
             }
 
             default: {
-                B.edtSearchNews.setVisibility(View.GONE);
+                VM.isSearchBarShowing.setValue(false);
             }
         }
     }
@@ -300,14 +296,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
 
     /**
-     * @param itemId tab item muốn hiển thị | zero-based
+     * @param tabIndex tab item muốn hiển thị | zero-based
      * @param number số lượng muốn hiển thị trên Badge | nếu là 0 thì ẩn
      */
-    private void updateTabItemBadge(int itemId, int number) {
-        Toast.makeText(this, "inside updateTabItemBadge: " + number, Toast.LENGTH_SHORT).show();
-
+    private void updateTabItemBadge(int tabIndex, int number) {
         //   khởi tạo BadgeDrawable
-        BadgeDrawable drawable = B.mainBottomNavView.getOrCreateBadge(itemId);
+        BadgeDrawable drawable = B.mainBottomNavView.getOrCreateBadge(bottomNavItemsId.get(tabIndex));
         drawable.setBadgeGravity(BadgeDrawable.TOP_END);
         drawable.setBackgroundColor(getResources().getColor(R.color.BadgeBackgroundColor));
         drawable.setVerticalOffset(10);
@@ -318,6 +312,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
             drawable.setVisible(false);
         }
         else {
+            drawable.setVisible(true);
             drawable.setNumber(number);
         }
     }

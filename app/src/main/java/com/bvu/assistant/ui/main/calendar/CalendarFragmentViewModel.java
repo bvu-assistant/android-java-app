@@ -1,4 +1,4 @@
-package com.bvu.assistant.ui.main.calendar.helpers;
+package com.bvu.assistant.ui.main.calendar;
 
 import com.bvu.assistant.ui.base.BaseViewModel;
 

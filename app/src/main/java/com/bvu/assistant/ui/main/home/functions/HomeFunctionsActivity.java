@@ -14,9 +14,12 @@ import com.bvu.assistant.ui.main.home.functions.profile.ProfileFragment;
 import java.util.ArrayList;
 
 public class HomeFunctionsActivity extends AppCompatActivity {
+    public static final String INTENT_KEY = "functions";
+
     private ActivityHomeFunctionsBinding B;
     private ArrayList<String> functionsList;
     private FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,7 @@ public class HomeFunctionsActivity extends AppCompatActivity {
         initFunctionsList();
 
         Intent receivedIntent = getIntent();
-        String functions = receivedIntent.getStringExtra("functions");
+        String functions = receivedIntent.getStringExtra(INTENT_KEY);
 
         B.actionBar.setTitle(functions);
         B.actionBar.setNavigationOnClickListener( v -> {
@@ -36,7 +39,8 @@ public class HomeFunctionsActivity extends AppCompatActivity {
         });
 
 
-        handleFunctions(functions);
+        if (functions != null)
+            handleFunctions(functions);
     }
 
     private void handleFunctions(String functions) {

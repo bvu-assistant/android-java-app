@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 
 public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseViewModel> extends Fragment {
@@ -71,7 +72,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         B = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        B.getRoot().setOnClickListener( v -> hideKeyboard());
+        B.getRoot().setOnClickListener(v -> hideKeyboard());
         return B.getRoot();
     }
 
@@ -83,7 +84,6 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         B.setLifecycleOwner(this);
         B.executePendingBindings();
     }
-
 
 
     public void hideKeyboard() {

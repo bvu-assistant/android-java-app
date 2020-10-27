@@ -30,54 +30,54 @@
                 app:cv_hasBoundaries="true"
                 app:cv_scrollMode="paged" />
 
-<!--            <GridLayout-->
-<!--                android:id="@+id/calendarViewDescription"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_marginTop="1dp"-->
-<!--                android:layout_marginBottom="2dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:columnCount="2"-->
-<!--                android:rowCount="1"-->
-<!--                android:background="@color/white"-->
-<!--                android:layout_height="40dp">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent">-->
-<!--                    <View-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_width="@dimen/calendar_description_box_size"-->
-<!--                        android:layout_height="@dimen/calendar_description_box_size"-->
-<!--                        android:background="@color/colorPrimary"/>-->
+            <GridLayout
+                android:id="@+id/calendarViewDescription"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
+                android:layout_width="match_parent"
+                android:columnCount="2"
+                android:rowCount="1"
+                android:background="@color/white"
+                android:layout_height="40dp">
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <View
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/calendar_description_box_size"
+                        android:layout_height="@dimen/calendar_description_box_size"
+                        android:background="@color/colorPrimary"/>
 
-<!--                    <TextView-->
-<!--                        android:layout_width="74dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:gravity="center"-->
-<!--                        android:padding="10dp"-->
-<!--                        android:text="Lịch học" />-->
-<!--                </LinearLayout>-->
+                    <TextView
+                        android:layout_width="74dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Lịch học" />
+                </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_columnWeight="1"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent">-->
-<!--                    <View-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_width="@dimen/calendar_description_box_size"-->
-<!--                        android:layout_height="@dimen/calendar_description_box_size"-->
-<!--                        android:background="@android:color/holo_orange_dark"/>-->
-<!--                    <TextView-->
-<!--                        android:gravity="center"-->
-<!--                        android:padding="10dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:text="Lịch thi"/>-->
-<!--                </LinearLayout>-->
-<!--            </GridLayout>-->
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <View
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/calendar_description_box_size"
+                        android:layout_height="@dimen/calendar_description_box_size"
+                        android:background="@android:color/holo_orange_dark"/>
+                    <TextView
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Lịch thi"/>
+                </LinearLayout>
+            </GridLayout>
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
