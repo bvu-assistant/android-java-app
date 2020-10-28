@@ -14,13 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.bvu.assistant.ui.login.LoginActivityViewModel;
+import com.bvu.assistant.ui.main.news.common.NewsFragmentAttachedCallback;
 import com.bvu.assistant.utils.NetworkStatusChecker;
 
 
-public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity implements BaseFragment.callback {
+public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel>
+        extends AppCompatActivity
+        implements BaseFragment.callback, NewsFragmentAttachedCallback {
 
     protected T B;
     protected V VM;
@@ -112,4 +113,5 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     public void onFragmentDetached(String tag) {
 
     }
+
 }

@@ -19,28 +19,11 @@ import com.bvu.assistant.ui.base.BaseFragment;
 
 
 public class RulesFragment extends BaseFragment<FragmentRulesBinding, RulesFragmentViewModel> {
-    MainActivityChildFragmentGainer mainActivityChildFragmentGainer;
-
-    public RulesFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.fragment_rules;
-    }
-
-    @Override
-    public int getBindingVariables() {
-        return BR.viewModel;
-    }
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        B = getViewDataBinding();
 
         RulesPagerAdapter adapter = new RulesPagerAdapter(getChildFragmentManager(), 0);
         B.rulesViewPager.setAdapter(adapter);
@@ -65,6 +48,18 @@ public class RulesFragment extends BaseFragment<FragmentRulesBinding, RulesFragm
             tab.setLayoutParams(layoutParams);
             B.rulesTabBar.requestLayout();
         }
+    }
+
+
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_rules;
+    }
+
+    @Override
+    public int getBindingVariables() {
+        return BR.viewModel;
     }
 
 }

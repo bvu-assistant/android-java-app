@@ -16,6 +16,9 @@ public class MainActivityViewModel extends BaseViewModel {
     public MutableLiveData<MonthTitle> monthValue = new MutableLiveData<>();
     public MutableLiveData<ArrayList<Integer>> bottomNavBadges = new MutableLiveData<>();
 
+    public MutableLiveData<Integer> bottomNavHeight = new MutableLiveData<>();
+    public MutableLiveData<Integer> fragmentContainerHeight = new MutableLiveData<>();
+
 
     public MainActivityViewModel() {
         isActionBarShowing.setValue(false);
@@ -28,6 +31,9 @@ public class MainActivityViewModel extends BaseViewModel {
         bottomNavBadges.getValue().add(0);
         bottomNavBadges.getValue().add(0);
         bottomNavBadges.getValue().add(0);
+
+        bottomNavHeight.setValue(0);
+        fragmentContainerHeight.setValue(0);
     }
 
 

@@ -36,7 +36,7 @@
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="scrollable"
                 app:tabRippleColor="@null"
-                app:tabTextColor="@color/card_border_color"
+                app:tabTextColor="@color/primaryTextColor"
                 app:tabSelectedTextColor="@color/facebookColor"
                 app:tabTextAppearance="@style/RulesTabBarTextTheme">
                 <com.google.android.material.tabs.TabItem

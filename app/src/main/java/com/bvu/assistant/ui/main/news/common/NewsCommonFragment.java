@@ -20,62 +20,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.data.repository.article.Article;
 import com.bvu.assistant.system.services.NewsListenerService;
+import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.news.NewsRecyclerAdapter;
 import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
 import com.bvu.assistant.data.model.interfaces.MainActivityBadger;
 import com.bvu.assistant.data.model.interfaces.MainActivityChildFragmentGainer;
 import com.bvu.assistant.data.model.interfaces.NewsFragmentBadger;
+import com.bvu.assistant.utils.Constants;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
 
-public class NewsCommonFragment extends Fragment implements CommonNewsSearchCallback {
+public class NewsCommonFragment
+        extends BaseFragment<FragmentNewsCommonBinding, NewsCommonFragmentViewModel>
+        implements CommonNewsSearchCallback {
+
     private static final String TAG = "NewsCommonFragment";
-
-    private static final String[] FIRESTORE_DOC_PATH = new String[] {
-            "",
-            "Trang Chủ ",
-            "Tin tức Sinh viên - Học viên",
-            "",
-            "Học bổng - Khen thưởng",
-            "Hoạt động SV",
-            "Sau Đại học",
-
-            "Quy Định Đào tạo",
-            "Biểu mẫu SV",
-            "Quy định Công tác Sinh viên",
-            "Các Hướng Dẫn cho sinh viên"
-    };
-
-    Context context;
-    FirebaseFirestore db;   //  getInstance onAttach()
-    FragmentNewsCommonBinding B;
-    NewsRecyclerAdapter adapter;
-    ArrayList<Article> dataList;
-
-
-    MainActivityBadger mMainActBadgerCallback;
-    MainActivityChildFragmentGainer mMainActivityChildFragmentGainer;
-    NewsFragmentBadger mNewsFrmBadgerCallback;
-
-
-
     private static final String ARGUMENT_TAB_POSITION = "POSITION";
+    private static final String[] FIRESTORE_DOC_PATH = Constants.NEWS_CATEGORY_TITLES;
+
+    private FirebaseFirestore db;   //  getInstance onAttach()
+    private NewsRecyclerAdapter adapter;
+    private ArrayList<Article> dataList;
     private int tabPosition;
 
 
-    public NewsCommonFragment() {
-        // Required empty public constructor
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_news_common;
     }
+
+    @Override
+    public int getBindingVariables() {
+        return BR.viewModel;
+    }
+
 
 
     //  return A new instance of fragment NewsCommonFragment.
@@ -89,41 +80,6 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
         return fragment;
     }
 
-
-    @Override
-    public void onAttach(@NonNull Context context) {    //  Context always is the Activity that hold this Fragment
-        super.onAttach(context);
-//        Log.i(TAG, "onAttach: [Activity] " + context.getClass().getName());
-
-
-        try {
-            this.context = context;
-            mMainActBadgerCallback = (MainActivityBadger) context;
-//            mMainActivityChildFragmentGainer = (MainActivityChildFragmentGainer) context;
-            //  Log.i(TAG, "onAttach: [Activity] " + context.getClass());
-
-            mNewsFrmBadgerCallback = (NewsFragmentBadger) getParentFragment();
-            //  Log.i(TAG, "onAttach: [Fragment]" + mNewsFrmBadgerCallback.getClass());
-
-
-            //  Notify to the MainActivity
-//            Log.i(TAG, "onAttach: " + tabPosition + " - " + this.getActivity());
-//            mMainActivityChildFragmentGainer.onNewFragmentAttached(this);
-        }
-        catch (ClassCastException e) {
-//              Toast.makeText(getContext(), "The MainActivity not yet implemented the Badger Interface", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mMainActBadgerCallback = null;
-        mNewsFrmBadgerCallback = null;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,9 +91,17 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        activity.onNewsFragmentAttached(B);
+    }
 
-        B = DataBindingUtil.inflate(inflater, R.layout.fragment_news_common, container, false);
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        db = FirebaseFirestore.getInstance();
 
         B.refresher.setColorSchemeColors(
             Color.rgb(0, 138, 230),
@@ -146,25 +110,16 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
             Color.rgb(245, 0, 53)
         );
 
-        db = FirebaseFirestore.getInstance();
-
-        return B.getRoot();
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
 
         //  Register receiver && start the Service --> listen for FireStore data changes
-        this.context.registerReceiver(new NewsReceiver(), new IntentFilter(NewsReceiver.NEW_ARTICLE_ACTION));
-        this.context.startService(new Intent(this.context, NewsListenerService.class));
+        activity.registerReceiver(new NewsReceiver(), new IntentFilter(NewsReceiver.NEW_ARTICLE_ACTION));
+        activity.startService(new Intent(activity, NewsListenerService.class));
 
 
         dataList = new ArrayList<>();
-        adapter = new NewsRecyclerAdapter(dataList, this.context, getActivity(), getFragmentManager());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        adapter = new NewsRecyclerAdapter(dataList, activity, getActivity(), getFragmentManager());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
 
         B.recycler.setAdapter(adapter);
         B.recycler.setItemAnimator(new DefaultItemAnimator());
@@ -189,8 +144,6 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
     private void getCloudData() {
         B.refresher.setRefreshing(true);
         String docPath = "news/details/" + FIRESTORE_DOC_PATH[this.tabPosition];
-//        Log.i(TAG, "getting CloudData..." + docPath);
-
 
         db.collection(docPath)
                 .limit(20)
@@ -205,24 +158,20 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> record = document.getData();
 
-//                            Log.i(TAG, "got CloudData: " + document.getId());
-
                             Article item = new Article(
-                                    FIRESTORE_DOC_PATH[this.tabPosition],
-                                    record.get("Title").toString(),
-                                    record.get("Date").toString(),
-                                    record.get("Link").toString(),
-                                    (Boolean)record.get("IsNew"),
-                                    false
+                                FIRESTORE_DOC_PATH[this.tabPosition],
+                                record.get("Title").toString(),
+                                record.get("Date").toString(),
+                                record.get("Link").toString(),
+                                (Boolean)record.get("IsNew"),
+                                false
                             );
 
                             dataList.add(item);
-
                             if (item.isNew()) {
                                 isNewsArticleCounter++;
                             }
                         }
-
 
                         notifyDataChanged();
                     } else {
@@ -234,10 +183,10 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
 
     @Override
     public void onTypeComplete(String searchKeyWords) {
-//        if (searchKeyWords.isEmpty())
-//            return;
+        /*if (searchKeyWords.isEmpty())
+            return;
 
-//        List<Article> lastData = new ArrayList<>(dataList);
+        List<Article> lastData = new ArrayList<>(dataList);*/
         adapter.getFilter().filter(searchKeyWords);
     }
 
@@ -253,10 +202,9 @@ public class NewsCommonFragment extends Fragment implements CommonNewsSearchCall
                 Article a = (Article) intent.getSerializableExtra("article");
                 Toast.makeText(context, a.getTitle(), Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "onReceive: " + a.getTitle());
-
-//                dataList.add(0, a);
-//                adapter.notifyItemInserted(0);
             }
         }
     }
+
+
 }

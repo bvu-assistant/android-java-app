@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="testColor">#8DFFFFFF</color>
+
     <color name="colorPrimary">#0078d7</color>
     <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorAccent">#03DAC5</color>
@@ -38,8 +40,8 @@
     <color name="home_frm_attendance_normal_bg">#b6bbd8</color>
 
     <color name="main_act_tabbar_bg">#fff</color>
-    <color name="main_act_tabbar_border_bg">#6DDFDFDF</color>
-
+    <color name="main_act_tabbar_border_bg">#97DFDFDF</color>
+    <color name="main_act_bottomnav_overlay">#54FFFFFF</color>
 
     <!--    Custom Calendar View   -->
     <color name="example_1_bg">#3A284C</color>

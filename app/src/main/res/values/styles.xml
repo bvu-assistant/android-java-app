@@ -67,8 +67,18 @@
         <item name="android:textAlignment">center</item>
     </style>
     <style name="OfficeViewerAct.ActionBar.SubtitleTheme">
-        <item name="font">@font/googlesans_regular</item>
+        <item name="fontFamily">@font/googlesans_regular</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <!--  HomeFragment  -->
+    <style name="HomeFragment"/>
+    <style name="HomeFragment.GridTextAppearance">
+        <item name="font">@font/googlesans_bold</item>
+        <item name="android:textSize">@dimen/homeFrm.gridTextSize</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
 

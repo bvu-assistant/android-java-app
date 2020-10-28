@@ -50,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragmentViewModel> {
-    private static final String TAG = "HomeFragmentTAG";
+    private static final String TAG = "HomeFragment";
     ArrayList<Entry> charData;
 
 
@@ -203,9 +203,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
         for (Student.AttendanceInfo sa : dataList) {
             HomeFrmAttendanceItemBinding itemBinding = DataBindingUtil.inflate(inflater, R.layout.home_frm_attendance_item, null, false);
 
-
-            //  sa.getExcusedAbsences() + sa.getUnExcusedAbsences(); new Random().nextInt(sa.getCredits() + 1)
-            int absences = sa.getExcusedAbsences() + sa.getUnExcusedAbsences();
+            /*int absences = sa.getExcusedAbsences() + sa.getUnExcusedAbsences();*/
+            int absences = new Random().nextInt(sa.getCredits() + 1);
             int allowedAbsences = Math.round(sa.getCredits());
             float percents = 1.0f * absences / sa.getCredits() * 100;
 

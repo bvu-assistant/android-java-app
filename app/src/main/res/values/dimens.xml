@@ -13,6 +13,7 @@
     <dimen name="mainAct.bottomNav.textActiveSize">11sp</dimen>
     <dimen name="mainAct.actionBar.height">60dp</dimen>
     <dimen name="mainAct.actionBar.textSize">26sp</dimen>
+    <item name="mainAct.bottomNav.blurRadius" type="dimen" format="float">25.0</item>
 
 
     <!--  Home Fragment  -->
@@ -24,9 +25,15 @@
     <dimen name="homeFrm.learningCurveChart_height">135dp</dimen>
     <dimen name="homeFrm.gridTextSize">13sp</dimen>
     <dimen name="homeFrm.gridTextPadding">5dp</dimen>
+    <dimen name="homeFrm.gridIconSize">26dp</dimen>
 
 
-    <dimen name="tabLayout_border_height">0.15dp</dimen>
+    <!--  NewsCommon Fragment  -->
+    <dimen name="newsCommonFrm.recycler.vertical_padding">30dp</dimen>
+
+
+
+    <dimen name="tabLayout_border_height">0.55dp</dimen>
     <dimen name="tabLayout_text_size">10sp</dimen>
 
     <dimen name="news_card_radius">6dp</dimen>

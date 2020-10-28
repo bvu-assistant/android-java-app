@@ -1,5 +1,5 @@
-<vector android:height="32dp" android:viewportHeight="512"
-    android:viewportWidth="512" android:width="32dp"
+<vector android:height="@dimen/homeFrm.gridIconSize" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="@dimen/homeFrm.gridIconSize"
     xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:pathData="m256,91c-90.981,0 -165,74.019 -165,165s74.019,165 165,165 165,-74.019 165,-165 -74.019,-165 -165,-165z">
         <aapt:attr name="android:fillColor">

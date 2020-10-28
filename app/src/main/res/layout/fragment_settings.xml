@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.settings.SettingsFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/primaryBackground">
 
-    <TextView
-        android:id="@+id/sampleText"
+<layout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.main.settings.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:text="Settings" />
+        android:orientation="vertical"
+        android:background="@color/primaryBackground">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnToggleBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Toggle badge" />
+        <TextView
+            android:id="@+id/sampleText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:text="Settings" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swtSwiping"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/btnToggleBadge"
-        android:layout_centerInParent="true"
-        android:text="Swiping switcher" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnToggleBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Toggle badge" />
 
-</RelativeLayout>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swtSwiping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnToggleBadge"
+            android:layout_centerInParent="true"
+            android:text="Swiping switcher" />
+
+    </RelativeLayout>
+</layout>

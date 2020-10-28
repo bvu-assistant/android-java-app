@@ -13,7 +13,8 @@
 
     <ScrollView
         android:id="@+id/refresher"
-        android:background="@color/primaryGrayBackground"
+        android:clipToPadding="false"
+        android:background="@color/primaryBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -52,7 +53,7 @@
                         android:textAlignment="center"
                         android:textStyle="bold"
                         android:textColor="@color/primaryTextColor"
-                        android:textColorHint="@color/primaryTextColor"
+                        android:textColorHint="@android:color/transparent"
                         android:hint="Student name"/>
                     <TextView
                         android:id="@+id/txtStudentDepartment"
@@ -63,7 +64,7 @@
                         android:textIsSelectable="true"
                         android:textAlignment="center"
                         android:textColor="@color/primaryTextColor"
-                        android:textColorHint="@color/primaryTextColor"
+                        android:textColorHint="@android:color/transparent"
                         android:hint="Department"/>
                 </LinearLayout>
 
@@ -139,9 +140,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.firstTitle" />
                             </LinearLayout>
                             <LinearLayout
@@ -152,19 +151,19 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
+
                                 <ImageView
-                                    android:src="@drawable/ic_target"
-                                    android:layout_gravity="center"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_target" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.secondTitle"/>
                             </LinearLayout>
                             <LinearLayout
@@ -185,9 +184,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.thirdTitle" />
                             </LinearLayout>
                         </TableRow>
@@ -210,9 +207,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.fourthTitle" />
                             </LinearLayout>
                             <LinearLayout
@@ -233,9 +228,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.fifthTitle"/>
                             </LinearLayout>
                             <LinearLayout
@@ -256,9 +249,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.sixthTitle" />
                             </LinearLayout>
                         </TableRow>
@@ -281,9 +272,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.seventhTitle" />
                             </LinearLayout>
                             <LinearLayout
@@ -304,9 +293,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.eighthTitle"/>
                             </LinearLayout>
                             <LinearLayout
@@ -327,9 +314,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:paddingTop="@dimen/homeFrm.gridTextPadding"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/primaryTextColor"
-                                    android:textSize="@dimen/homeFrm.gridTextSize"
+                                    android:textAppearance="@style/HomeFragment.GridTextAppearance"
                                     android:text="@string/homeFrm.grid.ninthTitle" />
                             </LinearLayout>
                         </TableRow>

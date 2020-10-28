@@ -95,29 +95,33 @@
             android:id="@+id/mainFragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/mainActionBarBorder"
-            android:layout_above="@id/mainBottomNavBarBorder"/>
+            android:layout_below="@id/mainActionBarBorder"/>
 
         <View
             android:id="@+id/mainBottomNavBarBorder"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tabLayout_border_height"
-            android:layout_above="@id/mainBottomNavView"
+            android:layout_above="@id/mainBottomNavBounder"
             android:background="@color/main_act_tabbar_border_bg" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/mainBottomNavView"
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/mainBottomNavBounder"
+            android:elevation="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="1dp"
-            android:background="@color/main_act_tabbar_bg"
-            app:elevation="8dp"
-            app:itemBackground="?selectableItemBackground"
-            app:itemTextAppearanceActive="@style/MainAct.BottomNavBar.TextActive"
-            app:itemTextAppearanceInactive="@style/MainAct.BottomNavBar.TextInactive"
-            app:labelVisibilityMode="labeled"
-            app:menu="@menu/main_act_bottomnav_menu" />
+            android:layout_alignParentBottom="true">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/mainBottomNavView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_act_bottomnav_bg"
+                app:itemBackground="?selectableItemBackground"
+                app:itemTextAppearanceActive="@style/MainAct.BottomNavBar.TextActive"
+                app:itemTextAppearanceInactive="@style/MainAct.BottomNavBar.TextInactive"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/main_act_bottomnav_menu" />
+        </eightbitlab.com.blurview.BlurView>
 
     </RelativeLayout>
 

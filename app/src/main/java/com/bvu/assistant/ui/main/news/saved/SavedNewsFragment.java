@@ -16,46 +16,15 @@ import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentSavedNewsBinding;
 import com.bvu.assistant.data.repository.room.SqLiteArticleHelper;
 import com.bvu.assistant.data.repository.room.SqLiteArticleHelperCallback;
+import com.bvu.assistant.ui.base.BaseFragment;
 //import com.bvu.assistant.viewmodel.repository.SqLiteArticleHelperKt;
 
 import org.jetbrains.annotations.NotNull;
 
 
-public class SavedNewsFragment extends Fragment implements SqLiteArticleHelperCallback {
-    FragmentSavedNewsBinding B;
-
-
-
-    public SavedNewsFragment() {
-        // Required empty public constructor
-    }
-
-    public static SavedNewsFragment newInstance() {
-        return new SavedNewsFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_saved_news, container, false);
-    }
-
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        B = FragmentSavedNewsBinding.bind(view);
-
-
-    }
-
+public class SavedNewsFragment
+        extends BaseFragment<FragmentSavedNewsBinding, SavedNewsFragmentViewModel>
+        implements SqLiteArticleHelperCallback {
 
 
     private void loadSavedArticles(TextView txt) {
@@ -73,4 +42,17 @@ public class SavedNewsFragment extends Fragment implements SqLiteArticleHelperCa
     public void onDatabaseTransactionFailure(@NotNull String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
+
+
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_saved_news;
+    }
+
+    @Override
+    public int getBindingVariables() {
+        return 0;
+    }
+
 }

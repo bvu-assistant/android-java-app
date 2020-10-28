@@ -2,11 +2,15 @@ package com.bvu.assistant.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Toast;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,13 +21,15 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.ActivityMainBinding;
+import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.ui.base.BaseActivity;
+import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.connecting.ConnectingFragment;
 import com.bvu.assistant.ui.main.home.HomeFragment;
 import com.bvu.assistant.ui.main.news.NewsFragment;
-import com.bvu.assistant.ui.main.settings.SettingsFragment;
 import com.bvu.assistant.ui.main.calendar.CalendarFragment;
 import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
+import com.bvu.assistant.ui.main.settings.SettingsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -35,18 +41,21 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import eightbitlab.com.blurview.RenderScriptBlur;
 import qiu.niorgai.StatusBarCompat;
 
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityViewModel> {
+public class MainActivity
+        extends BaseActivity<ActivityMainBinding, MainActivityViewModel> {
+
     private final String TAG = "MainActivity";
 
-    public ArrayList<Fragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
+    private ArrayList<BaseFragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
     private ArrayList<String> mainScreenActionBarBarTitles;     //  listing các tiêu đề của ActionBar
-    private ArrayList<Fragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
-    public Fragment activeFragment;
-    private int currentTabIndex = 0;
+    private ArrayList<BaseFragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
     private List<Integer> bottomNavItemsId;
+    private int currentTabIndex = 0;
+    public BaseFragment activeFragment;
 
 
     @Override
@@ -56,11 +65,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         B.setViewModel(VM);
 
         initAndMapping();
+        styling();
         handleBottomNavBar();
+        handleSearchBarTypingCompleted();
         handleFirebaseInstanceId();
         observe();
     }
 
+
+    /* initial methods */
     private void observe() {
         VM.bottomNavBadges.observe(this, new Observer<List<Integer>>() {
             @Override
@@ -70,6 +83,34 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
                 }
             }
         });
+
+
+        VM.fragmentContainerHeight.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != 0) {
+                    if (VM.bottomNavHeight.getValue() != 0) {
+                        changeChildrenFragmentsPadding(integer.intValue());
+                    }
+                }
+            }
+        });
+
+        VM.bottomNavHeight.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer != 0) {
+                    if (VM.bottomNavHeight.getValue() != 0) {
+                        changeChildrenFragmentsPadding(integer.intValue());
+                    }
+                }
+            }
+        });
+    }
+
+    private void styling() {
+        blurBottomNavBar();
+        reSetUpFragmentContainerPadding();
     }
 
     private void initAndMapping() {
@@ -89,7 +130,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         bottomNavItemsId.add(R.id.mainBottomNavConnectingBtn);
         bottomNavItemsId.add(R.id.mainBottomNavCalendarBtn);
         bottomNavItemsId.add(R.id.mainBottomNavHomeBtn);
-        bottomNavItemsId.add(R.id.mainBottomNavNotificationBtn);
+        bottomNavItemsId.add(R.id.mainBottomNavNewsBtn);
         bottomNavItemsId.add(R.id.mainBottomNavSettingsBtn);
 
         //  list các fragments của BottomNav
@@ -99,27 +140,54 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         childBottomNavFragments.add(new HomeFragment());
         childBottomNavFragments.add(new NewsFragment());
         childBottomNavFragments.add(new SettingsFragment());
+    }
 
 
-        //  xử lý sự kiện edtSearch text changed
-        B.edtSearchNews.addTextChangedListener(new TextWatcher() {
+
+    /* styling */
+    private void blurBottomNavBar() {
+        TypedValue value = new TypedValue();
+        getResources().getValue(R.dimen.mainAct_bottomNav_blurRadius, value, true);
+
+        float radius = value.getFloat();
+        View decorView = getWindow().getDecorView();
+        Drawable windowBackground = decorView.getBackground();
+
+        B.mainBottomNavBounder.setupWith((ViewGroup)B.getRoot())
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(new RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setOverlayColor(getResources().getColor(R.color.main_act_bottomnav_overlay))
+            .setHasFixedTransformationMatrix(false);
+    }
+
+    private void reSetUpFragmentContainerPadding() {
+        B.mainBottomNavBounder.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                for (Fragment frm: childNewsCommonFragments) {
-                    ((CommonNewsSearchCallback)frm).onTypeComplete(s.toString());
-                }
+            public void onGlobalLayout() {
+                VM.bottomNavHeight.setValue(B.mainBottomNavBounder.getHeight());
+                B.mainBottomNavBounder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
+        B.mainFragmentContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                VM.fragmentContainerHeight.setValue(B.mainFragmentContainer.getHeight());
+                B.mainFragmentContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void changeChildrenFragmentsPadding(int number) {
+        for (BaseFragment frm: childBottomNavFragments) {
+
+            //  bỏ qua màn hình News (Tin tức - Màn hình tin tức sẽ xử lý sau)
+            if (frm.getClass() == childBottomNavFragments.get(3).getClass())
+                continue;
+
+            frm.getViewDataBinding().getRoot().setPadding(0, 0, 0, number);
+        }
     }
 
 
@@ -140,8 +208,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         fragmentTransaction
             .add(R.id.mainFragmentContainer, childBottomNavFragments.get(1), "CalendarFragment")
             .hide(childBottomNavFragments.get(1));
-        fragmentTransaction
-                .add(R.id.mainFragmentContainer, activeFragment, "HomeFragment");
+        fragmentTransaction.add(R.id.mainFragmentContainer, activeFragment, "HomeFragment");
         fragmentTransaction
             .add(R.id.mainFragmentContainer, childBottomNavFragments.get(3), "NewsFragment")
             .hide(childBottomNavFragments.get(3));
@@ -160,7 +227,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         B.mainBottomNavView.setSelectedItemId(R.id.mainBottomNavHomeBtn);
     }
 
-
     private void replaceFragment(FragmentManager manager, int itemId) {
         int itemIndex = 0;  //  dùng để thay đổi tiêu đề của ActionBar
 
@@ -178,7 +244,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
                 itemIndex = 2;
                 break;
             }
-            case R.id.mainBottomNavNotificationBtn: {
+            case R.id.mainBottomNavNewsBtn: {
                 itemIndex = 3;
                 break;
             }
@@ -201,7 +267,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
 
         //  tiến hành replace fragment
-        Fragment newFragment = childBottomNavFragments.get(itemIndex);
+        BaseFragment newFragment = childBottomNavFragments.get(itemIndex);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.hide(activeFragment).show(newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -267,6 +333,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         }
     }
 
+    private void handleSearchBarTypingCompleted() {
+        //  xử lý sự kiện edtSearch text changed
+        B.edtSearchNews.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                for (Fragment frm: childNewsCommonFragments) {
+                    ((CommonNewsSearchCallback)frm).onTypeComplete(s.toString());
+                }
+            }
+        });
+    }
+
     private void handleFirebaseInstanceId() {
         OnCompleteListener<InstanceIdResult> onCompleteListener;
 
@@ -319,6 +407,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
 
 
+
+    /* overriding parent methods */
     @Override
     public Intent newIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -333,4 +423,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
     public int getBindingVariables() {
         return BR.viewModel;
     }
+
+
+
+    /* NewsCommon fragments attached */
+    @Override
+    public void onNewsFragmentAttached(FragmentNewsCommonBinding B) {
+        int bottomNavHeight = VM.bottomNavHeight.getValue();
+        B.recycler
+            .setPadding(
+                0,
+                (int)getResources().getDimension(R.dimen.newsCommonFrm_recycler_vertical_padding),
+                0,
+                bottomNavHeight
+        );
+    }
+
+    @Override
+    public void onNewsFragmentDetached(BaseFragment fragment) {
+
+    }
+
 }

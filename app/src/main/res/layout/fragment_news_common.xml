@@ -8,12 +8,13 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresher"
+        android:clipToPadding="false"
         android:background="@color/primaryBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
-            android:paddingVertical="30dp"
+            android:paddingVertical="@dimen/newsCommonFrm.recycler.vertical_padding"
             android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
