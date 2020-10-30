@@ -257,11 +257,6 @@ public class MainActivity
 
         //  khi nhấn cùng 1 nút, không xử lý
         if (itemIndex == currentTabIndex) {
-            ArrayList<Integer> newList = VM.bottomNavBadges.getValue();
-            newList.set(itemIndex, new Random().nextInt(101));
-            VM.bottomNavBadges.setValue(newList);
-
-            Log.i(TAG, "replaceFragment: " + newList.toString());
             return;
         }
 

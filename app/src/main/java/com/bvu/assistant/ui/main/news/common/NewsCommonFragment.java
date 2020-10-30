@@ -9,15 +9,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bvu.assistant.BR;
@@ -26,20 +23,16 @@ import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.data.repository.article.Article;
 import com.bvu.assistant.system.services.NewsListenerService;
 import com.bvu.assistant.ui.base.BaseFragment;
-import com.bvu.assistant.ui.main.news.NewsRecyclerAdapter;
+import com.bvu.assistant.ui.main.MainActivity;
+import com.bvu.assistant.ui.main.MainActivityViewModel;
 import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
-import com.bvu.assistant.data.model.interfaces.MainActivityBadger;
-import com.bvu.assistant.data.model.interfaces.MainActivityChildFragmentGainer;
-import com.bvu.assistant.data.model.interfaces.NewsFragmentBadger;
 import com.bvu.assistant.utils.Constants;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
 
 
 public class NewsCommonFragment
@@ -173,7 +166,16 @@ public class NewsCommonFragment
                             }
                         }
 
+
                         notifyDataChanged();
+                        if(isNewsArticleCounter > 0)
+                            if (activity instanceof MainActivity) {
+                                MainActivityViewModel mVM = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
+
+                                ArrayList<Integer> newList = mVM.bottomNavBadges.getValue();
+                                newList.set(3, newList.get(3) + isNewsArticleCounter);
+                                mVM.bottomNavBadges.setValue(newList);
+                            }
                     } else {
                         Toast.makeText(getContext(), "Failed to get data from Firebase CloudFireStore", Toast.LENGTH_SHORT).show();
                     }

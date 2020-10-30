@@ -1,5 +1,7 @@
 <resources>
 
+    <dimen name="ActivityActionBar.Title.TextSize">17sp</dimen>
+
     <!--  Login Activity  -->
     <dimen name="loginAct.main_hor_margin">40dp</dimen>
     <dimen name="loginAct.main_ver_padding">13dp</dimen>

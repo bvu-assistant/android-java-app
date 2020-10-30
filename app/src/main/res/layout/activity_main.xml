@@ -113,6 +113,7 @@
             android:layout_alignParentBottom="true">
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/mainBottomNavView"
+                android:elevation="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/main_act_bottomnav_bg"

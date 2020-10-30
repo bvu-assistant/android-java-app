@@ -3,7 +3,6 @@ package com.bvu.assistant.ui.main.calendar;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
@@ -14,15 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
+import com.bvu.assistant.databinding.ActivityMainBinding;
 import com.bvu.assistant.databinding.FragmentCalendarBinding;
 import com.bvu.assistant.databinding.FragmentCalendarDayViewBinding;
-import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.main.MainActivity;
+import com.bvu.assistant.ui.main.MainActivityViewModel;
 import com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt;
-import com.bvu.assistant.data.repository.retrofit.schedule.TestScheduleAPI;
 import com.kizitonwose.calendarview.model.CalendarDay;
 import com.kizitonwose.calendarview.model.DayOwner;
 import com.kizitonwose.calendarview.ui.DayBinder;
@@ -36,13 +37,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt.daysOfWeekFromLocale;
 
@@ -50,17 +44,9 @@ import static com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt.daysOfWeek
 public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, CalendarFragmentViewModel> {
     private static final String TAG = "CalendarFragmentTAG";
     DateTimeFormatter monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM");
-    StudentScheduleAdapter dataAdapter;
-    List<StudentSchedule> dataSource;
     LocalDate selectedDate;
     LocalDate toDate;
     int maxDayViewHeight = 0;
-
-
-
-    public CalendarFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override
@@ -72,6 +58,7 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
     public int getBindingVariables() {
         return BR.viewModel;
     }
+
 
 
     @Override
@@ -151,6 +138,11 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
             int yearNum = calendarMonth.getYearMonth().getYear();
             @SuppressLint("DefaultLocale") String title = String.format("%s, năm %d", StringUtils.capitalize(monthStr), yearNum);
 
+            if (activity instanceof MainActivity) {
+                MainActivityViewModel mVM = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
+                mVM.monthValue.setValue(new MainActivityViewModel.MonthTitle(true, title));
+            }
+
             return null;
         });
 
@@ -160,39 +152,6 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
             B.calendarView.smoothScrollToMonth(currentMonth);
         });
     }
-
-
-
-    private void getTesScheduleResponse(String ssid) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getResources().getString(R.string.fetch_calendar_api_url))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        Log.i(TAG, "getTesScheduleResponse: " + ssid);
-        TestScheduleAPI scheduleAPI = retrofit.create(TestScheduleAPI.class);
-
-
-        scheduleAPI.get(ssid)
-                .enqueue(new Callback<Student.TestSchedule>() {
-                    @Override
-                    public void onResponse(Call<Student.TestSchedule> call, Response<Student.TestSchedule> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            Log.d(TAG, "onResponse() returned: " + response.body().getSchedules().get(0).getSubjectName());
-                            return;
-                        }
-
-                        Toast.makeText(getContext(), "Có lỗi trong quá trình xử lý thông tin lịch", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Student.TestSchedule> call, Throwable t) {
-                        Toast.makeText(getContext(), "Có lỗi trong quá trình xử lý thông tin lịch", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "onFailure: " + t.getMessage() + t + call);
-                    }
-                });
-    }
-
 
 
     class DayViewContainer extends ViewContainer {

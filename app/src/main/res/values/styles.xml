@@ -51,6 +51,13 @@
     </style>
 
 
+    <!--  NewsDetails Activity  -->
+    <style name="NewsDetailsAct"></style>
+    <style name="NewsDetailsAct.TitleTextTheme" parent="NewsDetailsAct">
+        <item name="android:textSize">@dimen/ActivityActionBar.Title.TextSize</item>
+    </style>
+
+
     <!--  OfficeViewer Activity -->
     <style name="OfficeViewerAct" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -63,7 +70,6 @@
     <style name="OfficeViewerAct.ActionBar.TitleTextTheme">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="font">@font/googlesans_regular</item>
         <item name="android:textAlignment">center</item>
     </style>
     <style name="OfficeViewerAct.ActionBar.SubtitleTheme">
@@ -73,12 +79,12 @@
 
 
     <!--  HomeFragment  -->
-    <style name="HomeFragment"/>
-    <style name="HomeFragment.GridTextAppearance">
-        <item name="font">@font/googlesans_bold</item>
+    <style name="HomeFragment">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+    <style name="HomeFragment.GridTextAppearance" parent="HomeFragment">
         <item name="android:textSize">@dimen/homeFrm.gridTextSize</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
 

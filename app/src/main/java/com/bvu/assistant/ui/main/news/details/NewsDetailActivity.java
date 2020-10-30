@@ -70,7 +70,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void initAndMapping() {
         actionBar = findViewById(R.id.newsDetailActionBar);
-        actionBar.setSubtitle("Ngày " + a.getDate());
+        actionBar.setTitle("Ngày " + a.getDate());
         actionBar.setNavigationOnClickListener(view -> {
             finish();
         });
@@ -125,7 +125,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void handleShareButtonClick(Context context, ImageButton btn, Article a) {
         btn.setOnClickListener(view -> {
-            ArticleSharer.showBottomSheet(context, btn, a);
+            ArticleSharer.showBottomSheet(context, NewsDetailActivity.this, btn, a);
         });
     }
 

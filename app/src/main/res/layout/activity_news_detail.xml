@@ -9,36 +9,40 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/newsDetailActionBar"
-        android:background="@color/colorPrimary"
-        app:navigationIcon="@drawable/ic_icons8_back"
-        android:paddingVertical="10dp"
-        app:title="Thông báo"
-        app:titleTextColor="@color/white"
-        app:subtitleTextColor="@color/white"
-        app:subtitleTextAppearance="@style/OfficeViewerAct.ActionBar.SubtitleTheme"
-        app:subtitle="date"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="8dp"
+        app:navigationIcon="@drawable/icon_back"
+        app:navigationIconColor="@android:color/white"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="Ngày Thông báo"
+        app:titleTextColor="@color/white"
+        app:titleTextAppearance="@style/NewsDetailsAct.TitleTextTheme">
 
         <ImageButton
             android:id="@+id/newsDetailReloadBtn"
-            android:src="@drawable/ic_icons8_reset"
-            android:background="?attr/selectableItemBackground"
-            android:layout_gravity="right"
-            android:padding="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:background="?actionBarItemBackground"
+            android:padding="10dp"
+            android:src="@drawable/ic_reload_outline"
+            android:tint="@android:color/white" />
+
         <ImageButton
-            android:src="@drawable/ic_icons8_upload"
             android:id="@+id/newsDetailShareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="?attr/selectableItemBackground"
+            android:background="?actionBarItemBackground"
+            android:hint="Date"
             android:padding="10dp"
-            android:hint="Date" />
+            android:src="@drawable/icon_upload"
+            android:tint="@android:color/white" />
     </com.google.android.material.appbar.MaterialToolbar>
+
     <View
         android:id="@+id/newsDetailActionBarBorder"
         android:layout_width="match_parent"

@@ -14,7 +14,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@color/primaryHeader"
-            app:navigationIcon="@drawable/ic_icons8_back"
+            app:navigationIcon="@drawable/icon_back"
+            app:navigationIconColor="@android:color/white"
+            app:contentInsetStartWithNavigation="0dp"
             app:title="Functions"
             app:titleTextColor="@color/primaryWhiteTextColor"/>
 

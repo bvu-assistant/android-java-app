@@ -33,6 +33,12 @@
                 android:textColor="@color/primaryTextColor"
                 android:hint="Title"/>
         </FrameLayout>
+
+        <View
+            android:layout_below="@id/cardTitleBound"
+            android:layout_width="match_parent"
+            android:layout_height="0.15dp"
+            android:background="#6DB6B6B6"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -65,14 +71,15 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@id/cardShareBtn"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/card_ripple_bg"
+                android:background="?actionBarItemBackground"
                 android:paddingHorizontal="15dp"
-                android:src="@drawable/ic_baseline_favorite_border_24" />
+                android:src="@drawable/ic_heart_outline" />
 
             <ImageButton
                 android:id="@+id/cardShareBtn"
-                android:src="@drawable/ic_outline_share_24"
-                android:background="@drawable/card_ripple_bg"
+                android:src="@drawable/icon_share"
+                android:tint="@color/primaryTextColor"
+                android:background="?actionBarItemBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="15dp"

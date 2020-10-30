@@ -1,4 +1,4 @@
-package com.bvu.assistant.ui.main.news;
+package com.bvu.assistant.ui.main.news.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -130,7 +130,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> im
 
     private void handleShareButtonClick(ImageButton btn, Article a) {
         btn.setOnClickListener(view -> {
-            ArticleSharer.showBottomSheet(context, btn, a);
+            ArticleSharer.showBottomSheet(context, activity, btn, a);
         });
     }
 
@@ -143,11 +143,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> im
 
     private void loadFavoriteState(ImageButton btn, Article a) {
         if (dbHelper.getArticle(a.getId()) != null) {
-            btn.setImageResource(R.drawable.ic_baseline_favorite_24);
+            btn.setImageResource(R.drawable.ic_heart);
             a.setFavorite(true);
         }
         else {
-            btn.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+            btn.setImageResource(R.drawable.ic_heart_outline);
             a.setFavorite(false);
         }
     }
@@ -155,13 +155,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> im
     private void toggleFavorite(ImageButton btn, Article a) {
         if (!a.isFavorite()) {
             if (dbHelper.addArticle(a)) {
-                btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_border_24: R.drawable.ic_baseline_favorite_24);
+                btn.setImageResource(a.isFavorite()? R.drawable.ic_heart_outline: R.drawable.ic_heart);
                 a.setFavorite(!a.isFavorite());
             }
         }
         else {
             if (dbHelper.deleteArticle(a.getId())) {
-                btn.setImageResource(a.isFavorite()? R.drawable.ic_baseline_favorite_border_24: R.drawable.ic_baseline_favorite_24);
+                btn.setImageResource(a.isFavorite()? R.drawable.ic_heart_outline: R.drawable.ic_heart);
                 a.setFavorite(!a.isFavorite());
             }
         }
