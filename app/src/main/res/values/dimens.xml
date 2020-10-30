@@ -30,6 +30,10 @@
     <dimen name="homeFrm.gridIconSize">26dp</dimen>
 
 
+    <!--  Profile Fragment  -->
+    <dimen name="profileFrm.itemTextSize">16sp</dimen>
+
+
     <!--  NewsCommon Fragment  -->
     <dimen name="newsCommonFrm.recycler.vertical_padding">30dp</dimen>
 

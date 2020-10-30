@@ -34,6 +34,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_firstTitle));
+                        intent.putExtra("profile", new Gson().toJson(profile));
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
                     }
@@ -106,7 +108,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_ninthTitle));
-                        B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
+                        B.btnViewAttendanceInfo.setOnClickListener(v -> startActivity(intent));
                     }
                 });
             }
@@ -121,7 +123,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_seventhTitle));
-                        B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
+                        B.btnViewLearningScores.setOnClickListener(v -> startActivity(intent));
                     }
                 });
             }

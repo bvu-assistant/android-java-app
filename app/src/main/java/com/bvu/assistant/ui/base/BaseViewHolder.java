@@ -13,7 +13,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
-     * @param position the position of the item that being binded
+     * @param position the position of the item that being bound
      */
     public abstract void onBind(int position);
 }

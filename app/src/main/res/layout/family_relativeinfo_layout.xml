@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout>
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow android:paddingTop="25dp">
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Quan hệ"
+                android:textAppearance="@style/ProfileFragment.HeadingTheme" />
+            <TextView android:id="@+id/txtRelation"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.HeadingTheme" />
+        </TableRow>
+        <TableRow>
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Họ tên"
+                android:textAppearance="@style/ProfileFragment.ItemLabelTheme" />
+            <TextView android:id="@+id/txtFullName"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.ItemContentTheme" />
+        </TableRow>
+        <TableRow>
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Năm sinh"
+                android:textAppearance="@style/ProfileFragment.ItemLabelTheme" />
+            <TextView android:id="@+id/txtYOB"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.ItemContentTheme" />
+        </TableRow>
+        <TableRow>
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Nghề nghiệp"
+                android:textAppearance="@style/ProfileFragment.ItemLabelTheme" />
+            <TextView android:id="@+id/txtJob"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.ItemContentTheme" />
+        </TableRow>
+        <TableRow>
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Quốc tịch"
+                android:textAppearance="@style/ProfileFragment.ItemLabelTheme" />
+            <TextView android:id="@+id/txtNationality"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.ItemContentTheme" />
+        </TableRow>
+        <TableRow>
+            <TextView android:layout_width="0.0dip"
+                android:layout_weight="1.5"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="Số điện thoại"
+                android:textAppearance="@style/ProfileFragment.ItemLabelTheme" />
+            <TextView android:id="@+id/txtPhone"
+                android:layout_width="0.0dip"
+                android:layout_weight="2.0"
+                android:background="?selectableItemBackground"
+                android:padding="10.0dip"
+                android:text="placeholder"
+                android:textAppearance="@style/ProfileFragment.ItemContentTheme" />
+        </TableRow>
+
+    </TableLayout>
+</layout>

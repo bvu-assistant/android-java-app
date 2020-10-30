@@ -62,7 +62,7 @@ public class ArticleSharer {
 
         //  Show up the BottomSheet Modal
         bottomSheetDialog.setContentView(B.getRoot());
-        blurBottomNavBar(B, context, activity);
+        /*blurBottomNavBar(B, context, activity);*/
         bottomSheetDialog.show();
     }
 

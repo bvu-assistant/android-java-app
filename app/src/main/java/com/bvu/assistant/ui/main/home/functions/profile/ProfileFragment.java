@@ -4,52 +4,39 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentProfileBinding;
 import com.bvu.assistant.data.model.Student;
-import com.google.gson.Gson;
+import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.main.home.functions.profile.child.FamilyProfileFragment;
+import com.bvu.assistant.ui.main.home.functions.profile.child.SelfProfileFragment;
 
-public class ProfileFragment extends Fragment {
-    private FragmentProfileBinding B;
-    private static final String FIRST_ARG_KEY = "param1";
-    private Student.Profile mParam1;
+public class ProfileFragment extends BaseFragment<FragmentProfileBinding, ProfileFragmentViewModel> {
+    private final Student.Profile profileInfo;
 
-
-    public ProfileFragment() {
-        // Required empty public constructor
+    public ProfileFragment(Student.Profile profileInfo) {
+        this.profileInfo = profileInfo;
     }
 
-    public static ProfileFragment newInstance(String param1) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(FIRST_ARG_KEY, param1);
-        fragment.setArguments(args);
-        return fragment;
+
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_profile;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = new Gson().fromJson(getArguments().getString(FIRST_ARG_KEY), Student.Profile.class);
-        }
+    public int getBindingVariables() {
+        return BR.viewModel;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        B = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
-
-        return B.getRoot();
-    }
 
 
     @Override
@@ -57,6 +44,39 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getParentFragmentManager(), 0);
+        B.viewPager.setAdapter(adapter);
+        B.tabLayout.setupWithViewPager(B.viewPager);
     }
+
+
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final String[] PAGE_TITLES = {"Bản thân", "Gia đình"};
+
+        public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
+        }
+
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return position == 0? new SelfProfileFragment(profileInfo): new FamilyProfileFragment(profileInfo);
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return PAGE_TITLES[position];
+        }
+    }
+
+
 
 }
