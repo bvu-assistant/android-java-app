@@ -7,16 +7,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
@@ -24,12 +23,6 @@ import com.bvu.assistant.databinding.ActivityMainBinding;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.ui.base.BaseActivity;
 import com.bvu.assistant.ui.base.BaseFragment;
-import com.bvu.assistant.ui.main.connecting.ConnectingFragment;
-import com.bvu.assistant.ui.main.home.HomeFragment;
-import com.bvu.assistant.ui.main.news.NewsFragment;
-import com.bvu.assistant.ui.main.calendar.CalendarFragment;
-import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
-import com.bvu.assistant.ui.main.settings.SettingsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -39,23 +32,23 @@ import com.google.firebase.iid.InstanceIdResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import eightbitlab.com.blurview.RenderScriptBlur;
 import qiu.niorgai.StatusBarCompat;
 
 
+@SuppressWarnings("rawtypes")
 public class MainActivity
-        extends BaseActivity<ActivityMainBinding, MainActivityViewModel> {
+        extends BaseActivity<ActivityMainBinding, MainActivityViewModel>
+        implements MainChildFragmentsAttacher {
 
-    private final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
 
-    private ArrayList<BaseFragment> childBottomNavFragments; //  lưu giữ trạng thái của các fragment con
     private ArrayList<String> mainScreenActionBarBarTitles;     //  listing các tiêu đề của ActionBar
-    private ArrayList<BaseFragment> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
+    private ArrayList<Pair<BaseFragment, FragmentNewsCommonBinding>> childNewsCommonFragments;     //  lưu giữ các fragment con (trong NewsCommon) | dùng cho searching
+    private ArrayList<ViewGroup> directChildFragmentsView;
     private List<Integer> bottomNavItemsId;
-    private int currentTabIndex = 0;
-    public BaseFragment activeFragment;
+    private MainPagerAdapter adapter;
 
 
     @Override
@@ -115,6 +108,7 @@ public class MainActivity
 
     private void initAndMapping() {
         childNewsCommonFragments = new ArrayList<>();
+        directChildFragmentsView = new ArrayList<>();
 
 
         // list tiêu đề của ActionBar
@@ -133,13 +127,29 @@ public class MainActivity
         bottomNavItemsId.add(R.id.mainBottomNavNewsBtn);
         bottomNavItemsId.add(R.id.mainBottomNavSettingsBtn);
 
-        //  list các fragments của BottomNav
-        childBottomNavFragments = new ArrayList<>();
-        childBottomNavFragments.add(new ConnectingFragment());
-        childBottomNavFragments.add(new CalendarFragment());
-        childBottomNavFragments.add(new HomeFragment());
-        childBottomNavFragments.add(new NewsFragment());
-        childBottomNavFragments.add(new SettingsFragment());
+
+        adapter = new MainPagerAdapter(getSupportFragmentManager(), 0, this);
+        B.viewPager.setAdapter(adapter);
+        B.viewPager.setOffscreenPageLimit(4);
+        B.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                handleActionBarVisibility(position);
+                handleSearchBarVisibility(position);
+                handleMonthValueVisibility(position);
+                changeActionBarTitle(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
@@ -166,125 +176,51 @@ public class MainActivity
             @Override
             public void onGlobalLayout() {
                 VM.bottomNavHeight.setValue(B.mainBottomNavBounder.getHeight());
+                Log.i(TAG, "onGlobalLayout: " + VM.bottomNavHeight.getValue());
                 B.mainBottomNavBounder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
 
-        B.mainFragmentContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        B.viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                VM.fragmentContainerHeight.setValue(B.mainFragmentContainer.getHeight());
-                B.mainFragmentContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                VM.fragmentContainerHeight.setValue(B.viewPager.getHeight());
+                B.viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
     }
 
-    private void changeChildrenFragmentsPadding(int number) {
-        for (BaseFragment frm: childBottomNavFragments) {
+    private void changeChildrenFragmentsPadding(int padding) {
+        for (Pair<BaseFragment, FragmentNewsCommonBinding> m : childNewsCommonFragments) {
+            m.second.recycler.setPadding(
+                    0,
+                    (int)getResources().getDimension(R.dimen.newsCommonFrm_recycler_vertical_padding),
+                    0,
+                    padding
+            );
+        }
 
-            //  bỏ qua màn hình News (Tin tức - Màn hình tin tức sẽ xử lý sau)
-            if (frm.getClass() == childBottomNavFragments.get(3).getClass())
-                continue;
-
-            frm.getViewDataBinding().getRoot().setPadding(0, 0, 0, number);
+        for (ViewGroup vg: directChildFragmentsView) {
+            vg.setPadding(
+                0,
+                0,
+                0,
+                padding
+            );
         }
     }
 
 
 
     private void handleBottomNavBar() {
-        //  fragment hiển thị cho người dùng
-        activeFragment = childBottomNavFragments.get(2);
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-
-        //  khởi tạo và thêm tất cả các fragment (của BottomNav) trong Activity này
-        fragmentTransaction
-            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(0), "ConnectingFragment")
-            .hide(childBottomNavFragments.get(0));
-        fragmentTransaction
-            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(1), "CalendarFragment")
-            .hide(childBottomNavFragments.get(1));
-        fragmentTransaction.add(R.id.mainFragmentContainer, activeFragment, "HomeFragment");
-        fragmentTransaction
-            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(3), "NewsFragment")
-            .hide(childBottomNavFragments.get(3));
-        fragmentTransaction
-            .add(R.id.mainFragmentContainer, childBottomNavFragments.get(4), "SettingsFragment")
-            .hide(childBottomNavFragments.get(4));
-        fragmentTransaction.commit();
-
 
         B.mainBottomNavView.setOnNavigationItemSelectedListener(item -> {
-            replaceFragment(fragmentManager, item.getItemId());
+            B.viewPager.setCurrentItem(bottomNavItemsId.indexOf(item.getItemId()), true);
             return true;
         });
 
 
         B.mainBottomNavView.setSelectedItemId(R.id.mainBottomNavHomeBtn);
-    }
-
-    private void replaceFragment(FragmentManager manager, int itemId) {
-        int itemIndex = 0;  //  dùng để thay đổi tiêu đề của ActionBar
-
-
-        switch (itemId) {
-            case R.id.mainBottomNavConnectingBtn: {
-                itemIndex = 0;
-                break;
-            }
-            case R.id.mainBottomNavCalendarBtn: {
-                itemIndex = 1;
-                break;
-            }
-            case R.id.mainBottomNavHomeBtn: {
-                itemIndex = 2;
-                break;
-            }
-            case R.id.mainBottomNavNewsBtn: {
-                itemIndex = 3;
-                break;
-            }
-            case R.id.mainBottomNavSettingsBtn: {
-                itemIndex = 4;
-                break;
-            }
-        }
-
-
-        //  khi nhấn cùng 1 nút, không xử lý
-        if (itemIndex == currentTabIndex) {
-            return;
-        }
-
-
-        //  tiến hành replace fragment
-        BaseFragment newFragment = childBottomNavFragments.get(itemIndex);
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.hide(activeFragment).show(newFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.commit();
-        activeFragment = newFragment;
-
-
-        {
-            //  cập nhật TabIndex
-            currentTabIndex = itemIndex;
-
-            //  thay đổi tiêu đề của ActionBar
-            changeActionBarTitle(itemIndex);
-
-            //  ẩn/hiện txtMonthValue dựa vào itemIndex
-            handleMonthValueVisibility(itemIndex);
-
-            //  ẩn/hiện searchBar dựa vào itemIndex
-            handleSearchBarVisibility(itemIndex);
-
-            handleActionBarVisibility(itemIndex);
-        }
     }
 
     private void handleMonthValueVisibility(int itemIndex) {
@@ -343,9 +279,7 @@ public class MainActivity
 
             @Override
             public void afterTextChanged(Editable s) {
-                for (Fragment frm: childNewsCommonFragments) {
-                    ((CommonNewsSearchCallback)frm).onTypeComplete(s.toString());
-                }
+
             }
         });
     }
@@ -419,24 +353,28 @@ public class MainActivity
         return BR.viewModel;
     }
 
+    @Override
+    public void onBackPressed() {
+        /*if (B.viewPager.getCurrentItem() != 2) {
+            B.mainBottomNavView.getChildAt(2).setEnabled(true);
+            B.viewPager.setCurrentItem(2, true);
+            return;
+        }*/
+
+        super.onBackPressed();
+    }
+
 
 
     /* NewsCommon fragments attached */
     @Override
-    public void onNewsFragmentAttached(FragmentNewsCommonBinding B) {
-        int bottomNavHeight = VM.bottomNavHeight.getValue();
-        B.recycler
-            .setPadding(
-                0,
-                (int)getResources().getDimension(R.dimen.newsCommonFrm_recycler_vertical_padding),
-                0,
-                bottomNavHeight
-        );
+    public void onNewsFragmentAttached(BaseFragment fragment, FragmentNewsCommonBinding B) {
+        childNewsCommonFragments.add(Pair.create(fragment, B));
     }
 
     @Override
-    public void onNewsFragmentDetached(BaseFragment fragment) {
-
+    public void onDirectChildFragmentAttached(ViewGroup group) {
+        directChildFragmentsView.add(group);
     }
 
 }

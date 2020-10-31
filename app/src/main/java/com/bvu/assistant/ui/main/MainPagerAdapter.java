@@ -82,13 +82,15 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-//    @Nullable
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return resources.getString(getStringResIdByString(this.titleList[position]));
-//    }
 
-    private int getStringResIdByString(String stringId) {
+
+    /*@Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return resources.getString(getStringResIdByString(this.titleList[position]));
+    }*/
+
+    /*private int getStringResIdByString(String stringId) {
         int stringResId = -1;
 
         try {
@@ -102,6 +104,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         finally {
             return stringResId;
         }
-    }
+    }*/
 
 }

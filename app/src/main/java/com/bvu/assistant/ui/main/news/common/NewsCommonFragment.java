@@ -86,7 +86,7 @@ public class NewsCommonFragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        activity.onNewsFragmentAttached(B);
+        activity.onNewsFragmentAttached(this, B);
     }
 
 

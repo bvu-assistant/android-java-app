@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -59,6 +60,15 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
         return BR.viewModel;
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).onDirectChildFragmentAttached((ViewGroup)B.getRoot());
+        }
+    }
 
 
     @Override

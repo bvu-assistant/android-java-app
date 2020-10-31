@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.bvu.assistant.databinding.FragmentHomeBinding;
 import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
 import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.main.MainActivity;
 import com.bvu.assistant.ui.main.home.functions.HomeFunctionsActivity;
 import com.bvu.assistant.data.repository.retrofit.student_attendance.AttendanceAPI;
 import com.bvu.assistant.data.repository.retrofit.student_learning_curve.LearningCurveAPI;
@@ -71,8 +73,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
         VM = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
         B.setViewModel(VM);
-
         observe();
+
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).onDirectChildFragmentAttached((ViewGroup)B.getRoot());
+        }
     }
 
 

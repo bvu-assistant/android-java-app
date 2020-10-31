@@ -90,9 +90,8 @@
             android:layout_below="@id/mainActionBar"
             android:background="@color/colorNavBarBorder" />
 
-
-        <FrameLayout
-            android:id="@+id/mainFragmentContainer"
+        <com.bvu.assistant.ui.custom_view.LockedViewPager
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/mainActionBarBorder"/>
