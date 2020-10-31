@@ -17,6 +17,18 @@ import com.google.android.material.tabs.TabLayout;
 
 public class NewsFragment extends BaseFragment<FragmentNewsBinding, NewsFragmentViewModel> {
 
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_news;
+    }
+
+    @Override
+    public int getBindingVariables() {
+        return BR.viewModel;
+    }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         NewsPagerAdapter newsPagerAdapter = new NewsPagerAdapter(getChildFragmentManager(), 0);
@@ -30,14 +42,4 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, NewsFragment
     }
 
 
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.fragment_news;
-    }
-
-    @Override
-    public int getBindingVariables() {
-        return BR.viewModel;
-    }
 }
