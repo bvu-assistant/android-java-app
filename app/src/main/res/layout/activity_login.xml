@@ -131,8 +131,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/loginAct.main_input_text_size"
                     android:fontFamily="@font/googlesans_regular"
-                    android:buttonTint="@color/white"
-                    />
+                    android:buttonTint="@color/white"/>
 
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton

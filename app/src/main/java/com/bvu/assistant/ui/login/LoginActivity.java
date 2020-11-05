@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
+import br.com.simplepass.loadingbutton.customViews.OnAnimationEndListener;
 import eightbitlab.com.blurview.BlurView;
 import eightbitlab.com.blurview.RenderScriptBlur;
 import retrofit2.Call;
@@ -239,29 +241,34 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginActiv
                 .enqueue(new Callback<Login.Response>() {
                     @Override
                     public void onResponse(Call<Login.Response> call, Response<Login.Response> response) {
+
                         B.btnLogin.revertAnimation();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (response.body() != null && response.isSuccessful()) {
+                                    Login.Response result = response.body();
 
-                        if (response.body() != null && response.isSuccessful()) {
-                            Login.Response result = response.body();
-
-                            //  Update the SSID
-                            pref.edit().putString("SSID", result.getSessionId()).apply();
+                                    //  Update the SSID
+                                    pref.edit().putString("SSID", result.getSessionId()).apply();
 
 
-                            if (result.getLoginSuccess()) {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("ssid", pref.getString("SSID", ""));
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    if (result.getLoginSuccess()) {
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("ssid", pref.getString("SSID", ""));
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    }
+                                    else {
+                                        Snackbar.make(B.getRoot(), "Login failed, please check your credentials", 5500).show();
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else {
-                                Snackbar.make(B.getRoot(), "Login failed, please check your credentials", 5500).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_SHORT).show();
-                        }
+                        }, 1000);
                     }
 
                     @Override

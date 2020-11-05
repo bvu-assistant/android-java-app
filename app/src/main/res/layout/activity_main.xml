@@ -18,89 +18,95 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="false">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:elevation="8dp"
-            android:id="@+id/mainActionBar"
+        <androidx.cardview.widget.CardView
             android:visibility="@{viewModel.isActionBarShowing? View.VISIBLE: View.GONE}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/mainActionBarBounder"
+            android:paddingTop="10dp"
+            app:cardElevation="8dp"
             android:layout_alignParentTop="true"
-            android:background="@drawable/main_actionbar_gradient_background">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/mainActionBar"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@drawable/main_actionbar_gradient_background">
                 <LinearLayout
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/actionBarTitle"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:paddingHorizontal="20dp"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.actionBarTitle, default=`Action Bar`}"
-                        android:fontFamily="sans-serif-black"
-                        android:gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:textAppearance="@style/MainAct.ActionBar.TextAppearance"
-                        android:textColor="@color/primaryWhiteTextColor" />
-                    <EditText
-                        android:id="@+id/edtSearchNews"
-                        android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"
-                        android:imeOptions="actionSearch"
-                        android:singleLine="true"
-                        android:inputType="text"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/actionBarTitle"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.actionBarTitle, default=`Action Bar`}"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:textAppearance="@style/MainAct.ActionBar.TextAppearance"
+                            android:textColor="@color/primaryWhiteTextColor" />
+                        <EditText
+                            android:id="@+id/edtSearchNews"
+                            android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"
+                            android:imeOptions="actionSearch"
+                            android:singleLine="true"
+                            android:inputType="text"
 
-                        android:paddingStart="15dp"
-                        android:paddingEnd="10dp"
-                        android:paddingVertical="8dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="10dp"
+                            android:paddingVertical="8dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
 
-                        android:hint="Tìm kiếm"
-                        android:textSize="12sp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:background="@drawable/news_search_bar_bg"
-                        android:drawableEnd="@drawable/ic_icons8_search"
-                        android:drawableTint="@color/white"
-                        android:drawablePadding="10dp"
-                        android:importantForAutofill="no" />
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/actionBarMonthView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"
-                        android:text="@{viewModel.monthValue.content, default=`Tháng 7`}"
-                        android:gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/example_7_yellow"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-medium"
-                        tools:ignore="RtlSymmetry" />
+                            android:hint="Tìm kiếm"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:background="@drawable/news_search_bar_bg"
+                            android:drawableEnd="@drawable/ic_icons8_search"
+                            android:drawableTint="@color/white"
+                            android:drawablePadding="10dp"
+                            android:importantForAutofill="no" />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/actionBarMonthView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"
+                            android:text="@{viewModel.monthValue.content, default=`Tháng 7`}"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/example_7_yellow"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-medium"
+                            tools:ignore="RtlSymmetry" />
+                    </LinearLayout>
+
+                    <include android:id="@+id/weekDaysView"
+                        layout="@layout/fragment_calendar_day_legend"
+                        android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"/>
+
+                    <include android:id="@+id/newsTabLayout"
+                        layout="@layout/main_act_news_tabbar_layout"
+                        android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"/>
+
                 </LinearLayout>
-
-                <include android:id="@+id/weekDaysView"
-                    layout="@layout/fragment_calendar_day_legend"
-                    android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"/>
-
-                <include android:id="@+id/newsTabLayout"
-                    layout="@layout/main_act_news_tabbar_layout"
-                    android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"/>
-
             </LinearLayout>
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
         <View
             android:id="@+id/mainActionBarBorder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@id/mainActionBar"
+            android:layout_below="@id/mainActionBarBounder"
             android:background="@color/colorNavBarBorder" />
 
 
@@ -129,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/main_act_bottomnav_bg"
-                app:itemBackground="?selectableItemBackground"
+                app:itemBackground="@drawable/main_act_bottomnav_tab_item_background"
                 app:itemTextAppearanceActive="@style/MainAct.BottomNavBar.TextActive"
                 app:itemTextAppearanceInactive="@style/MainAct.BottomNavBar.TextInactive"
                 app:labelVisibilityMode="labeled"

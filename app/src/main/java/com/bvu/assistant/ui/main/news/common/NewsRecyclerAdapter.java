@@ -9,6 +9,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,13 +65,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> im
 
         holder.txtCardTitle.setText(a.getTitle());
         holder.txtCardDate.setText(a.getDate());
-        holder.txtCardIsNew.setText(a.isNew()? "Mới": " ");
+        /*holder.txtCardIsNew.setText(a.isNew()? "Mới": " ");*/
+        holder.imvIsNew.setVisibility(a.isNew() ? View.VISIBLE : View.GONE);
         loadFavoriteState(holder.imbCardIsFavorite, a);
 
         handleCardTitleClick(holder.cardTitleBound, a);
         handleShareButtonClick(holder.imbCardShare, a);
         handleFavoriteButtonClick(holder.imbCardIsFavorite, a);
-
     }
 
 
@@ -188,7 +190,8 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
 
     public TextView txtCardTitle;
     public TextView txtCardDate;
-    public TextView txtCardIsNew;
+    /*public TextView txtCardIsNew;*/
+    public ImageView imvIsNew;
     public ImageButton imbCardIsFavorite;
     public ImageButton imbCardShare;
     public FrameLayout cardTitleBound;
@@ -196,9 +199,11 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
 
     public NewsViewHolder(@NonNull View itemView) {
         super(itemView);
+
+        this.imvIsNew = itemView.findViewById(R.id.imvIsNew);
         this.txtCardTitle = itemView.findViewById(R.id.cardTitle);
         this.txtCardDate = itemView.findViewById(R.id.cardDate);
-        this.txtCardIsNew = itemView.findViewById(R.id.cardIsNew);
+        /*this.txtCardIsNew = itemView.findViewById(R.id.cardIsNew);*/
         this.imbCardIsFavorite = itemView.findViewById(R.id.cardFavoriteBtn);
         this.imbCardShare = itemView.findViewById(R.id.cardShareBtn);
         this.cardTitleBound = itemView.findViewById(R.id.cardTitleBound);

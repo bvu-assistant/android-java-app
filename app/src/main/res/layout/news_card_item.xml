@@ -22,7 +22,7 @@
             android:background="@android:color/transparent"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:layout_height="110dp" >
+            android:layout_height="110dp">
             <TextView
                 android:id="@+id/cardTitle"
                 android:transitionName="articleTitleTransition"
@@ -58,8 +58,9 @@
                 android:textColor="@color/primaryTextColor"
                 android:textColorHint="@color/primaryTextColor"
                 android:hint="01-01-2020"/>
-            <TextView
+            <!--<TextView
                 android:id="@+id/cardIsNew"
+                android:visibility="invisible"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -68,6 +69,17 @@
                 android:textStyle="bold"
                 android:textColor="#00A507"
                 android:hint="Mới"
+                />-->
+            <ImageView
+                android:id="@+id/imvIsNew"
+                android:src="@drawable/ic_new_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/cardDate"
+                android:layout_toLeftOf="@id/cardFavoriteBtn"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
                 />
             <ImageButton
                 android:id="@+id/cardFavoriteBtn"

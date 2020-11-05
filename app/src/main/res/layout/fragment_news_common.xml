@@ -14,11 +14,11 @@
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
+            android:scrollbars="vertical"
             android:paddingVertical="@dimen/newsCommonFrm.recycler.vertical_padding"
             android:clipToPadding="false"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutAnimation="@anim/news_recycler_change">
+            android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
