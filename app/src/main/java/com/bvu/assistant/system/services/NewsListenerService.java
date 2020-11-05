@@ -25,8 +25,6 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.Map;
 
-import static com.bvu.assistant.ui.main.news.common.NewsCommonFragment.NewsReceiver.NEW_ARTICLE_ACTION;
-
 
 public class NewsListenerService extends Service {
     private static final String TAG = "NewsListenerService";
@@ -105,11 +103,7 @@ public class NewsListenerService extends Service {
                             false
                     );
 
-
                     sendNotification(item);
-                    Intent intent = new Intent(NEW_ARTICLE_ACTION);
-                    intent.putExtra("article", item);
-                    sendBroadcast(intent);
                 }
 
 

@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.core.app.NavUtils;
@@ -23,6 +26,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +58,19 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginActiv
         checkRememberState();
         assignEvents();
         observeFields();
+
+
+        /*BlurView blurView = findViewById(R.id.blurUsernameView);
+        float radius = 5f;
+        View decorView = getWindow().getDecorView();
+        ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
+        Drawable windowBackground = decorView.getBackground();
+        blurView.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(new RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setHasFixedTransformationMatrix(true);*/
     }
 
     private void observeFields() {
@@ -206,6 +224,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginActiv
     }
 
 
+
     private void login(Login.Request request) {
         B.btnLogin.startAnimation();
 
@@ -254,7 +273,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginActiv
                     }
                 });
     }
-
 
 
 

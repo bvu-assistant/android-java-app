@@ -104,12 +104,6 @@ public class NewsCommonFragment
         );
 
 
-
-        //  Register receiver && start the Service --> listen for FireStore data changes
-        activity.registerReceiver(new NewsReceiver(), new IntentFilter(NewsReceiver.NEW_ARTICLE_ACTION));
-        activity.startService(new Intent(activity, NewsListenerService.class));
-
-
         dataList = new ArrayList<>();
         adapter = new NewsRecyclerAdapter(dataList, activity, getActivity(), getFragmentManager());
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
@@ -190,22 +184,6 @@ public class NewsCommonFragment
 
         List<Article> lastData = new ArrayList<>(dataList);*/
         adapter.getFilter().filter(searchKeyWords);
-    }
-
-
-
-
-    public class NewsReceiver extends BroadcastReceiver {
-        public static final String NEW_ARTICLE_ACTION = "NEW_ARTICLE_ACTION";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(NEW_ARTICLE_ACTION)) {
-                Article a = (Article) intent.getSerializableExtra("article");
-                Toast.makeText(context, a.getTitle(), Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "onReceive: " + a.getTitle());
-            }
-        }
     }
 
 

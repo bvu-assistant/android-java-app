@@ -16,73 +16,86 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <LinearLayout
+            android:orientation="vertical"
+            android:elevation="8dp"
             android:id="@+id/mainActionBar"
             android:visibility="@{viewModel.isActionBarShowing? View.VISIBLE: View.GONE}"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/mainAct.actionBar.height"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:background="@color/primaryHeader">
+            android:background="@drawable/main_actionbar_gradient_background">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/actionBarTitle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="@{viewModel.actionBarTitle, default=`Action Bar`}"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center_vertical"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/MainAct.ActionBar.TextAppearance"
-                    android:textColor="@color/primaryWhiteTextColor" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/actionBarTitle"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.actionBarTitle, default=`Action Bar`}"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:textAppearance="@style/MainAct.ActionBar.TextAppearance"
+                        android:textColor="@color/primaryWhiteTextColor" />
+                    <EditText
+                        android:id="@+id/edtSearchNews"
+                        android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"
+                        android:imeOptions="actionSearch"
+                        android:singleLine="true"
+                        android:inputType="text"
 
-                <EditText
-                    android:id="@+id/edtSearchNews"
-                    android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:inputType="text"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="10dp"
+                        android:paddingVertical="8dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
 
-                    android:paddingStart="15dp"
-                    android:paddingEnd="10dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="15dp"
-                    android:layout_marginEnd="15dp"
+                        android:hint="Tìm kiếm"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:background="@drawable/news_search_bar_bg"
+                        android:drawableEnd="@drawable/ic_icons8_search"
+                        android:drawableTint="@color/white"
+                        android:drawablePadding="10dp"
+                        android:importantForAutofill="no" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/actionBarMonthView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"
+                        android:text="@{viewModel.monthValue.content, default=`Tháng 7`}"
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/example_7_yellow"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:ignore="RtlSymmetry" />
+                </LinearLayout>
 
-                    android:hint="Tìm kiếm"
-                    android:textSize="12sp"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/card_bottom_color"
-                    android:background="@drawable/news_search_bar_bg"
-                    android:drawableEnd="@drawable/ic_icons8_search"
-                    android:drawableTint="@color/card_bottom_color"
-                    android:drawablePadding="10dp"
-                    android:importantForAutofill="no" />
+                <include android:id="@+id/weekDaysView"
+                    layout="@layout/fragment_calendar_day_legend"
+                    android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"/>
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/actionBarMonthView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="15dp"
-                    android:visibility="@{viewModel.monthValue.isVisible()? View.VISIBLE: View.GONE}"
-                    android:text="@{viewModel.monthValue.content, default=`Tháng 7`}"
-                    android:gravity="center_vertical"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/example_7_yellow"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-medium"
-                    tools:ignore="RtlSymmetry" />
+                <include android:id="@+id/newsTabLayout"
+                    layout="@layout/main_act_news_tabbar_layout"
+                    android:visibility="@{viewModel.isSearchBarShowing? View.VISIBLE: View.GONE}"/>
+
             </LinearLayout>
-        </com.google.android.material.appbar.MaterialToolbar>
+        </LinearLayout>
         <View
             android:id="@+id/mainActionBarBorder"
             android:layout_width="match_parent"
@@ -90,11 +103,13 @@
             android:layout_below="@id/mainActionBar"
             android:background="@color/colorNavBarBorder" />
 
+
         <com.bvu.assistant.ui.custom_view.LockedViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/mainActionBarBorder"/>
+
 
         <View
             android:id="@+id/mainBottomNavBarBorder"
@@ -102,8 +117,6 @@
             android:layout_height="@dimen/tabLayout_border_height"
             android:layout_above="@id/mainBottomNavBounder"
             android:background="@color/main_act_tabbar_border_bg" />
-
-
         <eightbitlab.com.blurview.BlurView
             android:id="@+id/mainBottomNavBounder"
             android:elevation="8dp"

@@ -23,7 +23,7 @@ public class MainActivityViewModel extends BaseViewModel {
     public MainActivityViewModel() {
         isActionBarShowing.setValue(false);
         isSearchBarShowing.setValue(false);
-        monthValue.setValue(new MonthTitle(true, "Tháng 7"));
+        monthValue.setValue(new MonthTitle(false, "Tháng 7"));
 
         bottomNavBadges.setValue(new ArrayList<>());
         bottomNavBadges.getValue().add(0);

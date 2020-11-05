@@ -1,8 +1,12 @@
 package com.bvu.assistant.ui.main;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +16,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -51,9 +58,12 @@ public class MainActivity
     private MainPagerAdapter adapter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarCompat.translucentStatusBar(this, true);
+
         VM = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         B.setViewModel(VM);
 
@@ -64,6 +74,7 @@ public class MainActivity
         handleFirebaseInstanceId();
         observe();
     }
+
 
 
     /* initial methods */
@@ -104,6 +115,7 @@ public class MainActivity
     private void styling() {
         blurBottomNavBar();
         reSetUpFragmentContainerPadding();
+        reSetUpActionBarPadding();
     }
 
     private void initAndMapping() {
@@ -190,6 +202,13 @@ public class MainActivity
         });
     }
 
+    private void reSetUpActionBarPadding() {
+        int sHeight = getStatusBarHeight();
+        if (sHeight > 0) {
+            B.mainActionBar.setPadding(0, sHeight + 15, 0, 0);
+        }
+    }
+
     private void changeChildrenFragmentsPadding(int padding) {
         for (Pair<BaseFragment, FragmentNewsCommonBinding> m : childNewsCommonFragments) {
             m.second.recycler.setPadding(
@@ -208,6 +227,20 @@ public class MainActivity
                 padding
             );
         }
+    }
+
+    private int getStatusBarHeight() {
+        int height;
+        Resources myResources = getResources();
+        int idStatusBarHeight = myResources.getIdentifier( "status_bar_height", "dimen", "android");
+        if (idStatusBarHeight > 0) {
+            height = getResources().getDimensionPixelSize(idStatusBarHeight);
+            Toast.makeText(this, "Status Bar Height = " + height, Toast.LENGTH_LONG).show();
+        } else {
+            height = 0;
+            Toast.makeText(this, "Resources NOT found", Toast.LENGTH_LONG).show();
+        }
+        return height;
     }
 
 
@@ -243,11 +276,11 @@ public class MainActivity
     private void handleActionBarVisibility(int itemIndex) {
         if (itemIndex == 2) {
             VM.isActionBarShowing.setValue(false);
-            StatusBarCompat.translucentStatusBar(this);
+            /*StatusBarCompat.translucentStatusBar(this);*/
         }
         else {
             VM.isActionBarShowing.setValue(true);
-            StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.primaryHeader));
+            /*StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.primaryHeader));*/
         }
     }
 
@@ -312,6 +345,7 @@ public class MainActivity
     }
 
 
+
     /**
      * @param tabIndex tab item muốn hiển thị | zero-based
      * @param number số lượng muốn hiển thị trên Badge | nếu là 0 thì ẩn
@@ -333,7 +367,6 @@ public class MainActivity
             drawable.setNumber(number);
         }
     }
-
 
 
 

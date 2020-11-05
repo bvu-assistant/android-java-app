@@ -9,8 +9,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
+import com.bvu.assistant.databinding.ActivityMainBinding;
 import com.bvu.assistant.databinding.FragmentNewsBinding;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.main.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -36,9 +38,13 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, NewsFragment
         viewPager.setAdapter(newsPagerAdapter);
         viewPager.setOffscreenPageLimit(6);
 
-        TabLayout tabLayout = B.newsTabLayout;
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(1).select();
+        if (activity instanceof MainActivity) {
+            ActivityMainBinding B = ((MainActivity) activity).getViewDataBinding();
+
+            ((TabLayout)B.newsTabLayout).setupWithViewPager(viewPager);
+            ((TabLayout)B.newsTabLayout).getTabAt(1).select();
+        }
+
     }
 
 
