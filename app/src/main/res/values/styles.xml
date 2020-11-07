@@ -63,9 +63,7 @@
     <style name="OfficeViewerAct" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="OfficeViewerAct.ActionBar"/>
     <style name="OfficeViewerAct.ActionBar.TitleTextTheme">

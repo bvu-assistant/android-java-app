@@ -21,6 +21,7 @@ import com.bvu.assistant.ui.custom_view.ArticleSharer;
 import com.bvu.assistant.data.model.Article.ArticleLink;
 import com.bvu.assistant.data.model.Article.ArticleDetail;
 import com.bvu.assistant.data.repository.retrofit.article_detail.ArticleDetailAPI;
+import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsDetailActivity extends AppCompatActivity {
     private static final String TAG = "NewsDetailActivityTAG";
+
     MaterialToolbar actionBar;
     ImageButton btnSare;
     ImageButton btnReload;
@@ -56,8 +58,17 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         initAndMapping();
         getDetailResponse(a.getId());
+
+        reSetupStatusBarPadding();
     }
 
+    private void reSetupStatusBarPadding() {
+        int sHeight = StatusBarUtils.getHeight(this);
+
+        if (sHeight > 0) {
+            actionBar.setPadding(0, sHeight, 0, 0);
+        }
+    }
 
 
     public void setData(ArticleDetail detail) {

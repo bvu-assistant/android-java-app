@@ -6,6 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
         tools:context=".ui.main.home.functions.HomeFunctionsActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -14,10 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/primaryHeader"
+            android:background="@drawable/main_actionbar_gradient_svg"
+
             app:navigationIcon="@drawable/icon_back"
             app:navigationIconColor="@android:color/white"
             app:contentInsetStartWithNavigation="0dp"
+
             app:title="Functions"
             app:titleTextColor="@color/primaryWhiteTextColor"/>
 

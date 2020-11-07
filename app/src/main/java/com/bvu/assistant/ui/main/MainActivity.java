@@ -1,12 +1,9 @@
 package com.bvu.assistant.ui.main;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,9 +13,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,6 +24,7 @@ import com.bvu.assistant.databinding.ActivityMainBinding;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.ui.base.BaseActivity;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -56,7 +51,6 @@ public class MainActivity
     private ArrayList<ViewGroup> directChildFragmentsView;
     private List<Integer> bottomNavItemsId;
     private MainPagerAdapter adapter;
-
 
 
     @Override
@@ -203,7 +197,7 @@ public class MainActivity
     }
 
     private void reSetUpActionBarPadding() {
-        int sHeight = getStatusBarHeight();
+        int sHeight = StatusBarUtils.getHeight(this);
         if (sHeight > 0) {
             B.mainActionBar.setPadding(0, sHeight + 15, 0, 0);
         }
@@ -227,20 +221,6 @@ public class MainActivity
                 padding
             );
         }
-    }
-
-    private int getStatusBarHeight() {
-        int height;
-        Resources myResources = getResources();
-        int idStatusBarHeight = myResources.getIdentifier( "status_bar_height", "dimen", "android");
-        if (idStatusBarHeight > 0) {
-            height = getResources().getDimensionPixelSize(idStatusBarHeight);
-            /*Toast.makeText(this, "Status Bar Height = " + height, Toast.LENGTH_LONG).show();*/
-        } else {
-            height = 0;
-            /*Toast.makeText(this, "Resources NOT found", Toast.LENGTH_LONG).show();*/
-        }
-        return height;
     }
 
 

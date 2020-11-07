@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.bvu.assistant.ui.main.news.common.NewsFragmentAttachedCallback;
 import com.bvu.assistant.utils.NetworkStatusChecker;
@@ -34,6 +35,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     public T getViewDataBinding() {
         return B;
     }
+
 
     /**
      *
@@ -62,12 +64,14 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         }
     }
 
+
     /**
      * @return the networking status. True if Mobile or Wifi. Otherwise is false.
      */
     public boolean hasNetwork() {
         return NetworkStatusChecker.isNetworkConnected(getApplicationContext());
     }
+
 
     /**
      * @param permission type of @Manifest.permission
@@ -108,6 +112,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     public void onFragmentAttached(BaseFragment frm) {
 
     }
+
 
     @Override
     public void onFragmentDetached(String tag) {

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Storage -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="m">
-        <activity android:name=".ui.main.home.functions.HomeFunctionsActivity" android:theme="@style/OfficeViewerAct"/>
+
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
@@ -29,14 +29,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".ui.main.home.functions.HomeFunctionsActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.main.news.details.NewsDetailActivity"
             android:launchMode="standard"
-            android:theme="@style/OfficeViewerAct" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.document_viewer.DocumentViewerActivity"
             android:launchMode="singleTop"
-            android:theme="@style/OfficeViewerAct" />
+            android:theme="@style/OfficeViewerAct"/>
         <activity
             android:name=".ui.main.MainActivity"
             android:launchMode="standard"

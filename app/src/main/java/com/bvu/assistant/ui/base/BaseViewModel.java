@@ -1,13 +1,11 @@
 package com.bvu.assistant.ui.base;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.bvu.assistant.databinding.BaseActivityLayoutBinding;
 
 
 public class BaseViewModel extends ViewModel {
-
 
 }

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".ui.main.news.details.NewsDetailActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/newsDetailActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/main_actionbar_gradient_svg"
         android:elevation="8dp"
         app:navigationIcon="@drawable/icon_back"
         app:navigationIconColor="@android:color/white"

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.appbar.MaterialToolbar
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/actionBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="8dp"
+    android:background="@drawable/main_actionbar_gradient_background"
+
+    app:navigationIconColor="@color/white"
+    app:navigationIcon="@drawable/icon_back"
+    app:contentInsetStartWithNavigation="0dp"
+
+    app:title="Title"
+    app:titleTextColor="@color/primaryWhiteTextColor">
+
+
+
+
+</com.google.android.material.appbar.MaterialToolbar>

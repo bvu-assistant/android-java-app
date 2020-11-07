@@ -12,6 +12,7 @@ import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.databinding.ActivityHomeFunctionsBinding;
 import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.home.functions.profile.ProfileFragment;
+import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class HomeFunctionsActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         //  khởi tạo danh sách chức năng
+        reSetupStatusBarHeight();
         initFunctionsList();
 
         Intent receivedIntent = getIntent();
@@ -49,6 +51,14 @@ public class HomeFunctionsActivity extends AppCompatActivity {
                 replaceFragment(new ProfileFragment(profileInfo));
                 return;
             }
+        }
+    }
+
+    private void reSetupStatusBarHeight() {
+        int sHeight = StatusBarUtils.getHeight(this);
+
+        if (sHeight > 0) {
+            B.actionBar.setPadding(0, sHeight, 0, 0);
         }
     }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/actionBarBounder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            app:cardCornerRadius="0dp"
+            android:elevation="8dp">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/actionBar"
+                android:background="@drawable/main_actionbar_gradient_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                app:navigationIcon="@drawable/icon_back"
+                app:navigationIconColor="@android:color/white">
+            </com.google.android.material.appbar.MaterialToolbar>
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/bodyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionBarBounder"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+</layout>

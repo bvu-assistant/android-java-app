@@ -20,7 +20,7 @@
 
         <androidx.cardview.widget.CardView
             android:visibility="@{viewModel.isActionBarShowing? View.VISIBLE: View.GONE}"
-            android:id="@+id/mainActionBarBounder"
+            android:id="@+id/baseActionBarBounder"
             android:paddingTop="10dp"
             app:cardElevation="8dp"
             android:layout_alignParentTop="true"
@@ -62,7 +62,7 @@
 
                             android:paddingStart="15dp"
                             android:paddingEnd="10dp"
-                            android:paddingVertical="8dp"
+                            android:paddingVertical="7dp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:layout_width="0dp"
@@ -106,7 +106,7 @@
             android:id="@+id/mainActionBarBorder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@id/mainActionBarBounder"
+            android:layout_below="@id/baseActionBarBounder"
             android:background="@color/colorNavBarBorder" />
 
 

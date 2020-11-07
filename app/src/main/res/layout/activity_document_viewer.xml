@@ -7,7 +7,7 @@
     android:gravity="center"
     android:layout_height="match_parent"
     tools:context=".ui.document_viewer.DocumentViewerActivity"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     android:orientation="vertical">
 
     <View
@@ -18,17 +18,20 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/officeViewerActionBar"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:transformPivotX="0dp"
         android:elevation="8dp"
+        android:background="@drawable/main_actionbar_gradient_svg"
+
         app:navigationIcon="@drawable/icon_back"
         app:navigationIconColor="@android:color/white"
         app:contentInsetStartWithNavigation="0dp"
+
         app:title="Document Viewer"
         app:titleTextAppearance="@style/OfficeViewerAct.ActionBar.TitleTextTheme"
-        app:titleTextColor="@color/white"
-        android:background="@color/colorPrimary">
+        app:titleTextColor="@color/white">
         <ImageButton
             android:id="@+id/officeViewerReloadBtn"
             android:src="@drawable/ic_reload_outline"

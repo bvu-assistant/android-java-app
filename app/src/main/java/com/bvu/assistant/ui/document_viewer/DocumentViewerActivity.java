@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bvu.assistant.R;
 import com.bvu.assistant.ui.custom_view.QRCodeDialog;
+import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -48,12 +49,21 @@ public class DocumentViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_document_viewer);
 
         initAndMapping();
+        reSetupStatusBarPadding();
 
         Intent receivedIntent = getIntent();
         String documentUrl = receivedIntent.getStringExtra("documentUrl");
         viewUrl = getDocumentViewerUrl(documentUrl);
 
         loadWebView(viewUrl);
+    }
+
+    private void reSetupStatusBarPadding() {
+        int sHeight = StatusBarUtils.getHeight(this);
+
+        if (sHeight > 0) {
+            actionBar.setPadding(0, sHeight, 0, 0);
+        }
     }
 
 
