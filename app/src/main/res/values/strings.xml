@@ -14,7 +14,6 @@
     <string name="main_tabbar_fourth_title">Tin tức</string>
     <string name="main_tabbar_fifth_title">Cài đặt</string>
 
-
     <string name="homeFrm.grid.firstTitle">Hồ sơ</string>
     <string name="homeFrm.grid.secondTitle">Lộ trình</string>
     <string name="homeFrm.grid.thirdTitle">Office 365</string>
@@ -115,6 +114,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

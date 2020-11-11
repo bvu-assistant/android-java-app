@@ -44,7 +44,6 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, NewsFragment
             ((TabLayout)B.newsTabLayout).setupWithViewPager(viewPager);
             ((TabLayout)B.newsTabLayout).getTabAt(1).select();
         }
-
     }
 
 
