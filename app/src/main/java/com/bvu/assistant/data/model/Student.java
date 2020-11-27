@@ -497,6 +497,8 @@ public class Student {
         }
     }
 
+
+
     public static class LearningScores {
         @SerializedName("ActualTable")
         @Expose
@@ -751,6 +753,8 @@ public class Student {
         }
     }
 
+
+
     public static class TestSchedule {
         @SerializedName("Term")
         @Expose
@@ -761,6 +765,7 @@ public class Student {
         private List<TestScheduleDetail> schedules;
 
 
+        /* constructor */
         public TestSchedule(String term, List<TestScheduleDetail> schedules) {
             this.term = term;
             this.schedules = schedules;
@@ -775,7 +780,18 @@ public class Student {
             return schedules;
         }
 
+        public List<CalendarSchedule> toCalendarSchedules() {
+            List<CalendarSchedule> result = new ArrayList<>();
 
+            for (TestScheduleDetail tsd : this.schedules) {
+                result.add(tsd.toCalendarTestSchedule());
+            }
+
+            return result;
+        }
+
+
+        /* children classes */
         public static class TestScheduleDetail {
             @SerializedName("Date")
             @Expose
@@ -786,6 +802,10 @@ public class Student {
             private String period;
 
             @SerializedName("Class")
+            @Expose
+            private String classId;
+
+            @SerializedName("Room")
             @Expose
             private String room;
 
@@ -801,15 +821,34 @@ public class Student {
             @Expose
             private String notes;
 
+            @SerializedName("Group")
+            @Expose
+            private String group;
+
+            @SerializedName("FromOrdinal")
+            @Expose
+            private String fromOrdinal;
 
 
-            public TestScheduleDetail(String date, String period, String room, String testType, String subjectName, String notes) {
+
+            public TestScheduleDetail(String date, String period, String room, String classId,
+                                      String testType, String subjectName, String notes,
+                                      String group, String fromOrdinal) {
                 this.date = date;
                 this.period = period;
                 this.room = room;
+                this.classId = classId;
                 this.testType = testType;
                 this.subjectName = subjectName;
                 this.notes = notes;
+                this.group = group;
+                this.fromOrdinal = fromOrdinal;
+            }
+
+
+            public CalendarTestSchedule toCalendarTestSchedule() {
+                return new CalendarTestSchedule(date, subjectName, period, room,
+                    notes, group, fromOrdinal, testType, classId);
             }
 
 
@@ -819,6 +858,10 @@ public class Student {
 
             public String getPeriod() {
                 return period;
+            }
+
+            public String getClassId() {
+                return classId;
             }
 
             public String getRoom() {
@@ -836,6 +879,387 @@ public class Student {
             public String getNotes() {
                 return notes;
             }
+
+            public String getGroup() {
+                return group;
+            }
+
+            public String getFromOrdinal() {
+                return fromOrdinal;
+            }
+        }
+    }
+
+    public static class NormalSchedule {
+        @SerializedName("term")
+        @Expose
+        private String term;
+        @SerializedName("schedule")
+        @Expose
+        private List<Schedule> schedule = null;
+
+
+        public String getTerm() {
+            return term;
+        }
+
+        public List<Schedule> getSchedule() {
+            return schedule;
+        }
+
+        public List<CalendarSchedule> toCalendarSchedules() {
+            List<CalendarSchedule> result = new ArrayList<>();
+
+            /* loop through all days in a week (0 --> 6) */
+            for (Schedule s : this.schedule) {
+                if (s.morning.size() > 0) {
+                    for (NormalScheduleDetail nsd : s.morning) {
+                        result.add(nsd.toNormalCalendarSchedule());
+                    }
+                }
+
+                if (s.afternoon.size() > 0) {
+                    for (NormalScheduleDetail nsd : s.afternoon) {
+                        result.add(nsd.toNormalCalendarSchedule());
+                    }
+                }
+
+                if (s.evening.size() > 0) {
+                    for (NormalScheduleDetail nsd : s.evening) {
+                        result.add(nsd.toNormalCalendarSchedule());
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+        /* children classes */
+        public static class Schedule {
+
+            @SerializedName("dayIndex")
+            @Expose
+            private Integer dayIndex;
+            @SerializedName("morning")
+            @Expose
+            private List<NormalScheduleDetail> morning = null;
+            @SerializedName("afternoon")
+            @Expose
+            private List<NormalScheduleDetail> afternoon = null;
+            @SerializedName("evening")
+            @Expose
+            private List<NormalScheduleDetail> evening = null;
+
+
+            public Integer getDayIndex() {
+                return dayIndex;
+            }
+
+            public List<NormalScheduleDetail> getMorning() {
+                return morning;
+            }
+
+            public List<NormalScheduleDetail> getAfternoon() {
+                return afternoon;
+            }
+
+            public List<NormalScheduleDetail> getEvening() {
+                return evening;
+            }
+        }
+
+
+        public static class NormalScheduleDetail {
+            @SerializedName("class_id")
+            @Expose
+            private String classId;
+            @SerializedName("type")
+            @Expose
+            private String type;
+            @SerializedName("completed")
+            @Expose
+            private Boolean completed;
+            @SerializedName("subject_name")
+            @Expose
+            private String subjectName;
+            @SerializedName("period")
+            @Expose
+            private String period;
+            @SerializedName("teacher")
+            @Expose
+            private String teacher;
+            @SerializedName("room")
+            @Expose
+            private String room;
+            @SerializedName("date")
+            @Expose
+            private String date;
+
+
+            public CalendarNormalSchedule toNormalCalendarSchedule() {
+                return new CalendarNormalSchedule(date, subjectName, period, room,
+                    teacher, completed, classId, type);
+            }
+
+
+            public String getClassId() {
+                return classId;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public Boolean getCompleted() {
+                return completed;
+            }
+
+            public String getSubjectName() {
+                return subjectName;
+            }
+
+            public String getPeriod() {
+                return period;
+            }
+
+            public String getTeacher() {
+                return teacher;
+            }
+
+            public String getRoom() {
+                return room;
+            }
+
+            public String getDate() {
+                return date;
+            }
+        }
+
+        public static class Afternoon extends NormalScheduleDetail {
+
+        }
+
+        public static class Morning extends NormalScheduleDetail {
+
+        }
+
+        public static class Evening extends NormalScheduleDetail {
+
+        }
+    }
+
+    public static class CalendarSchedule {
+        public enum ScheduleType { Test, Learning }
+
+        private String date;
+        private ScheduleType scheduleType;
+        private String subjectName;
+        private String period;
+        private String room;
+
+        public CalendarSchedule(String date, ScheduleType scheduleType, String subjectName, String period, String room) {
+            this.date = date;
+            this.scheduleType = scheduleType;
+            this.subjectName = subjectName;
+            this.period = period;
+            this.room = room;
+        }
+
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public ScheduleType getScheduleType() {
+            return scheduleType;
+        }
+
+        public void setScheduleType(ScheduleType scheduleType) {
+            this.scheduleType = scheduleType;
+        }
+
+        public String getSubjectName() {
+            return subjectName;
+        }
+
+        public void setSubjectName(String subjectName) {
+            this.subjectName = subjectName;
+        }
+
+        public String getPeriod() {
+            return period;
+        }
+
+        public void setPeriod(String period) {
+            this.period = period;
+        }
+
+        public String getRoom() {
+            return room;
+        }
+
+        public void setRoom(String room) {
+            this.room = room;
+        }
+    }
+    public static class CalendarNormalSchedule extends CalendarSchedule {
+        private String teacher;
+        private boolean completed;
+        private String classId;
+        private String learningType;
+
+        public CalendarNormalSchedule(
+                String date, String subjectName, String period, String room,
+                String teacher, boolean completed, String classId, String learningType) {
+            super(date, ScheduleType.Learning, subjectName, period, room);
+
+            this.teacher = teacher;
+            this.completed = completed;
+            this.classId = classId;
+            this.learningType = learningType;
+        }
+
+        public String getTeacher() {
+            return teacher;
+        }
+
+        public void setTeacher(String teacher) {
+            this.teacher = teacher;
+        }
+
+        public boolean isCompleted() {
+            return completed;
+        }
+
+        public void setCompleted(boolean completed) {
+            this.completed = completed;
+        }
+
+        public String getClassId() {
+            return classId;
+        }
+
+        public void setClassId(String classId) {
+            this.classId = classId;
+        }
+
+        public String getLearningType() {
+            return learningType;
+        }
+
+        public void setLearningType(String learningType) {
+            this.learningType = learningType;
+        }
+    }
+    public static class CalendarTestSchedule extends CalendarSchedule {
+        private String notes;
+        private String group;
+        private String fromOrdinal;
+        private String testType;
+        private String classId; /* e.g. "0101060015- DH18LT;DH18TL; DH18TM2; DH18TM3" */
+
+
+        public CalendarTestSchedule(
+                String date, String subjectName, String period, String room,
+                String notes, String group, String fromOrdinal, String testType, String classId) {
+            super(date, ScheduleType.Test, subjectName, period, room);
+
+            this.notes = notes;
+            this.group = group;
+            this.fromOrdinal = fromOrdinal;
+            this.testType = testType;
+            this.classId = classId;
+        }
+
+
+        @Override
+        public String getDate() {
+            return super.getDate().split("\\(")[1].split("\\)")[0];
+        }
+
+
+        public String getNotes() {
+            return notes;
+        }
+
+        public void setNotes(String notes) {
+            this.notes = notes;
+        }
+
+        public String getGroup() {
+            return group;
+        }
+
+        public void setGroup(String group) {
+            this.group = group;
+        }
+
+        public String getFromOrdinal() {
+            return fromOrdinal;
+        }
+
+        public void setFromOrdinal(String fromOrdinal) {
+            this.fromOrdinal = fromOrdinal;
+        }
+
+        public String getTestType() {
+            return testType;
+        }
+
+        public void setTestType(String testType) {
+            this.testType = testType;
+        }
+
+        public String getClassId() {
+            return classId;
+        }
+
+        public void setClassId(String classId) {
+            this.classId = classId;
+        }
+    }
+
+
+    public static class ReceiptInfo {
+        private String content;
+        private String totalCost;
+        private String bankName;
+        private String transactionTime;
+        private String dateOfPayment;
+        private String debitStatus;
+        private String detailsLink;
+
+        public String getContent() {
+            return content;
+        }
+
+        public String getTotalCost() {
+            return totalCost;
+        }
+
+        public String getBankName() {
+            return bankName;
+        }
+
+        public String getTransactionTime() {
+            return transactionTime;
+        }
+
+        public String getDateOfPayment() {
+            return dateOfPayment;
+        }
+
+        public String getDebitStatus() {
+            return debitStatus;
+        }
+
+        public String getDetailsLink() {
+            return detailsLink;
         }
     }
 

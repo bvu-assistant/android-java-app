@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:padding="15dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="4dp"
+        app:cardUseCompatPadding="true">
+
+        <TableLayout
+            android:background="#F6F6F6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:id="@+id/txtContent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="textStart"
+                    android:hint="Content"
+                    android:fontFamily="sans-serif-black"/>
+                <TextView
+                    android:id="@+id/txtBankName"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="textEnd"
+                    android:hint="Bank name"
+                    android:fontFamily="sans-serif-black"/>
+            </TableRow>
+            <TextView
+                android:id="@+id/txtCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:paddingVertical="20dp"
+                android:hint="Cost"
+                android:fontFamily="sans-serif-black"
+                android:textSize="25sp"/>
+
+            <View android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_height="1dp"
+                android:background="#60BBBBBB"/>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:hint="Thời gian giao dịch"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/txtTransactionTime"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textAlignment="textEnd"
+                    android:hint="?"/>
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textAlignment="textStart"
+                    android:hint="Thời gian thanh toán" />
+                <TextView
+                    android:id="@+id/txtPaidTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textAlignment="textEnd"
+                    android:hint="?"/>
+            </TableRow>
+        </TableLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

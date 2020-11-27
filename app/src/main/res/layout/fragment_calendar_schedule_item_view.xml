@@ -2,7 +2,21 @@
 
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txtScheduleTitle"
+
+    android:background="@drawable/fragment_calendar_schedule_item_bg"
+    android:backgroundTint="@color/colorPrimary"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="3dp"
-    />
+    android:padding="3dp"
+
+    android:text="Schedule title"
+    android:textSize="8sp"
+    android:textStyle="bold"
+    android:textColor="#F0FFFFFF"
+
+    android:singleLine="true"
+    android:ellipsize="none"
+/>

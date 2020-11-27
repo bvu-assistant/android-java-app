@@ -6,30 +6,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
+import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.databinding.FragmentHomeBinding;
 import com.bvu.assistant.databinding.HomeFrmAttendanceItemBinding;
-import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.MainActivity;
 import com.bvu.assistant.ui.main.home.functions.HomeFunctionsActivity;
-import com.bvu.assistant.data.repository.retrofit.student_attendance.AttendanceAPI;
-import com.bvu.assistant.data.repository.retrofit.student_learning_curve.LearningCurveAPI;
-import com.bvu.assistant.data.repository.retrofit.student_profile.StudentProfileAPI;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -44,11 +34,6 @@ import java.util.List;
 import java.util.Random;
 
 import qiu.niorgai.StatusBarCompat;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 
@@ -85,6 +70,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
     private void observe() {
         String ssid = activity.getIntent().getStringExtra("ssid");
 
+        B.btnViewReceipt.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+            intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_fifthTitle));
+            intent.putExtra("ssid", ssid);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+
+        /* getting profile info */
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -104,6 +99,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
             }
         });
 
+        /* getting attendance info */
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -119,6 +115,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
             }
         });
 
+        /* getting Learning Scores */
         new Handler().post(new Runnable() {
             @Override
             public void run() {

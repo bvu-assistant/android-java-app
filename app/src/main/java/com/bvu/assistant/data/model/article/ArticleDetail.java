@@ -1,4 +1,4 @@
-package com.bvu.assistant.data.model.Article;
+package com.bvu.assistant.data.model.article;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

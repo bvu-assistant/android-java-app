@@ -3,22 +3,23 @@ package com.bvu.assistant.ui.main.calendar;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
-import com.bvu.assistant.databinding.ActivityMainBinding;
+import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.databinding.FragmentCalendarBinding;
 import com.bvu.assistant.databinding.FragmentCalendarDayViewBinding;
 import com.bvu.assistant.ui.base.BaseFragment;
@@ -26,6 +27,7 @@ import com.bvu.assistant.ui.main.MainActivity;
 import com.bvu.assistant.ui.main.MainActivityViewModel;
 import com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt;
 import com.kizitonwose.calendarview.model.CalendarDay;
+import com.kizitonwose.calendarview.model.CalendarMonth;
 import com.kizitonwose.calendarview.model.DayOwner;
 import com.kizitonwose.calendarview.ui.DayBinder;
 import com.kizitonwose.calendarview.ui.ViewContainer;
@@ -38,16 +40,27 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt.daysOfWeekFromLocale;
 
 
 public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, CalendarFragmentViewModel> {
     private static final String TAG = "CalendarFragmentTAG";
+
     DateTimeFormatter monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM");
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private CalendarAdapter adapter;
+    private List<Student.CalendarSchedule> dataList;
+    private Map<String, List<Student.CalendarSchedule>> groupedDataList; /* grouped by date */
     LocalDate selectedDate;
     LocalDate toDate;
-    int maxDayViewHeight = 0;
 
 
     @Override
@@ -61,6 +74,7 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
     }
 
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -70,11 +84,53 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
         }
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        /* initial the data adapter */
+        dataList = new ArrayList<>();
+        adapter = new CalendarAdapter(dataList);
+        final boolean[] isNormalScheduleReady = {false};
+        final boolean[] isTestScheduleReady = {false};
+
+
+        /* get the ViewModel's instance */
+        VM = new ViewModelProvider(this).get(CalendarFragmentViewModel.class);
+        String ssid = activity.getIntent().getStringExtra("ssid");
+
+
+
+        /* getting schedules info by Retrofit */
+        VM.getNormalSchedules(ssid).observe(getViewLifecycleOwner(), new Observer<Student.NormalSchedule>() {
+            @Override
+            public void onChanged(Student.NormalSchedule normalSchedule) {
+                dataList.addAll(normalSchedule.toCalendarSchedules());
+                isNormalScheduleReady[0] = true;
+
+                if (isNormalScheduleReady[0] && isTestScheduleReady[0])
+                    initCalendar();
+            }
+        });
+
+        VM.getTestSchedules(ssid).observe(getViewLifecycleOwner(), new Observer<Student.TestSchedule>() {
+            @Override
+            public void onChanged(Student.TestSchedule testSchedule) {
+                dataList.addAll(testSchedule.toCalendarSchedules());
+                isTestScheduleReady[0] = true;
+
+                if (isNormalScheduleReady[0] && isTestScheduleReady[0])
+                    initCalendar();
+            }
+        });
+    }
+
+
+
+    private void initCalendar() {
+        /* group the dataList items by Date */
+        groupedDataList = dataList.stream().collect(Collectors.groupingBy(Student.CalendarSchedule::getDate));
         DayOfWeek[] daysOfWeek = daysOfWeekFromLocale();
         YearMonth currentMonth = YearMonth.now();
         toDate = LocalDate.now();
@@ -83,7 +139,6 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
         //  Initial setups
         B.calendarView.setup(currentMonth.minusMonths(3), currentMonth.plusMonths(3), daysOfWeek[0]);
         B.calendarView.scrollToMonth(currentMonth);
-        Toast.makeText(getContext(), "creating calendar...", Toast.LENGTH_SHORT).show();
 
 
         //  Set the height for each DayView
@@ -96,65 +151,13 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
         });
 
 
+
         //  Set the view for each day
-        B.calendarView.setDayBinder(new DayBinder<DayViewContainer>() {
-
-            @NotNull
-            @Override
-            public DayViewContainer create(@NotNull View view) {
-                return new DayViewContainer(view);
-            }
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void bind(@NotNull DayViewContainer dayViewContainer, @NotNull CalendarDay calendarDay) {
-                dayViewContainer.setDay(calendarDay);
-
-                TextView txtDayText = dayViewContainer.binder.exFiveDayText;
-                ConstraintLayout layout = dayViewContainer.binder.exFiveDayLayout;
-                RelativeLayout content = dayViewContainer.binder.exFiveDayContent;
-                LinearLayout scheduleContainer = dayViewContainer.binder.scheduleContainer;
-                txtDayText.setText(calendarDay.getDate().getDayOfMonth() + "");
-
-
-                if (calendarDay.getOwner() == DayOwner.THIS_MONTH) {
-                    txtDayText.setTextColor(Color.BLACK);
-
-                    //  Set the red text color if the day is Saturday or Sunday
-                    if (calendarDay.getDate().getDayOfWeek().getValue() == 6 ||
-                        calendarDay.getDate().getDayOfWeek().getValue() == 7) {
-                        txtDayText.setTextColor(Color.RED);
-                    }
-
-
-                    //  Set today background
-                    if (calendarDay.getDate().equals(toDate)) {
-                        content.setBackgroundResource(R.drawable.example_5_selected_bg);
-                    }else {
-                        content.setBackgroundResource(R.color.white);
-                    }
-                }
-                else  {
-                    ExtensionsKt.setTextColorRes(txtDayText, R.color.calendar_outDate_color);
-                    content.setBackgroundColor(getResources().getColor(R.color.white));
-                }
-            }
-        });
-
+        B.calendarView.setDayBinder(dayBinder);
 
         //  When month is change (scrolling)
-        B.calendarView.setMonthScrollListener(calendarMonth -> {
-            String monthStr = monthTitleFormatter.format(calendarMonth.getYearMonth());
-            int yearNum = calendarMonth.getYearMonth().getYear();
-            @SuppressLint("DefaultLocale") String title = String.format("%s, năm %d", StringUtils.capitalize(monthStr), yearNum);
+        B.calendarView.setMonthScrollListener(monthScrollListener);
 
-            if (activity instanceof MainActivity) {
-                MainActivityViewModel mVM = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
-                mVM.monthValue.setValue(new MainActivityViewModel.MonthTitle(true, title));
-            }
-
-            return null;
-        });
 
 
         //  Floating ActionButton onClick --> Smooth scroll to current month
@@ -163,44 +166,118 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
         });
     }
 
+    private DayBinder<DayViewContainer> dayBinder = new DayBinder<DayViewContainer>() {
+        @NotNull
+        @Override
+        public DayViewContainer create(@NotNull View view) {
+            return new DayViewContainer(view);
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void bind(@NotNull DayViewContainer dayView, @NotNull CalendarDay calendarDay) {
+            /* set the day for ViewHolder */
+            dayView.bind(calendarDay);
+        }
+    };
+
+    private Function1<CalendarMonth, Unit> monthScrollListener = new Function1<CalendarMonth, Unit>() {
+        @Override
+        public Unit invoke(CalendarMonth calendarMonth) {
+            String monthStr = monthTitleFormatter.format(calendarMonth.getYearMonth());
+            int yearNum = calendarMonth.getYearMonth().getYear();
+            @SuppressLint("DefaultLocale") String title = String.format("%s, năm %d", StringUtils.capitalize(monthStr), yearNum);
+
+            if (activity instanceof MainActivity) {
+                MainActivityViewModel mVM = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
+                mVM.monthValue.setValue(new MainActivityViewModel.MonthTitle(true, title));
+            }
+            return null;
+        }
+    };
+
+
 
     class DayViewContainer extends ViewContainer {
-        CalendarDay day;
-        FragmentCalendarDayViewBinding binder;
-
+        FragmentCalendarDayViewBinding dayB;
 
         public DayViewContainer(@NotNull View view) {
             super(view);
-            binder = FragmentCalendarDayViewBinding.bind(view);
+            dayB = FragmentCalendarDayViewBinding.bind(view);
+
+        }
 
 
-            view.setOnClickListener(v -> {
-                if (day.getOwner() == DayOwner.THIS_MONTH) {
+        @SuppressLint("SetTextI18n")
+        public void bind(CalendarDay day) {
+            /* set current date's Text */
+            dayB.dateText.setText(day.getDate().getDayOfMonth() + "");
 
-                    Toast.makeText(getContext(), binder.scheduleContainer.getHeight() + "", Toast.LENGTH_SHORT).show();
 
-                    if (selectedDate != day.getDate()) {
-                        LocalDate oldDate = selectedDate;
-                        selectedDate = day.getDate();
-                        B.calendarView.notifyDateChanged(day.getDate());
+            if (day.getOwner() == DayOwner.THIS_MONTH) {
+                dayB.dateText.setTextColor(Color.BLACK);
 
-                        if (oldDate != null) {
-                            B.calendarView.notifyDateChanged(oldDate);
-                        }
-                    }
-
+                //  Set the red text color if the day is Saturday or Sunday
+                if (day.getDate().getDayOfWeek().getValue() == 6
+                        || day.getDate().getDayOfWeek().getValue() == 7) {
+                    dayB.dateText.setTextColor(Color.RED);
                 }
-            });
+
+                //  Set today background
+                dayB.container.setBackgroundResource(day.getDate().equals(toDate) ?
+                    R.drawable.example_5_selected_bg : R.color.white);
+            }
+            else { //  dates that out of this month
+                ExtensionsKt.setTextColorRes(dayB.dateText, R.color.calendar_outDate_color);
+                dayB.container.setBackgroundColor(getResources().getColor(R.color.white));
+            }
+
+
+
+            /* get the schedule of current date */
+            List<Student.CalendarSchedule> sList = groupedDataList.get(day.getDate().format(dateFormatter));
+
+
+            if (day.getOwner() == DayOwner.THIS_MONTH
+                && sList != null && sList.size() >= 1) {
+
+                /* add the marker to the CalendarView */
+                dayB.markerContainer.removeAllViews();
+
+                /* loop through each schedule of the date to add marker */
+                for (Student.CalendarSchedule sch : sList) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    TextView item = (TextView) inflater.inflate(R.layout.fragment_calendar_schedule_item_view, null);
+
+                    item.setText(sch.getSubjectName());
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(0 , 0, 0, 3);
+                    item.setLayoutParams(params);
+
+                    /* set marker background tint color */
+                    boolean isTestSchedule = sch.getScheduleType() == Student.CalendarSchedule.ScheduleType.Test;
+                    item.getBackground().setTint(isTestSchedule ?
+                        getResources().getColor(android.R.color.holo_orange_dark) :
+                            getResources().getColor(R.color.colorPrimary));
+
+                    dayB.markerContainer.addView(item);
+                }
+
+
+                dayB.container.setOnClickListener(v -> {
+                    showScheduleDetail();
+                }); /* dayView onClick */
+
+            }   /* day that has schedules */
+
+        } /* bind */
+
+
+        private void showScheduleDetail() {
+
         }
 
 
-        public CalendarDay getDay() {
-            return day;
-        }
-
-        public void setDay(CalendarDay day) {
-            this.day = day;
-        }
-    }
+    } /* DayViewContainer class */
 
 }

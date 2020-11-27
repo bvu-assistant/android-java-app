@@ -12,6 +12,7 @@ import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.databinding.ActivityHomeFunctionsBinding;
 import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.home.functions.profile.ProfileFragment;
+import com.bvu.assistant.ui.main.home.functions.receipt.ReceiptFragment;
 import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.gson.Gson;
 
@@ -23,7 +24,7 @@ public class HomeFunctionsActivity extends AppCompatActivity {
     private ActivityHomeFunctionsBinding B;
     private ArrayList<String> functionsList;
     private FragmentManager fragmentManager;
-    private Student.Profile profileInfo;
+    private String ssid;
 
 
     @Override
@@ -37,6 +38,7 @@ public class HomeFunctionsActivity extends AppCompatActivity {
         initFunctionsList();
 
         Intent receivedIntent = getIntent();
+        ssid = receivedIntent.getStringExtra("ssid");
         String functions = receivedIntent.getStringExtra(INTENT_KEY);
 
         B.actionBar.setTitle(functions);
@@ -49,6 +51,11 @@ public class HomeFunctionsActivity extends AppCompatActivity {
             if (functions.equals(functionsList.get(0))) {
                 Student.Profile profileInfo = new Gson().fromJson(receivedIntent.getStringExtra("profile"), Student.Profile.class);
                 replaceFragment(new ProfileFragment(profileInfo));
+                return;
+            }
+
+            if (functions.equals(functionsList.get(4))) {
+                replaceFragment(new ReceiptFragment(ssid));
                 return;
             }
         }
@@ -94,6 +101,5 @@ public class HomeFunctionsActivity extends AppCompatActivity {
         functionsList.add(getResources().getString(R.string.homeFrm_grid_eighthTitle));
         functionsList.add(getResources().getString(R.string.homeFrm_grid_ninthTitle));
     }
-
 
 }

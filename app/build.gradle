@@ -87,14 +87,26 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     kapt 'com.android.databinding:compiler:3.1.4'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.0'
-    implementation 'com.github.kizitonwose:CalendarView:0.4.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+
+    // Calendar
+    implementation 'com.github.kizitonwose:CalendarView:1.0.0'
+
+    // QR Code
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+
+    // Loading button
     implementation 'br.com.simplepass:loading-button-android:2.2.0'
+
+    // Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Image
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.eightbitlab:blurview:1.6.3'
+
+    // Progress bar
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
 
     //

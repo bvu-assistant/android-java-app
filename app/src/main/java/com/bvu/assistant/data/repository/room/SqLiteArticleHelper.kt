@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.bvu.assistant.data.repository.article.Article
-import com.bvu.assistant.data.model.Article.SavedArticle
+import com.bvu.assistant.data.model.article.SavedArticle
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

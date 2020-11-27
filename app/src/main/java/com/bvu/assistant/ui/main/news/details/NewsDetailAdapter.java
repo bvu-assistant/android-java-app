@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bvu.assistant.R;
-import com.bvu.assistant.data.model.Article.ArticleLink;
+import com.bvu.assistant.data.model.article.ArticleLink;
 
 import java.util.List;
 

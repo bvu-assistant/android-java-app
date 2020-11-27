@@ -1,6 +1,6 @@
 package com.bvu.assistant.data.repository.article;
 
-import com.bvu.assistant.data.model.Article.ArticleDetail;
+import com.bvu.assistant.data.model.article.ArticleDetail;
 
 import java.util.List;
 

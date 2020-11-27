@@ -113,6 +113,10 @@
     </style>
 
 
+    <style name="recipt_card_text_theme">
+        <item name="android:textColor">#BCFFFFFF</item>
+    </style>
+
 
     <style name="NotificationFragmentTabBarTheme">
         <item name="colorPrimary">@color/facebookColor</item>
