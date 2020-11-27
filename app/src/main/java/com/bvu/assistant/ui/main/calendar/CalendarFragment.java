@@ -23,6 +23,7 @@ import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.databinding.FragmentCalendarBinding;
 import com.bvu.assistant.databinding.FragmentCalendarDayViewBinding;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.custom_view.CalendarBottomSheet;
 import com.bvu.assistant.ui.main.MainActivity;
 import com.bvu.assistant.ui.main.MainActivityViewModel;
 import com.bvu.assistant.ui.main.calendar.helpers.ExtensionsKt;
@@ -265,18 +266,13 @@ public class CalendarFragment extends BaseFragment<FragmentCalendarBinding, Cale
 
 
                 dayB.container.setOnClickListener(v -> {
-                    showScheduleDetail();
+                    /* show the bottomSheet that contains details about the schedule */
+                    CalendarBottomSheet.show(getContext(), sList);
                 }); /* dayView onClick */
 
             }   /* day that has schedules */
 
         } /* bind */
-
-
-        private void showScheduleDetail() {
-
-        }
-
 
     } /* DayViewContainer class */
 
