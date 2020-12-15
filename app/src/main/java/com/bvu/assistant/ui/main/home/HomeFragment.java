@@ -78,6 +78,39 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
             startActivity(intent);
         });
 
+        B.btnViewRoadMap.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+            intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_secondTitle));
+            intent.putExtra("ssid", ssid);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        B.btnViewExercisingScores.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+            intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_eighthTitle));
+            intent.putExtra("ssid", ssid);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        B.btnViewAward.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+            intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_sixthTitle));
+            intent.putExtra("ssid", ssid);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        B.btnViewLiability.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, HomeFunctionsActivity.class);
+            intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_fourthTitle));
+            intent.putExtra("ssid", ssid);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+
 
         /* getting profile info */
         new Handler().post(new Runnable() {
@@ -89,11 +122,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
                         B.txtStudentName.setText(profile.getName() + " - " + profile.getLearningStatus().getClassName());
                         B.txtStudentDepartment.setText(profile.getLearningStatus().getDepartment());
 
+
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_firstTitle));
                         intent.putExtra("profile", new Gson().toJson(profile));
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         B.btnViewProfile.setOnClickListener(v -> startActivity(intent));
+
+                        Intent officeIntent = new Intent(activity, HomeFunctionsActivity.class);
+                        officeIntent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_thirdTitle));
+                        officeIntent.putExtra("office365", new Gson().toJson(profile.getPersonalProfile().getBvu365()));
+                        officeIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        B.btnViewOffice365.setOnClickListener(v -> startActivity(officeIntent));
                     }
                 });
             }
@@ -109,6 +149,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_ninthTitle));
+                        intent.putExtra("attendance", new Gson().toJson(attendanceInfo.toArray()));
                         B.btnViewAttendanceInfo.setOnClickListener(v -> startActivity(intent));
                     }
                 });

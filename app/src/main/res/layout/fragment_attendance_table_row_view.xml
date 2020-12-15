@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow
+        android:background="@drawable/fragment_attendance_cell_bg"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:textAlignment="center">
+
+        <TextView
+            android:id="@+id/txtSubjectId"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:padding="8dp"
+
+            android:hint="0001"
+            android:textAlignment="center"
+            android:textAppearance="@style/AttendanceFrmTable.Content" />
+
+        <TextView
+            android:id="@+id/txtSubjectName"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:padding="8dp"
+
+            android:hint="0001"
+            android:maxWidth="20dip"
+            android:maxLines="2"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/AttendanceFrmTable.Content" />
+
+        <TextView
+            android:id="@+id/txtCredits"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+
+            android:hint="1"
+            android:textAlignment="center"
+            android:textAppearance="@style/AttendanceFrmTable.Content" />
+
+        <TextView
+            android:id="@+id/txtExcusedAbsence"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+
+            android:hint="1"
+            android:textAlignment="center"
+            android:textAppearance="@style/AttendanceFrmTable.Content" />
+
+        <TextView
+            android:id="@+id/txtUnExcusedAbsence"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+
+            android:hint="1"
+            android:textAlignment="center"
+            android:textAppearance="@style/AttendanceFrmTable.Content" />
+    </TableRow>
+</layout>

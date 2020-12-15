@@ -2,6 +2,7 @@ package com.bvu.assistant.ui.custom_view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -16,6 +17,8 @@ import com.bvu.assistant.databinding.FragmentCalendarEventItemViewBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
+
+import jp.wasabeef.blurry.Blurry;
 
 
 public class CalendarBottomSheet {
@@ -42,9 +45,10 @@ public class CalendarBottomSheet {
                 itemB.scheduleTeacher.setText(((Student.CalendarNormalSchedule) cs).getTeacher());
                 itemB.scheduleType.setText(((Student.CalendarNormalSchedule) cs).getLearningType());
             }
-            itemB.scheduleLocator.setOnClickListener(v -> {
-                Toast.makeText(context, "Google Maps", Toast.LENGTH_SHORT).show();
-            });
+            if (cs instanceof Student.CalendarTestSchedule) {
+                itemB.scheduleTeacher.setText(((Student.CalendarTestSchedule) cs).getNotes());
+                itemB.scheduleType.setText(((Student.CalendarTestSchedule) cs).getTestType());
+            }
 
 
             /* bottom margin */

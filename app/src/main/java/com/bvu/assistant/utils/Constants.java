@@ -2,7 +2,7 @@ package com.bvu.assistant.utils;
 
 public class Constants {
 
-    public static final String LOGIN_API = "https://bvu-loginner.herokuapp.com";
+    public static final String SERVER_HOST_PATH = "https://bvu-loginner.herokuapp.com";
 
     public static final String[] NEWS_CATEGORY_TITLES = new String[] {
         "",

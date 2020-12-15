@@ -83,6 +83,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //  Other
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.google.android.material:material:1.3.0-alpha03'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -105,11 +106,12 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.eightbitlab:blurview:1.6.3'
+    implementation 'jp.wasabeef:blurry:4.0.0'
 
     // Progress bar
     implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
 
-    //
+    // StatusBar
     implementation ('com.github.niorgai:StatusBarCompat:2.3.3', {
         exclude group: 'androidx.appcompat:appcompat'
         exclude group: 'com.google.android.material:material'

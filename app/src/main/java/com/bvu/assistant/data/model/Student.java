@@ -717,6 +717,65 @@ public class Student {
         }
     }
 
+    public static class ExercisingScore {
+        @Expose
+        private String term;
+        @Expose
+        private Rank rank;
+        @Expose
+        private List<Bonus> bonus;
+
+
+        public String getTerm() {
+            return term;
+        }
+
+        public Rank getRank() {
+            return rank;
+        }
+
+        public List<Bonus> getBonus() {
+            return bonus;
+        }
+
+
+        public static class Rank {
+            @Expose
+            private float points;
+            @Expose
+            private String rank;
+
+            public float getPoints() {
+                return points;
+            }
+
+            public String getRank() {
+                return rank;
+            }
+        }
+
+        public static class Bonus {
+            @Expose
+            private String date;
+            @Expose
+            private String gained;
+            @Expose
+            private String details;
+
+            public String getDate() {
+                return date;
+            }
+
+            public String getGained() {
+                return gained;
+            }
+
+            public String getDetails() {
+                return details;
+            }
+        }
+    }
+
     public static class AttendanceInfo {
         private String subjectId;
         private String subjectName;
@@ -753,6 +812,127 @@ public class Student {
         }
     }
 
+    public static class LiabilityInfo {
+        @Expose
+        private String Term;
+        @Expose
+        private String Liability;
+
+        public String getTerm() {
+            return Term;
+        }
+
+        public String getLiability() {
+            return Liability;
+        }
+    }
+
+    public static class RoadmapInfo {
+        @Expose
+        @SerializedName("analysisInfo")
+        private AnalysisInfo analysisInfo;
+        @Expose
+        @SerializedName("terms")
+        private List<Term> terms;
+
+
+        public AnalysisInfo getAnalysisInfo() {
+            return analysisInfo;
+        }
+
+        public List<Term> getTerms() {
+            return terms;
+        }
+
+
+        public static class AnalysisInfo {
+            @Expose
+            private int totalSubjects;
+            @Expose
+            private int requiredSubjects;
+            @Expose
+            private int electiveSubjects;
+
+            public int getTotalSubjects() {
+                return totalSubjects;
+            }
+
+            public int getRequiredSubjects() {
+                return requiredSubjects;
+            }
+
+            public int getElectiveSubjects() {
+                return electiveSubjects;
+            }
+        }
+
+        public static class Term {
+            @Expose
+            private String term;
+            @Expose
+            private List<Subject> requiredSubjects;
+            @Expose
+            private List<Subject> electiveSubjects;
+
+
+            public String getTerm() {
+                return term;
+            }
+
+            public List<Subject> getRequiredSubjects() {
+                return requiredSubjects;
+            }
+
+            public List<Subject> getElectiveSubjects() {
+                return electiveSubjects;
+            }
+        }
+
+        public static class Subject {
+            @Expose
+            @SerializedName("subjectId")
+            private String subjectId;
+            @Expose
+            @SerializedName("subjectName")
+            private String subjectName;
+            @Expose
+            @SerializedName("courseId")
+            private String courseId;
+            @Expose
+            @SerializedName("totalCredits")
+            private int totalCredits;
+            @Expose
+            @SerializedName("practiceLessons")
+            private int practiceLessons;
+            @Expose
+            @SerializedName("theoryLessons")
+            private int theoryLessons;
+
+            public String getSubjectId() {
+                return subjectId;
+            }
+
+            public String getSubjectName() {
+                return subjectName;
+            }
+
+            public String getCourseId() {
+                return courseId;
+            }
+
+            public int getTotalCredits() {
+                return totalCredits;
+            }
+
+            public int getPracticeLessons() {
+                return practiceLessons;
+            }
+
+            public int getTheoryLessons() {
+                return theoryLessons;
+            }
+        }
+    }
 
 
     public static class TestSchedule {
@@ -889,7 +1069,6 @@ public class Student {
             }
         }
     }
-
     public static class NormalSchedule {
         @SerializedName("term")
         @Expose

@@ -15,10 +15,11 @@ import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentProfileBinding;
 import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.base.BaseViewModel;
 import com.bvu.assistant.ui.main.home.functions.profile.child.FamilyProfileFragment;
 import com.bvu.assistant.ui.main.home.functions.profile.child.SelfProfileFragment;
 
-public class ProfileFragment extends BaseFragment<FragmentProfileBinding, ProfileFragmentViewModel> {
+public class ProfileFragment extends BaseFragment<FragmentProfileBinding, BaseViewModel> {
     private final Student.Profile profileInfo;
 
     public ProfileFragment(Student.Profile profileInfo) {

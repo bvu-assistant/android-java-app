@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow android:id="@+id/termCollapseTrigger"
+            android:background="?selectableItemBackground">
+            <TextView
+                android:id="@+id/txtTermName"
+                android:padding="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="Học kỳ I"/>
+            <ImageView
+                android:src="@drawable/ic_chevron_down_outline"
+                android:id="@+id/imvArrow"
+                android:paddingHorizontal="20dp"
+                android:layout_height="match_parent"/>
+        </TableRow>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/collapser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            app:el_duration="350"
+            app:el_expanded="true">
+            <LinearLayout
+                android:id="@+id/tableContainer"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtScores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Điểm: 72.00"/>
+                <TextView
+                    android:id="@+id/txtRank"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Xếp loại: Khá"/>
+            </LinearLayout>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </TableLayout>
+
+</layout>

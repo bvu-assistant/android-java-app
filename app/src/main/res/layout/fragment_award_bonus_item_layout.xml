@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow android:padding="10dp">
+            <TextView
+                android:text="Ngày: "
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:hint="09/03/2019"/>
+        </TableRow>
+        <TableRow android:padding="10dp">
+            <TextView
+                android:text="Thưởng: "
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/txtBonusTitle"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:hint="KT thành tích cao"/>
+        </TableRow>
+        <TableRow android:padding="10dp">
+            <TextView
+                android:text="Nội dung: "
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/txtBonusContent"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:hint="Quyết định số 1166/QĐ-BVU ngày 09/03/2019 vv khen thưởng sinh viên đạt giải kỳ thi MOS cấp trường NH 2018-2019"/>
+        </TableRow>
+    </TableLayout>
+</layout>

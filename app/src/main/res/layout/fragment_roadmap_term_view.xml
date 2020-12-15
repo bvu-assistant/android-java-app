@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow android:id="@+id/termCollapseTrigger"
+            android:background="?selectableItemBackground">
+            <TextView
+                android:id="@+id/txtTermName"
+                android:padding="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:hint="Học kỳ I"/>
+            <ImageView
+                android:src="@drawable/ic_chevron_down_outline"
+                android:id="@+id/imvArrow"
+                android:paddingHorizontal="20dp"
+                android:layout_height="match_parent"/>
+        </TableRow>
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/collapser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            app:el_duration="350"
+            app:el_expanded="false">
+            <LinearLayout
+                android:id="@+id/tablesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </net.cachapa.expandablelayout.ExpandableLayout>
+    </TableLayout>
+
+</layout>

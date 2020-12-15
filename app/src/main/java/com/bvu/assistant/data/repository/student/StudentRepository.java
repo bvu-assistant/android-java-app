@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.bvu.assistant.data.model.Student;
 import com.bvu.assistant.utils.Constants;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +27,7 @@ public class StudentRepository {
         final MutableLiveData<Student.Profile> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(Constants.LOGIN_API)
+            .baseUrl(Constants.SERVER_HOST_PATH)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
@@ -59,7 +58,7 @@ public class StudentRepository {
         final MutableLiveData<Student.NormalSchedule> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.LOGIN_API)
+                .baseUrl(Constants.SERVER_HOST_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -87,7 +86,7 @@ public class StudentRepository {
         final MutableLiveData<Student.TestSchedule> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.LOGIN_API)
+                .baseUrl(Constants.SERVER_HOST_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -118,7 +117,7 @@ public class StudentRepository {
         final MutableLiveData<List<Student.AttendanceInfo>> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.LOGIN_API)
+                .baseUrl(Constants.SERVER_HOST_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -142,11 +141,39 @@ public class StudentRepository {
         return result;
     }
 
+    public static LiveData<List<Student.ExercisingScore>> getExercisingScores(String ssid) {
+        final MutableLiveData<List<Student.ExercisingScore>> result = new MutableLiveData<>();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.SERVER_HOST_PATH)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        StudentAPI api = retrofit.create(StudentAPI.class);
+        api.getExercisingScores(ssid)
+                .enqueue(new Callback<List<Student.ExercisingScore>>() {
+                    @Override
+                    public void onResponse(Call<List<Student.ExercisingScore>> call, Response<List<Student.ExercisingScore>> response) {
+                        Log.i(TAG, "onResponse: " + response.body());
+                        result.setValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Student.ExercisingScore>> call, Throwable t) {
+                        Log.i(TAG, "onFailure: Failed to getAttendance info");
+                        result.setValue(null);
+                    }
+                });
+
+        //  dữ liệu được đẩy ra khi setValue()
+        return result;
+    }
+
     public static LiveData<Student.LearningScores> getLearningScores(String ssid) {
         final MutableLiveData<Student.LearningScores> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.LOGIN_API)
+                .baseUrl(Constants.SERVER_HOST_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -170,6 +197,62 @@ public class StudentRepository {
         return result;
     }
 
+    public static LiveData<Student.RoadmapInfo> getRoadmapInfo(String ssid) {
+        final MutableLiveData<Student.RoadmapInfo> result = new MutableLiveData<>();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.SERVER_HOST_PATH)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        StudentAPI api = retrofit.create(StudentAPI.class);
+        api.getRoadMapInfo(ssid)
+                .enqueue(new Callback<Student.RoadmapInfo>() {
+                    @Override
+                    public void onResponse(Call<Student.RoadmapInfo> call, Response<Student.RoadmapInfo> response) {
+                        Log.i(TAG, "onResponse: " + response.body());
+                        result.setValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Student.RoadmapInfo> call, Throwable t) {
+                        Log.i(TAG, "onFailure: Failed to getLearningScores", t.getCause());
+                        result.setValue(null);
+                    }
+                });
+
+        //  dữ liệu được đẩy ra khi setValue()
+        return result;
+    }
+
+    public static LiveData<Student.LiabilityInfo> getLiabilityInfo(String ssid) {
+        final MutableLiveData<Student.LiabilityInfo> result = new MutableLiveData<>();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.SERVER_HOST_PATH)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        StudentAPI api = retrofit.create(StudentAPI.class);
+        api.getLiabilityInfo(ssid)
+                .enqueue(new Callback<Student.LiabilityInfo>() {
+                    @Override
+                    public void onResponse(Call<Student.LiabilityInfo> call, Response<Student.LiabilityInfo> response) {
+                        Log.i(TAG, "onResponse: " + response.body());
+                        result.setValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Student.LiabilityInfo> call, Throwable t) {
+                        Log.i(TAG, "onFailure: Failed to getLearningScores", t.getCause());
+                        result.setValue(null);
+                    }
+                });
+
+        //  dữ liệu được đẩy ra khi setValue()
+        return result;
+    }
+
 
 
     /* finance info */
@@ -177,7 +260,7 @@ public class StudentRepository {
         final MutableLiveData<List<Student.ReceiptInfo>> result = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.LOGIN_API)
+                .baseUrl(Constants.SERVER_HOST_PATH)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

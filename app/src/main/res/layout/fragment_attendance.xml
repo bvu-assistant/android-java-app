@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TableRow android:background="@color/primaryHeader"
+            android:textAlignment="center"
+            android:padding="8dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:textAppearance="@style/AttendanceFrmTable.Header"
+                android:textAlignment="center"
+                android:text="Mã môn"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:textAppearance="@style/AttendanceFrmTable.Header"
+                android:textAlignment="center"
+                android:text="Tên môn"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/AttendanceFrmTable.Header"
+                android:textAlignment="center"
+                android:text="TC"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/AttendanceFrmTable.Header"
+                android:textAlignment="center"
+                android:text="CP"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/AttendanceFrmTable.Header"
+                android:textAlignment="center"
+                android:text="KP"/>
+        </TableRow>
+    </TableLayout>
+
+</layout>
