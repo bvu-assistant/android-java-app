@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <TableRow
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/txtSubjectId"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:textAppearance="@style/AttendanceFrmTable.Content"
+            android:textAlignment="textStart"
+            android:hint="010106000105"/>
+        <TextView
+            android:id="@+id/txtSubjectName"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:textAppearance="@style/AttendanceFrmTable.Content"
+            android:textAlignment="textStart"
+            android:maxWidth="14dip"
+            android:hint="Toán cao cấp 1"/>
+        <TextView
+            android:id="@+id/txtCredits"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/AttendanceFrmTable.Content"
+            android:textAlignment="center"
+            android:hint="3"/>
+        <TextView
+            android:id="@+id/txtTotalScores"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/AttendanceFrmTable.Content"
+            android:textAlignment="center"/>
+    </TableRow>
+</layout>

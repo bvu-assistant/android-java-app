@@ -24,6 +24,7 @@ import com.bvu.assistant.databinding.ActivityMainBinding;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.ui.base.BaseActivity;
 import com.bvu.assistant.ui.base.BaseFragment;
+import com.bvu.assistant.ui.main.news.common.NewsCommonFragment;
 import com.bvu.assistant.utils.StatusBarUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -292,7 +293,10 @@ public class MainActivity
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                for (Pair<BaseFragment, FragmentNewsCommonBinding> m : childNewsCommonFragments) {
+                    if (m.first instanceof NewsCommonFragment)
+                        ((NewsCommonFragment) m.first).onTypeComplete(s.toString());
+                }
             }
         });
     }

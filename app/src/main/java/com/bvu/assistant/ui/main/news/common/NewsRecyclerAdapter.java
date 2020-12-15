@@ -10,7 +10,6 @@ import android.widget.Filterable;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder> implements SqLiteArticleHelperCallback, Filterable {
+public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsViewHolder>
+        implements SqLiteArticleHelperCallback, Filterable {
     private List<Article> dataList;
     private List<Article> lastDataList;
     private FragmentManager fragmentManager;

@@ -19,6 +19,7 @@ import com.bvu.assistant.ui.base.BaseViewModel;
 import com.bvu.assistant.ui.main.home.functions.attendance.AttendanceFragment;
 import com.bvu.assistant.ui.main.home.functions.award.AwardFragment;
 import com.bvu.assistant.ui.main.home.functions.exercising_scores.ExercisingScoreFragment;
+import com.bvu.assistant.ui.main.home.functions.learning_scores.LearningScoresFragment;
 import com.bvu.assistant.ui.main.home.functions.liability.LiabilityFragment;
 import com.bvu.assistant.ui.main.home.functions.office365.Office365Fragment;
 import com.bvu.assistant.ui.main.home.functions.profile.ProfileFragment;
@@ -103,6 +104,12 @@ public class HomeFunctionsActivity extends BaseActivity<ActivityHomeFunctionsBin
 
             if (functions.equals(functionsList.get(5))) {
                 replaceFragment(new AwardFragment(ssid));
+                return;
+            }
+
+            if (functions.equals(functionsList.get(6))) {
+                Student.LearningScores learningScores = new Gson().fromJson(receivedIntent.getStringExtra("learningScores"), Student.LearningScores.class);
+                replaceFragment(new LearningScoresFragment(learningScores));
                 return;
             }
 

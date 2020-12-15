@@ -1,9 +1,5 @@
 package com.bvu.assistant.ui.main.news.common;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,11 +16,10 @@ import com.bvu.assistant.BR;
 import com.bvu.assistant.R;
 import com.bvu.assistant.databinding.FragmentNewsCommonBinding;
 import com.bvu.assistant.data.repository.article.Article;
-import com.bvu.assistant.system.services.NewsListenerService;
 import com.bvu.assistant.ui.base.BaseFragment;
 import com.bvu.assistant.ui.main.MainActivity;
 import com.bvu.assistant.ui.main.MainActivityViewModel;
-import com.bvu.assistant.data.model.interfaces.CommonNewsSearchCallback;
+import com.bvu.assistant.ui.main.CommonNewsSearchCallback;
 import com.bvu.assistant.utils.Constants;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -179,10 +173,9 @@ public class NewsCommonFragment
 
     @Override
     public void onTypeComplete(String searchKeyWords) {
-        /*if (searchKeyWords.isEmpty())
+        if (searchKeyWords.isEmpty())
             return;
 
-        List<Article> lastData = new ArrayList<>(dataList);*/
         adapter.getFilter().filter(searchKeyWords);
     }
 

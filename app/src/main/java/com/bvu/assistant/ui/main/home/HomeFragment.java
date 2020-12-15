@@ -166,6 +166,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
 
                         Intent intent = new Intent(activity, HomeFunctionsActivity.class);
                         intent.putExtra(HomeFunctionsActivity.INTENT_KEY, getResources().getString(R.string.homeFrm_grid_seventhTitle));
+                        intent.putExtra("learningScores", new Gson().toJson(learningScores));
                         B.btnViewLearningScores.setOnClickListener(v -> startActivity(intent));
                     }
                 });
